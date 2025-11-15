@@ -17,11 +17,21 @@ import javax.swing.JSeparator;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 public class dashboard implements ActionListener {
 
 	private JFrame frame;
 	private JButton btnAgregar, btnDashboard, btnCategorias, btnVenta, btnFactura, btnClose;
+	private JTable tableProductos;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,10 +61,16 @@ public class dashboard implements ActionListener {
 	private void initialize() {
 		
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
+		
 		UIManager.put("Button.contentAreaFilled", false);
 		UIManager.put("Button.borderPainted", false);
 		UIManager.put("Button.focusPainted", false);
+		UIManager.put("Table.background", Color.WHITE);
+		UIManager.put("Table.scrollPaneBorder", null);
+		UIManager.put("ScrollPane.background", Color.WHITE);
+		UIManager.put("ScrollPane.viewportBorder", null);
+		
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		frame.setResizable(false);
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 1100, 600);
@@ -91,7 +107,7 @@ public class dashboard implements ActionListener {
 		
 		JPanel panelBanner = new RoundePanel(50);
 		panelBanner.setBackground(new Color(255, 255, 255));
-		panelBanner.setBounds(301, 46, 777, 129);
+		panelBanner.setBounds(298, 55, 777, 129);
 		panelFondo.add(panelBanner);
 		panelBanner.setLayout(null);
 		
@@ -137,13 +153,31 @@ public class dashboard implements ActionListener {
 		
 		JPanel panelContenido = new JPanel();
 		panelContenido.setBackground(new Color(255, 255, 255));
-		panelContenido.setBounds(301, 307, 789, 281);
+		panelContenido.setBounds(300, 307, 790, 281);
 		panelFondo.add(panelContenido);
 		panelContenido.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 61, 743, 220);
+		scrollPane.setBounds(0, 61, 779, 220);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		panelContenido.add(scrollPane);
+		
+		tableProductos = new JTable();
+		tableProductos.setBackground(new Color(255, 255, 255));
+		tableProductos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"IdProducto", "Producto", "Precio", "Categoria", "Cantidad", "Unidad", "Oferta", "Detalles"
+			}
+		));
+		tableProductos.setOpaque(false);
+		tableProductos.setBackground(null);
+		JTableHeader header = tableProductos.getTableHeader();
+		header.setFont(Fonts.custom);
+		scrollPane.setViewportView(tableProductos);
 		
 		//labels
 		JLabel lbTitulo = new JLabel("SuperMarket");
@@ -258,8 +292,31 @@ public class dashboard implements ActionListener {
 		lbTituloProductos.setBounds(0, 10, 196, 22);
 		lbTituloProductos.setFont(Fonts.custom);
 		panelContenido.add(lbTituloProductos);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(566, 0, 213, 40);
+		panelContenido.add(panel);
+		panel.setLayout(null);
+		
+		JButton btnEditarProducto = new JButton("");
+		btnEditarProducto.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\editar.png"));
+		btnEditarProducto.setBounds(0, 0, 51, 40);
+		panel.add(btnEditarProducto);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\lupa.png"));
+		btnNewButton_1.setBounds(81, 0, 51, 40);
+		panel.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("");
+		btnNewButton_1_1.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\eliminar.png"));
+		btnNewButton_1_1.setBounds(159, 0, 51, 40);
+		panel.add(btnNewButton_1_1);
 	
-		JLabel lbDate = new JLabel("15/11/2025   08:42 AM");
+		LocalDateTime time  = LocalDateTime.now();
+		String date = time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+		JLabel lbDate = new JLabel(date);
 		lbDate.setBounds(301, 10, 228, 26);
 		lbDate.setFont(Fonts.custom);
 		panelFondo.add(lbDate);
