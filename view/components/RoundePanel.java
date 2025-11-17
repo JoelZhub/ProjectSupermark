@@ -18,7 +18,7 @@ public class RoundePanel extends JPanel {
 		
 		super();
 		setCoverRadius(radius);
-		setOpaque(false);
+		
 	}
 	
 

@@ -17,19 +17,15 @@ import javax.swing.JSeparator;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 
 public class dashboard implements ActionListener {
 
-	private JFrame frame;
+	private JFrame dashboardProductos;
 	private JButton btnAgregar, btnDashboard, btnCategorias, btnVenta, btnFactura, btnClose;
 	private JTable tableProductos;
 	
@@ -44,7 +40,7 @@ public class dashboard implements ActionListener {
 				        }
 				    }
 					dashboard window = new dashboard();
-					window.frame.setVisible(true);
+					window.dashboardProductos.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,7 +56,7 @@ public class dashboard implements ActionListener {
 	
 	private void initialize() {
 		
-		frame = new JFrame();
+		dashboardProductos = new JFrame();
 		
 		UIManager.put("Button.contentAreaFilled", false);
 		UIManager.put("Button.borderPainted", false);
@@ -70,20 +66,20 @@ public class dashboard implements ActionListener {
 		UIManager.put("ScrollPane.background", Color.WHITE);
 		UIManager.put("ScrollPane.viewportBorder", null);
 		
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
-		frame.setResizable(false);
-		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 1100, 600);
-		new FrameDragger(frame);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setLocationRelativeTo(null);
+		dashboardProductos.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
+		dashboardProductos.setResizable(false);
+		dashboardProductos.setUndecorated(true);
+		dashboardProductos.setBounds(100, 100, 1100, 600);
+		new FrameDragger(dashboardProductos);
+		dashboardProductos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dashboardProductos.getContentPane().setLayout(null);
+		dashboardProductos.setLocationRelativeTo(null);
 		
 		//panels
 		JPanel panelFondo = new JPanel();
 		panelFondo.setBackground(new Color(255, 255, 255));
 		panelFondo.setBounds(0, 0, 1100, 610);
-		frame.getContentPane().add(panelFondo);
+		dashboardProductos.getContentPane().add(panelFondo);
 		panelFondo.setLayout(null);
 		
 		JPanel panelMenu = new JPanel();
@@ -300,19 +296,19 @@ public class dashboard implements ActionListener {
 		panel.setLayout(null);
 		
 		JButton btnEditarProducto = new JButton("");
-		btnEditarProducto.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\editar.png"));
+		btnEditarProducto.setIcon(new ImageIcon("resources\\img\\editar.png"));
 		btnEditarProducto.setBounds(0, 0, 51, 40);
 		panel.add(btnEditarProducto);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\lupa.png"));
-		btnNewButton_1.setBounds(81, 0, 51, 40);
-		panel.add(btnNewButton_1);
+		JButton btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon("resources\\img\\lupa.png"));
+		btnBuscar.setBounds(81, 0, 51, 40);
+		panel.add(btnBuscar);
 		
-		JButton btnNewButton_1_1 = new JButton("");
-		btnNewButton_1_1.setIcon(new ImageIcon("C:\\Users\\joela\\OneDrive\\Escritorio\\Archivos\\ARCHIVOS JOEL\\ITLA-ASIGNATURAS\\C-3\\P1\\ProjectSupermark\\resources\\img\\eliminar.png"));
-		btnNewButton_1_1.setBounds(159, 0, 51, 40);
-		panel.add(btnNewButton_1_1);
+		JButton btnEliminar = new JButton("");
+		btnEliminar.setIcon(new ImageIcon("resources\\img\\eliminar.png"));
+		btnEliminar.setBounds(159, 0, 51, 40);
+		panel.add(btnEliminar);
 	
 		LocalDateTime time  = LocalDateTime.now();
 		String date = time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
