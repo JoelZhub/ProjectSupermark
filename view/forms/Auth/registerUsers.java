@@ -28,6 +28,7 @@ public class registerUsers extends JFrame implements ActionListener {
 	private JTextField textFieldNombre;
 	private JPasswordField passwordField;
 	private JButton btnClose,  btnCrearUsuario;
+	private JTextField textFieldCorreo;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,7 +53,7 @@ public class registerUsers extends JFrame implements ActionListener {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setResizable(false);
 		setUndecorated(true);
-		setBounds(100, 100, 662, 380);
+		setBounds(100, 100, 662, 450);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		
@@ -62,7 +63,7 @@ public class registerUsers extends JFrame implements ActionListener {
 		
 		JPanel panelDatosForms = new JPanel();
 		panelDatosForms.setBackground(new Color(255, 255, 255));
-		panelDatosForms.setBounds(0, 0, 354, 380);
+		panelDatosForms.setBounds(0, 0, 354, 440);
 		contentPane.add(panelDatosForms);
 		panelDatosForms.setLayout(null);
 		
@@ -73,7 +74,7 @@ public class registerUsers extends JFrame implements ActionListener {
 		
 		JLabel lbLogo = new JLabel("");
 		lbLogo.setIcon(new ImageIcon("resources\\img\\logo.png"));
-		lbLogo.setBounds(24, 10, 84, 64);
+		lbLogo.setBounds(22, 22, 84, 64);
 		panelDatosForms.add(lbLogo);
 		
 		JLabel lbNombre = new JLabel("Nombre de usuario");
@@ -82,34 +83,34 @@ public class registerUsers extends JFrame implements ActionListener {
 		panelDatosForms.add(lbNombre);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(10, 142, 282, 25);
+		textFieldNombre.setBounds(10, 142, 311, 25);
 		panelDatosForms.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
 		JLabel NivelAcceso = new JLabel("Nivel de acceso");
-		NivelAcceso.setBounds(10, 183, 158, 12);
+		NivelAcceso.setBounds(10, 253, 158, 12);
 		NivelAcceso.setFont(Fonts.custom);
 		panelDatosForms.add(NivelAcceso);
 		
 		JComboBox comboBoxAcceso = new JComboBox();
-		comboBoxAcceso.setBounds(10, 212, 282, 25);
+		comboBoxAcceso.setBounds(10, 282, 311, 25);
 		panelDatosForms.add(comboBoxAcceso);
 		
 		JLabel passdword = new JLabel("Password generada");
-		passdword.setBounds(10, 252, 158, 15);
+		passdword.setBounds(10, 328, 158, 15);
 		passdword.setFont(Fonts.custom);
 		panelDatosForms.add(passdword);
 		
 		passwordField = new JPasswordField();
 		passwordField.setEditable(false);
-		passwordField.setBounds(10, 279, 282, 25);
+		passwordField.setBounds(10, 355, 311, 25);
 		panelDatosForms.add(passwordField);
 		
 		btnCrearUsuario = new JButton("Crear usuario");
 		btnCrearUsuario.setForeground(new Color(255, 255, 255));
 		btnCrearUsuario.setFont(Fonts.custom);
 		btnCrearUsuario.setBackground(new Color(54, 90, 120));
-		btnCrearUsuario.setBounds(10, 322, 158, 32);
+		btnCrearUsuario.setBounds(10, 398, 158, 32);
 		panelDatosForms.add(btnCrearUsuario);
 		
 		JLabel lblNuevoUsuario = new JLabel("nuevo usuario");
@@ -118,17 +119,27 @@ public class registerUsers extends JFrame implements ActionListener {
 		lblNuevoUsuario.setFont(Fonts.bold);
 		panelDatosForms.add(lblNuevoUsuario);
 		
+		textFieldCorreo = new JTextField();
+		textFieldCorreo.setColumns(10);
+		textFieldCorreo.setBounds(10, 209, 311, 25);
+		panelDatosForms.add(textFieldCorreo);
+		
+		JLabel lbCorreo = new JLabel("Nombre de usuario");
+		lbCorreo.setFont(null);
+		lbCorreo.setBounds(10, 182, 158, 12);
+		panelDatosForms.add(lbCorreo);
+		
 		JLabel bannerLogin = new JLabel("");
 		bannerLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		bannerLogin.setIcon(new ImageIcon("resources\\img\\fondoRegister.png"));
-		bannerLogin.setBounds(364, 0, 298, 380);
+		bannerLogin.setBounds(364, 0, 298, 440);
 		contentPane.add(bannerLogin);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(355, 0, 1, 378);
+		separator.setBounds(355, 0, 1, 440);
 		contentPane.add(separator);
 		
 		btnClose = new JButton("");
