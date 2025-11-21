@@ -1,12 +1,14 @@
-package view;
+package view.forms.dashboard;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import view.components.Fonts;
-import view.components.FrameDragger;
+
 import view.components.RoundePanel;
+import view.forms.Auth.Login;
+import view.forms.CRUD.CrearProducto;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -18,29 +20,48 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.time.LocalDateTime;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-public class dashboard implements ActionListener {
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
-	private JFrame dashboardProductos;
-	private JButton btnAgregar, btnDashboard, btnCategorias, btnVenta, btnFactura, btnClose;
+import utils.AssetManager;
+import utils.BtnStyle;
+import utils.Fonts;
+import utils.FrameDragger;
+
+public class Dahsboard implements ActionListener {
+
+	private JFrame frame;
+	
+	//btns
+	private JButton btnAgregar, btnDashboard, btnCategorias, btnVenta, 
+	btnFactura, btnClose, btnEditarProducto, btnEliminar, btnBuscar, btnUsuarios;
+	
+	//recibir componente table ya llenada
+	
 	private JTable tableProductos;
+	
+	//recibir metodo crud que se encarga de crear el form de productos
+	
+	private CrearProducto crearProducto;
+	
+	private Map<Object,Runnable> acciones;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				        if ("Nimbus".equals(info.getName())) {
-				            javax.swing.UIManager.setLookAndFeel(info.getClassName());
-				            break;
-				        }
-				    }
-					dashboard window = new dashboard();
-					window.dashboardProductos.setVisible(true);
+				
+					FlatLightLaf.setup();
+					Dahsboard window = new Dahsboard();
+					
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,37 +70,36 @@ public class dashboard implements ActionListener {
 	}
 
 	
-	public dashboard() {
+	public Dahsboard() {
 		initialize();
 	}
 
 	
 	private void initialize() {
 		
-		dashboardProductos = new JFrame();
 		
-		UIManager.put("Button.contentAreaFilled", false);
-		UIManager.put("Button.borderPainted", false);
-		UIManager.put("Button.focusPainted", false);
-		UIManager.put("Table.background", Color.WHITE);
-		UIManager.put("Table.scrollPaneBorder", null);
-		UIManager.put("ScrollPane.background", Color.WHITE);
-		UIManager.put("ScrollPane.viewportBorder", null);
+		frame = new JFrame();
 		
-		dashboardProductos.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
-		dashboardProductos.setResizable(false);
-		dashboardProductos.setUndecorated(true);
-		dashboardProductos.setBounds(100, 100, 1100, 600);
-		new FrameDragger(dashboardProductos);
-		dashboardProductos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		dashboardProductos.getContentPane().setLayout(null);
-		dashboardProductos.setLocationRelativeTo(null);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
+	
+		frame.setResizable(false);
+		frame.setUndecorated(true);
+		frame.setBounds(100, 100, 1100, 600);
+		
+		new FrameDragger(frame);
+		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setLocationRelativeTo(null);
+		
+		crearProducto = new CrearProducto();
+		acciones = new HashMap<>();
 		
 		//panels
 		JPanel panelFondo = new JPanel();
 		panelFondo.setBackground(new Color(255, 255, 255));
 		panelFondo.setBounds(0, 0, 1100, 610);
-		dashboardProductos.getContentPane().add(panelFondo);
+		frame.getContentPane().add(panelFondo);
 		panelFondo.setLayout(null);
 		
 		JPanel panelMenu = new JPanel();
@@ -91,7 +111,7 @@ public class dashboard implements ActionListener {
 		
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBackground(new Color(255, 255, 255));
-		panelBotones.setBounds(0, 214, 267, 376);
+		panelBotones.setBounds(0, 192, 267, 408);
 		panelMenu.add(panelBotones);
 		panelBotones.setLayout(null);
 
@@ -192,31 +212,32 @@ public class dashboard implements ActionListener {
 		panelCrear.add(lblNuevoProducto);
 		
 		JLabel lbIconCasa = new JLabel("");
-		lbIconCasa.setIcon(new ImageIcon("resources\\img\\casa.png"));
-		lbIconCasa.setBounds(20, 41, 44, 34);
+	
+		lbIconCasa.setIcon(AssetManager.icon("casa.png", 32, 32));
+		lbIconCasa.setBounds(20, 29, 32, 32);
 		panelBotones.add(lbIconCasa);
 		
 		JLabel lbIconCategorias = new JLabel("");
-		lbIconCategorias.setIcon(new ImageIcon("resources\\img\\categorias.png"));
-		lbIconCategorias.setBounds(20, 116, 44, 34);
+		lbIconCategorias.setIcon(AssetManager.icon("categorias.png", 32, 32));
+		lbIconCategorias.setBounds(20, 104, 32, 32);
 		panelBotones.add(lbIconCategorias);
 		
 		JLabel lbIconVentas = new JLabel("");
-		lbIconVentas.setIcon(new ImageIcon("resources\\img\\ventas.png"));
-		lbIconVentas.setBounds(20, 185, 44, 34);
+		lbIconVentas.setIcon(AssetManager.icon("ventas.png", 32, 32));
+		lbIconVentas.setBounds(20, 173, 32, 32);
 		panelBotones.add(lbIconVentas);
 		
 		JLabel lbIconFacturas = new JLabel("");
-		lbIconFacturas.setIcon(new ImageIcon("resources\\img\\factura.png"));
-		lbIconFacturas.setBounds(20, 254, 44, 34);
+		lbIconFacturas.setIcon(AssetManager.icon("factura.png", 32, 32));
+		lbIconFacturas.setBounds(20, 242, 32, 32);
 		panelBotones.add(lbIconFacturas);
 		
 		JLabel lbLogo = new JLabel("");
-		lbLogo.setIcon(new ImageIcon("resources\\img\\logo.png"));
+		lbLogo.setIcon(AssetManager.icon("logo.png", 64, 64));
 		lbLogo.setBounds(10, 17, 84, 64);
 		panelMenu.add(lbLogo);
 		
-		
+	
 		JLabel lbSaludo1 = new JLabel("Bienvenido,");
 		lbSaludo1.setBounds(34, 47, 221, 22);
 		lbSaludo1.setFont(Fonts.bold);
@@ -228,13 +249,12 @@ public class dashboard implements ActionListener {
 		panelBanner.add(lbSaludo2);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(653, 0, 124, 129);
+		lblNewLabel.setIcon(AssetManager.icon("admin1.png", 124, 124));
+		lblNewLabel.setBounds(611, 10, 138, 107);
 		panelBanner.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon("resources\\img\\admin1.png"));
 	
-		
 		JLabel lbProductoPanelImg = new JLabel("");
-		lbProductoPanelImg.setIcon(new ImageIcon("resources\\img\\embalaje.png"));
+		lbProductoPanelImg.setIcon(AssetManager.icon("embalaje.png", 84, 73));
 		lbProductoPanelImg.setBounds(6, 8, 84, 73);
 		panelFproducto.add(lbProductoPanelImg);
 		
@@ -251,7 +271,7 @@ public class dashboard implements ActionListener {
 		panelProducto.add(lbPanelProductosConteo);
 		
 		JLabel lbVentasPanelImg = new JLabel("");
-		lbVentasPanelImg.setIcon(new ImageIcon("resources\\img\\bolsa-de-valores.png"));
+		lbVentasPanelImg.setIcon(AssetManager.icon("bolsa-de-valores.png", 84, 73));
 		lbVentasPanelImg.setBounds(6, 8, 84, 73);
 		panelFVentas.add(lbVentasPanelImg);
 		
@@ -268,7 +288,7 @@ public class dashboard implements ActionListener {
 		panelVentas.add(lbPanelVentaConteo);
 		
 		JLabel lbFacturasPanelImg = new JLabel("");
-		lbFacturasPanelImg.setIcon(new ImageIcon("resources\\img\\banca-electronica.png"));
+		lbFacturasPanelImg.setIcon(AssetManager.icon("banca-electronica.png", 84, 73));
 		lbFacturasPanelImg.setBounds(6, 8, 84, 73);
 		panelfFacturacion.add(lbFacturasPanelImg);
 		
@@ -295,19 +315,25 @@ public class dashboard implements ActionListener {
 		panelContenido.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnEditarProducto = new JButton("");
-		btnEditarProducto.setIcon(new ImageIcon("resources\\img\\editar.png"));
-		btnEditarProducto.setBounds(0, 0, 51, 40);
+		btnEditarProducto = new JButton("");
+		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 30, 30));
+		btnEditarProducto.setBounds(0, 0, 30, 30);
+		btnEditarProducto.addActionListener(this);
+		BtnStyle.flat(btnEditarProducto);
 		panel.add(btnEditarProducto);
 		
-		JButton btnBuscar = new JButton("");
-		btnBuscar.setIcon(new ImageIcon("resources\\img\\lupa.png"));
-		btnBuscar.setBounds(81, 0, 51, 40);
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(AssetManager.icon("lupa.png", 30, 30));
+		btnBuscar.setBounds(81, 0, 30, 30);
+		btnBuscar.addActionListener(this);
+		BtnStyle.flat(btnBuscar);
 		panel.add(btnBuscar);
 		
-		JButton btnEliminar = new JButton("");
-		btnEliminar.setIcon(new ImageIcon("resources\\img\\eliminar.png"));
-		btnEliminar.setBounds(159, 0, 51, 40);
+		btnEliminar = new JButton("");
+		btnEliminar.setIcon(AssetManager.icon("eliminar.png", 30, 30));
+		btnEliminar.setBounds(159, 0, 30, 30);
+		BtnStyle.flat(btnEliminar);
+		btnEliminar.addActionListener(this);
 		panel.add(btnEliminar);
 	
 		LocalDateTime time  = LocalDateTime.now();
@@ -329,46 +355,107 @@ public class dashboard implements ActionListener {
 		
 		//buttons
 		btnAgregar = new JButton("");
+		BtnStyle.flat(btnAgregar);
 		btnAgregar.setBackground(new Color(255, 255, 255));
-		btnAgregar.setIcon(new ImageIcon("resources//img//agregar.png"));
-		btnAgregar.setBounds(129, 4, 84, 67);
+		btnAgregar.addActionListener(this);
+		btnAgregar.setIcon(AssetManager.icon("agregar.png", 70,70));
+		btnAgregar.setBounds(134, 4, 70, 70);
+		
 		panelCrear.add(btnAgregar);
 		
-		
 		btnDashboard = new JButton("Dashboard");
-		btnDashboard.setBounds(87, 41, 158, 34);
+		btnDashboard.setBounds(87, 29, 158, 34);
+		BtnStyle.second(btnDashboard);
 		btnDashboard.setFont(Fonts.custom);
+		btnDashboard.addActionListener(this);
 		panelBotones.add(btnDashboard);
 		
 		btnCategorias = new JButton("Categorias");
-		btnCategorias.setBounds(87, 116, 158, 34);
+		btnCategorias.setBounds(87, 104, 158, 34);
+		BtnStyle.second(btnCategorias);
 		btnCategorias.setFont(Fonts.custom);
+		btnCategorias.addActionListener(this);
+		
 		panelBotones.add(btnCategorias);
 		
 		btnVenta = new JButton("Ventas");
-		btnVenta.setBounds(87, 185, 158, 34);
+		btnVenta.setBounds(87, 173, 158, 34);
+		BtnStyle.second(btnVenta);
 		btnVenta.setFont(Fonts.custom);
+		btnVenta.addActionListener(this);
 		panelBotones.add(btnVenta);
 		
 		btnFactura = new JButton("Facturas");
-		btnFactura.setBounds(87, 254, 158, 34);
+		btnFactura.setBounds(87, 242, 158, 34);
+		BtnStyle.second(btnFactura);
 		btnFactura.setFont(Fonts.custom);
+		btnFactura.addActionListener(this);
 		panelBotones.add(btnFactura);
 		
 		btnClose = new JButton("");
+		BtnStyle.flat(btnClose);
 		btnClose.setIcon(new ImageIcon("resources\\img\\clos.png"));
-		btnClose.setBounds(1030, 5, 65, 30);
+		btnClose.setBounds(841, 15, 65, 30);
 		btnClose.addActionListener(this);
 		panelFondo.add(btnClose);
 		
+		btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.setFont(Fonts.custom);
+		BtnStyle.second(btnUsuarios);
+		btnUsuarios.setBounds(87, 302, 158, 34);
+		panelBotones.add(btnUsuarios);
+		
+		acciones.put(btnAgregar, this::openCreate);
+		acciones.put(btnClose, this::closeWindows);
+		acciones.put(btnFactura, this::openBill);
+		acciones.put(btnVenta, this::openSales);
+		acciones.put(btnCategorias, this::openCategorys);
+		
+		
+		JLabel lbIconUsuarios = new JLabel("");
+		lbIconUsuarios.setIcon(AssetManager.icon("user.png",32,32));
+		lbIconUsuarios.setBounds(20, 302, 32, 32);
+		panelBotones.add(lbIconUsuarios);
+		acciones.put(btnEditarProducto, this::openEditProduct);
+		acciones.put(btnEliminar, this::openRemoveProduct);
+		acciones.put(btnBuscar, this::openSearchProduct);
 		
 	}
 
+	public void openRemoveProduct() {
+		
+	}
+	public void openSearchProduct() {
+		
+	}
+	public void openEditProduct() {
+		
+	}
+	public void openCreate() {
+		
+		CrearProducto crearProducto = new CrearProducto();
+		crearProducto.setVisible(true);
+	}
+	
+	public void openCategorys() {
+		
+	}
+	public void openSales() {
+		
+		
+	}
+	public void openBill() {
+		
+	}
+	public void closeWindows() {
+//		frame.dispose();
+//		Login login = new Login();
+//		login.setVisible(true);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnClose) {
-			System.exit(0);
-		}
+		Runnable accion =  acciones.get(e.getSource());
+		if(accion != null) accion.run();
 	}
 }

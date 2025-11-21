@@ -20,7 +20,9 @@ public class Producto {
         this.unidad = unidad;
     }
 
-    public String getCodigo() {
+   
+
+	public String getCodigo() {
         return idProducto;
     }
 

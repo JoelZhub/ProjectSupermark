@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import view.components.BtnStyle;
-import view.components.Fonts;
-import view.components.FrameDragger;
+
+import utils.BtnStyle;
+import utils.Fonts;
+import utils.FrameDragger;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -21,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-public class registerUsers extends JFrame implements ActionListener {
+public class RegisterUsers extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -34,7 +36,7 @@ public class registerUsers extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					registerUsers frame = new registerUsers();
+					RegisterUsers frame = new RegisterUsers();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +46,7 @@ public class registerUsers extends JFrame implements ActionListener {
 	}
 
 
-	public registerUsers() {
+	public RegisterUsers() {
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

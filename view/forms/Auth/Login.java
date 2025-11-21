@@ -11,9 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import view.components.BtnStyle;
-import view.components.Fonts;
-import view.components.FrameDragger;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+
+import utils.AssetManager;
+import utils.BtnStyle;
+import utils.Fonts;
+import utils.FrameDragger;
+import utils.Messages;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -21,8 +27,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
-public class login extends JFrame implements ActionListener, MouseListener {
+public class Login extends JFrame implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -37,8 +44,14 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-						
-					login frame = new login();
+				
+					FlatLightLaf.setup();
+					UIManager.put("Component.arc", 12);
+					UIManager.put("Button.arc", 16);
+					UIManager.put("TextComponent.arc", 10);
+					UIManager.put("Component.focusWidth", 0);
+					UIManager.put("Component.innerFocusWidth", 0);
+					Login frame = new Login();
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -48,7 +61,7 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		});
 	}
 
-	public login() {
+	public Login() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -57,7 +70,7 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setResizable(false);
 		setUndecorated(true);
-		setBounds(100, 100, 800, 401);
+		setBounds(100, 100, 770, 401);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		
@@ -67,7 +80,7 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		
 		JPanel panelDatosLogin = new JPanel();
 		panelDatosLogin.setBackground(new Color(255, 255, 255));
-		panelDatosLogin.setBounds(0, 0, 443, 400);
+		panelDatosLogin.setBounds(0, 0, 435, 400);
 		contentPane.add(panelDatosLogin);
 		panelDatosLogin.setLayout(null);
 		
@@ -80,12 +93,12 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		panelDatosLogin.add(btnIngresar);
 				
 		JLabel lbTitulo = new JLabel("SuperMarket");
-		lbTitulo.setBounds(92, 33, 181, 30);
+		lbTitulo.setBounds(106, 33, 181, 30);
 		lbTitulo.setFont(Fonts.bold);
 		panelDatosLogin.add(lbTitulo);
 		
 		JLabel lbLogo = new JLabel("");
-		lbLogo.setIcon(new ImageIcon("resources\\img\\logo.png"));
+		lbLogo.setIcon(AssetManager.icon("logo.png", 84, 64));
 		lbLogo.setBounds(20, 10, 84, 64);
 		panelDatosLogin.add(lbLogo);
 		
@@ -95,7 +108,7 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		panelDatosLogin.add(lbNameUser);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(20, 166, 371, 31);
+		textFieldNombre.setBounds(20, 166, 356, 31);
 		panelDatosLogin.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
@@ -105,39 +118,40 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		panelDatosLogin.add(passwordUser);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(20, 260, 371, 31);
+		passwordField.setBounds(20, 260, 356, 31);
 		
 		panelDatosLogin.add(passwordField);
 		
 		JLabel lbIconUser = new JLabel("");
-		lbIconUser.setBounds(401, 166, 32, 31);
-		lbIconUser.setIcon(new ImageIcon("resources\\img\\user-interface.png"));
+		lbIconUser.setBounds(386, 165, 32, 32);
+		lbIconUser.setIcon(AssetManager.icon("user.png", 32, 32));
+		
 		panelDatosLogin.add(lbIconUser);
 		
 		lbIconPassword = new JLabel("");
-		lbIconPassword.setBounds(401, 260, 32, 31);
+		lbIconPassword.setBounds(386, 259, 32, 32);
 		lbIconPassword.addMouseListener(this);
-		lbIconPassword.setIcon(new ImageIcon("resources\\img\\ojo.png"));
+		lbIconPassword.setIcon(AssetManager.icon("ojo.png", 32, 32));
 		panelDatosLogin.add(lbIconPassword);
 		
 
 		btnClose = new JButton("");
-		btnClose.setBounds(734, 8, 65, 30);
+		btnClose.setBounds(695, 8, 65, 30);
 		contentPane.add(btnClose);
 		BtnStyle.flat(btnClose);
 		btnClose.addActionListener(this);
 		btnClose.setIcon(new ImageIcon("resources\\img\\clos.png"));
 		
 		JLabel bannerLogin = new JLabel("");
-		bannerLogin.setIcon(new ImageIcon("resources\\img\\fondoLogin.png"));
-		bannerLogin.setBounds(442, -1, 357, 401);
+		bannerLogin.setIcon(AssetManager.icon("fondoLogin.png", 300,350));
+		bannerLogin.setBounds(452, 49, 300, 280);
 		contentPane.add(bannerLogin);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.BLACK);
 		separator.setBackground(Color.BLACK);
-		separator.setBounds(445, 0, 1, 400);
+		separator.setBounds(436, 0, 1, 400);
 		contentPane.add(separator);
 		
 	
@@ -151,6 +165,7 @@ public class login extends JFrame implements ActionListener, MouseListener {
 		}
 		if(e.getSource() == btnIngresar) {
 			
+			new Messages(this, "Datos erroneos intente de nuevo").messageError();
 		}
 	}
 

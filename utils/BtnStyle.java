@@ -1,4 +1,4 @@
-package view.components;
+package utils;
 
 import java.awt.Color;
 
@@ -21,6 +21,19 @@ public class BtnStyle  {
 	        b.setBackground(c);
 	        b.setForeground(Color.WHITE);
 	    }
+	 
+	 
+	 public static void second (JButton b) {
+		 
+		 	b.setOpaque(true);
+	        b.setBackground(new Color(255,255,255));
+	        b.setForeground(Color.black);
+	        b.setFocusPainted(false);       
+	        b.setBorderPainted(false);      
+	        b.setContentAreaFilled(false);  
+	        b.setOpaque(true);             
+	        b.setBorder(null);
+	 }
 	
     
 }
