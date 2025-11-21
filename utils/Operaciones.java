@@ -1,8 +1,11 @@
 package utils;
 
-public interface Operaciones {
-    String agregar(Object obj);
-    String eliminar(String id);
-    String editar(String id, Object nuevosDatos);
-    Object buscar(String id);
+import java.util.List;
+
+public interface Operaciones<Clase> {
+    boolean insertar(Clase obj);
+    boolean editar(Clase obj);
+    boolean eliminar(String id);
+    Clase buscar(String id);
+    List<Clase> listar();
 }
