@@ -1,5 +1,6 @@
-package control;
+package view.modules.products;
 
+import control.ProductoController;
 import model.Producto;
 
 public class productoServicio {

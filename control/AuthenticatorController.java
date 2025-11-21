@@ -11,7 +11,7 @@ public class AuthenticatorController {
 	//crear constructor para inyeccion por dependencia  y trabajar bajo la misma instancia de objecto
 		
 	private static  final  Pattern regexEmail = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-	private static final int email_max_length = 254;
+	//private static final int email_max_length = 254;
 	private static final int  password_min_length = 6;
 	
 	public AuthenticatorController( /*colocar aqui la refencia del elemento que recibe
@@ -19,7 +19,7 @@ public class AuthenticatorController {
 		
 	}
 	
-	private boolean validarCamposLogin(String email, String password) {
+	public boolean validarCamposLogin(String email, String password) {
 		
 		if(email == null) return false;
 		if(email.trim().isEmpty()) return false;
@@ -31,10 +31,5 @@ public class AuthenticatorController {
 		
 		return true;
 	}
-	
-	
-	
-	
 		
-	
 }

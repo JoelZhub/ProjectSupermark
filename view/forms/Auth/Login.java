@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import control.AuthenticatorController;
+import navigation.NavigationManager;
 import utils.AssetManager;
 import utils.BtnStyle;
 import utils.Fonts;
@@ -40,6 +42,10 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 	private boolean cambioIconPassword = true;;
 	private char passwordHidden;
 	
+	
+	private AuthenticatorController authenticator;;
+	private NavigationManager navigation;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -51,8 +57,7 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 					UIManager.put("TextComponent.arc", 10);
 					UIManager.put("Component.focusWidth", 0);
 					UIManager.put("Component.innerFocusWidth", 0);
-					Login frame = new Login();
-					frame.setVisible(true);
+				
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,15 +66,17 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		});
 	}
 
-	public Login() {
+	public Login(AuthenticatorController authenticator, NavigationManager navigation) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		new FrameDragger(this);
-		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setResizable(false);
-		setUndecorated(true);
+		setUndecorated(true);		
+		
+	
+
 		setBounds(100, 100, 770, 401);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -102,10 +109,10 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		lbLogo.setBounds(20, 10, 84, 64);
 		panelDatosLogin.add(lbLogo);
 		
-		JLabel lbNameUser = new JLabel("Nombre ");
-		lbNameUser.setBounds(21, 119, 190, 22);
-		lbNameUser.setFont(Fonts.custom);
-		panelDatosLogin.add(lbNameUser);
+		JLabel lbEmailUser = new JLabel("Correo electronico");
+		lbEmailUser.setBounds(21, 119, 190, 22);
+		lbEmailUser.setFont(Fonts.custom);
+		panelDatosLogin.add(lbEmailUser);
 		
 		textFieldNombre = new JTextField();
 		textFieldNombre.setBounds(20, 166, 356, 31);
@@ -154,7 +161,8 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		separator.setBounds(436, 0, 1, 400);
 		contentPane.add(separator);
 		
-	
+		this.authenticator = authenticator;
+		this.navigation = navigation;
 
 	}
 
@@ -165,7 +173,15 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		}
 		if(e.getSource() == btnIngresar) {
 			
-			new Messages(this, "Datos erroneos intente de nuevo").messageError();
+			String password =  new String(passwordField.getPassword());
+			boolean exito = authenticator.validarCamposLogin(textFieldNombre.getText(), password);
+			if(!exito) {
+				new Messages(this, "Datos erroneos intente de nuevo").messageError();
+				return;
+			}
+			
+			
+			
 		}
 	}
 

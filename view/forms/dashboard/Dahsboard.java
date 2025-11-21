@@ -1,14 +1,10 @@
 package view.forms.dashboard;
-
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import view.components.RoundePanel;
-import view.forms.Auth.Login;
 import view.forms.CRUD.CrearProducto;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -26,31 +22,51 @@ import java.time.LocalDateTime;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import navigation.NavigationManager;
 import utils.AssetManager;
 import utils.BtnStyle;
 import utils.Fonts;
 import utils.FrameDragger;
 
-public class Dahsboard implements ActionListener {
+public class Dahsboard extends JFrame implements ActionListener {
 
-	private JFrame frame;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private JFrame Dashboard;
 	
 	//btns
 	private JButton btnAgregar, btnDashboard, btnCategorias, btnVenta, 
 	btnFactura, btnClose, btnEditarProducto, btnEliminar, btnBuscar, btnUsuarios;
 	
+	
+	//panels
+	private RoundePanel panelVentas, panelCategorias;
+	
+	private JScrollPane scrollPane;
+	
+	private JPanel panelFondo, panelMenuBtnCrud, panelBotones, panelMenu,
+	panelContenido, panelCrear, panelBanner, panelfFacturacion,
+	panelFVentas, panelProducto, panelFproducto;
+	
 	//recibir componente table ya llenada
 	
 	private JTable tableProductos;
 	
-	//recibir metodo crud que se encarga de crear el form de productos
-	
+	//formsCrud
+
 	private CrearProducto crearProducto;
+
 	
+	//navigation
+	
+	private NavigationManager navigation;
+	
+	//acciones
 	private Map<Object,Runnable> acciones;
 	
 	public static void main(String[] args) {
@@ -59,9 +75,6 @@ public class Dahsboard implements ActionListener {
 				try {
 				
 					FlatLightLaf.setup();
-					Dahsboard window = new Dahsboard();
-					
-					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,116 +83,118 @@ public class Dahsboard implements ActionListener {
 	}
 
 	
-	public Dahsboard() {
-		initialize();
+	public void setChangeState(NavigationManager navigation) {
+		
+		this.navigation = navigation;
 	}
-
+	public  Dahsboard(NavigationManager navigation) {
 	
-	private void initialize() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
+		setResizable(false);
+		setUndecorated(true);
+		setBounds(100, 100, 1100, 600);
+		new FrameDragger(this);
 		
+		this.navigation = navigation;
 		
-		frame = new JFrame();
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
 		
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
-	
-		frame.setResizable(false);
-		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 1100, 600);
-		
-		new FrameDragger(frame);
-		
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setLocationRelativeTo(null);
-		
+		///acciones
 		crearProducto = new CrearProducto();
 		acciones = new HashMap<>();
 		
 		//panels
-		JPanel panelFondo = new JPanel();
+		panelFondo = new JPanel();
 		panelFondo.setBackground(new Color(255, 255, 255));
 		panelFondo.setBounds(0, 0, 1100, 610);
-		frame.getContentPane().add(panelFondo);
+		getContentPane().add(panelFondo);
 		panelFondo.setLayout(null);
 		
-		JPanel panelMenu = new JPanel();
+		panelMenu = new JPanel();
 		panelMenu.setBackground(new Color(255, 255, 255));
 		panelMenu.setBounds(0, 0, 277, 600);
 		panelFondo.add(panelMenu);
 		panelMenu.setLayout(null);
 		
-		
-		JPanel panelBotones = new JPanel();
+		panelBotones = new JPanel();
 		panelBotones.setBackground(new Color(255, 255, 255));
 		panelBotones.setBounds(0, 192, 267, 408);
 		panelMenu.add(panelBotones);
 		panelBotones.setLayout(null);
 
-		JPanel panelCrear = new RoundePanel(30);
+		panelCrear = new RoundePanel(30);
 		panelCrear.setBackground(new Color(255, 255, 255));
 		panelCrear.setBounds(24, 104, 223, 78);
 		panelMenu.add(panelCrear);
 		panelCrear.setLayout(null);
 		
-		JPanel panelBanner = new RoundePanel(50);
+		panelBanner = new RoundePanel(50);
 		panelBanner.setBackground(new Color(255, 255, 255));
 		panelBanner.setBounds(298, 55, 777, 129);
 		panelFondo.add(panelBanner);
 		panelBanner.setLayout(null);
 		
-
-		RoundePanel panelVentas = new RoundePanel(10);
+		panelVentas = new RoundePanel(10);
 		panelVentas.setBackground(new Color(255, 255, 255));
 		panelVentas.setBounds(560, 202, 219, 82);
 		panelFondo.add(panelVentas);
 		panelVentas.setLayout(null);
 		
-		JPanel panelFVentas = new JPanel();
+		panelFVentas = new JPanel();
 		panelFVentas.setBackground(new Color(238, 32, 73));
 		panelFVentas.setBounds(0, -2, 94, 83);
 		panelVentas.add(panelFVentas);
 		panelFVentas.setLayout(null);
 		
 
-		JPanel panelProducto = new RoundePanel(10);
+		panelProducto = new RoundePanel(10);
 		panelProducto.setBackground(new Color(255, 255, 255));
 		panelProducto.setBounds(310, 202, 219, 82);
 		
 		panelFondo.add(panelProducto);
 		panelProducto.setLayout(null);
 		
-		JPanel panelFproducto = new JPanel();
+		panelFproducto = new JPanel();
 		panelFproducto.setBackground(new Color(114, 148, 226));
 		panelFproducto.setBounds(0, -2, 94, 83);
 		panelProducto.add(panelFproducto);
 		panelFproducto.setLayout(null);
 		
 		
-		RoundePanel panelCategorias = new RoundePanel(10);
+		panelCategorias = new RoundePanel(10);
 		panelCategorias.setBackground(new Color(255, 255, 255));
 		panelCategorias.setBounds(810, 202, 219, 82);
 		panelFondo.add(panelCategorias);
 		panelCategorias.setLayout(null);
 		
-		JPanel panelfFacturacion = new JPanel();
+		panelfFacturacion = new JPanel();
 		panelfFacturacion.setBackground(new Color(255, 128, 64));
 		panelfFacturacion.setBounds(0, -2, 94, 83);
 		panelCategorias.add(panelfFacturacion);
 		panelfFacturacion.setLayout(null);
 		
-		JPanel panelContenido = new JPanel();
+		panelContenido = new JPanel();
 		panelContenido.setBackground(new Color(255, 255, 255));
 		panelContenido.setBounds(300, 307, 790, 281);
 		panelFondo.add(panelContenido);
 		panelContenido.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 61, 779, 220);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		panelContenido.add(scrollPane);
 		
+		panelMenuBtnCrud = new JPanel();
+		panelMenuBtnCrud.setBackground(new Color(255, 255, 255));
+		panelMenuBtnCrud.setBounds(566, 0, 213, 40);
+		panelContenido.add(panelMenuBtnCrud);
+		panelMenuBtnCrud.setLayout(null);
+		
+		//table 
 		tableProductos = new JTable();
 		tableProductos.setBackground(new Color(255, 255, 255));
 		tableProductos.setModel(new DefaultTableModel(
@@ -189,8 +204,10 @@ public class Dahsboard implements ActionListener {
 				"IdProducto", "Producto", "Precio", "Categoria", "Cantidad", "Unidad", "Oferta", "Detalles"
 			}
 		));
+		
 		tableProductos.setOpaque(false);
 		tableProductos.setBackground(null);
+		
 		JTableHeader header = tableProductos.getTableHeader();
 		header.setFont(Fonts.custom);
 		scrollPane.setViewportView(tableProductos);
@@ -212,7 +229,6 @@ public class Dahsboard implements ActionListener {
 		panelCrear.add(lblNuevoProducto);
 		
 		JLabel lbIconCasa = new JLabel("");
-	
 		lbIconCasa.setIcon(AssetManager.icon("casa.png", 32, 32));
 		lbIconCasa.setBounds(20, 29, 32, 32);
 		panelBotones.add(lbIconCasa);
@@ -236,7 +252,6 @@ public class Dahsboard implements ActionListener {
 		lbLogo.setIcon(AssetManager.icon("logo.png", 64, 64));
 		lbLogo.setBounds(10, 17, 84, 64);
 		panelMenu.add(lbLogo);
-		
 	
 		JLabel lbSaludo1 = new JLabel("Bienvenido,");
 		lbSaludo1.setBounds(34, 47, 221, 22);
@@ -309,33 +324,11 @@ public class Dahsboard implements ActionListener {
 		lbTituloProductos.setFont(Fonts.custom);
 		panelContenido.add(lbTituloProductos);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(566, 0, 213, 40);
-		panelContenido.add(panel);
-		panel.setLayout(null);
+		JLabel lbIconUsuarios = new JLabel("");
+		lbIconUsuarios.setIcon(AssetManager.icon("user.png",32,32));
+		lbIconUsuarios.setBounds(20, 302, 32, 32);
+		panelBotones.add(lbIconUsuarios);
 		
-		btnEditarProducto = new JButton("");
-		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 30, 30));
-		btnEditarProducto.setBounds(0, 0, 30, 30);
-		btnEditarProducto.addActionListener(this);
-		BtnStyle.flat(btnEditarProducto);
-		panel.add(btnEditarProducto);
-		
-		btnBuscar = new JButton("");
-		btnBuscar.setIcon(AssetManager.icon("lupa.png", 30, 30));
-		btnBuscar.setBounds(81, 0, 30, 30);
-		btnBuscar.addActionListener(this);
-		BtnStyle.flat(btnBuscar);
-		panel.add(btnBuscar);
-		
-		btnEliminar = new JButton("");
-		btnEliminar.setIcon(AssetManager.icon("eliminar.png", 30, 30));
-		btnEliminar.setBounds(159, 0, 30, 30);
-		BtnStyle.flat(btnEliminar);
-		btnEliminar.addActionListener(this);
-		panel.add(btnEliminar);
-	
 		LocalDateTime time  = LocalDateTime.now();
 		String date = time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 		JLabel lbDate = new JLabel(date);
@@ -354,13 +347,13 @@ public class Dahsboard implements ActionListener {
 		panelFondo.add(separator);
 		
 		//buttons
+		
 		btnAgregar = new JButton("");
 		BtnStyle.flat(btnAgregar);
 		btnAgregar.setBackground(new Color(255, 255, 255));
 		btnAgregar.addActionListener(this);
 		btnAgregar.setIcon(AssetManager.icon("agregar.png", 70,70));
 		btnAgregar.setBounds(134, 4, 70, 70);
-		
 		panelCrear.add(btnAgregar);
 		
 		btnDashboard = new JButton("Dashboard");
@@ -375,7 +368,6 @@ public class Dahsboard implements ActionListener {
 		BtnStyle.second(btnCategorias);
 		btnCategorias.setFont(Fonts.custom);
 		btnCategorias.addActionListener(this);
-		
 		panelBotones.add(btnCategorias);
 		
 		btnVenta = new JButton("Ventas");
@@ -405,23 +397,42 @@ public class Dahsboard implements ActionListener {
 		btnUsuarios.setBounds(87, 302, 158, 34);
 		panelBotones.add(btnUsuarios);
 		
+	
+		btnEditarProducto = new JButton("");
+		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 30, 30));
+		btnEditarProducto.setBounds(0, 0, 30, 30);
+		btnEditarProducto.addActionListener(this);
+		BtnStyle.flat(btnEditarProducto);
+		panelMenuBtnCrud.add(btnEditarProducto);
+				
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(AssetManager.icon("lupa.png", 30, 30));
+		btnBuscar.setBounds(81, 0, 30, 30);
+		btnBuscar.addActionListener(this);
+		BtnStyle.flat(btnBuscar);
+		panelMenuBtnCrud.add(btnBuscar);
+				
+		btnEliminar = new JButton("");
+		btnEliminar.setIcon(AssetManager.icon("eliminar.png", 30, 30));
+		btnEliminar.setBounds(159, 0, 30, 30);
+		BtnStyle.flat(btnEliminar);
+		btnEliminar.addActionListener(this);
+		panelMenuBtnCrud.add(btnEliminar);
+			
+
+		//acciones
 		acciones.put(btnAgregar, this::openCreate);
 		acciones.put(btnClose, this::closeWindows);
 		acciones.put(btnFactura, this::openBill);
 		acciones.put(btnVenta, this::openSales);
 		acciones.put(btnCategorias, this::openCategorys);
-		
-		
-		JLabel lbIconUsuarios = new JLabel("");
-		lbIconUsuarios.setIcon(AssetManager.icon("user.png",32,32));
-		lbIconUsuarios.setBounds(20, 302, 32, 32);
-		panelBotones.add(lbIconUsuarios);
 		acciones.put(btnEditarProducto, this::openEditProduct);
 		acciones.put(btnEliminar, this::openRemoveProduct);
 		acciones.put(btnBuscar, this::openSearchProduct);
 		
 	}
 
+	
 	public void openRemoveProduct() {
 		
 	}
@@ -441,7 +452,6 @@ public class Dahsboard implements ActionListener {
 		
 	}
 	public void openSales() {
-		
 		
 	}
 	public void openBill() {

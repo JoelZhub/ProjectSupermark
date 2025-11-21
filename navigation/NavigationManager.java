@@ -3,7 +3,9 @@ package navigation;
 import javax.swing.JFrame;
 import model.Modulo;
 import session.SessionContext;
+import session.UsersContext;
 import utils.Messages;
+import view.forms.dashboard.Dahsboard;
 
 //clase que recibe los permisos y 
 //habilita los modulos por los cuales el usuario puede manejar
@@ -16,6 +18,7 @@ public class NavigationManager {
 		this.dashboard = dashboard;
 	}
 
+	
 	//segun el modulo al cual quiera ir se redirige
 	
 	public void goTo(Modulo modulo) {
@@ -30,10 +33,15 @@ public class NavigationManager {
 		dashboard.add(modulo.construirPanel());
 		dashboard.revalidate();
 		dashboard.repaint();
-		
-		
+			
 	}
-		
+	
+	public void navigationToDashboard(UsersContext user) {
+		SessionContext.set(user);
+		Dahsboard dash  = new Dahsboard(this);
+		dash.setVisible(true);
+	}
+	
 	public JFrame getDashboard() {
 		return dashboard;
 	}

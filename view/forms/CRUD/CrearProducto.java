@@ -10,8 +10,6 @@ import java.util.Map;
 
 import com.github.lgooddatepicker.components.DatePicker;
 
-import control.productoServicio;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +29,7 @@ import utils.BtnStyle;
 import utils.Fonts;
 import utils.FrameDragger;
 import utils.Messages;
+import view.modules.products.productoServicio;
 
 public class CrearProducto extends JFrame implements ActionListener {
 
