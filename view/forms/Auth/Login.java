@@ -174,7 +174,7 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		if(e.getSource() == btnIngresar) {
 			
 			String password =  new String(passwordField.getPassword());
-			boolean exito = authenticator.validarCamposLogin(textFieldNombre.getText(), password);
+			boolean exito = authenticator.validateFieldsLogin(textFieldNombre.getText(), password);
 			if(!exito) {
 				new Messages(this, "Datos erroneos intente de nuevo").messageError();
 				return;
