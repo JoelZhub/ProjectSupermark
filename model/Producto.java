@@ -20,7 +20,21 @@ public class Producto {
         this.unidad = unidad;
     }
 
-    public String getCodigo() {
+
+   //este construvtor es una prueba solo esta para probar si los schema se crean y se muestran correctamente
+    
+    public Producto(String idProducto, String nombre, double precio, Categoria categoria, int cantidad) {
+    	  this.idProducto = idProducto;
+          this.nombre = nombre;
+          this.precio = precio;
+          this.categoria = categoria;
+          this.cantidad = cantidad;
+    }
+    
+    
+    
+
+	public String getCodigo() {
         return idProducto;
     }
 
