@@ -18,7 +18,6 @@ import navigation.NavigationManager;
 
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
 
 public class Dahsboard extends JFrame implements ActionListener {
 
@@ -27,18 +26,18 @@ public class Dahsboard extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel panelMenu, panelBtnCrud, panelFondo, panelZonaFija,  panelTopBar, panelBanner,  panelContenido;
+	private JPanel panelMenu, panelBtnCrud, panelFondo,panelTopBar, panelBanner,  panelContenido;
 
 	private NavigationManager navigation;
 	
 
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 				
 					FlatLightLaf.setup();
+					
 					Dahsboard dash =new Dahsboard(null);
 					dash.setVisible(true);
 					
@@ -103,7 +102,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 		panelBtnCrud = new JPanel();
 		panelBtnCrud.setLayout(null);
 		panelBtnCrud.setBackground(new Color(255,255,255));
-		panelBtnCrud.setBounds(675, 140, 200, 36);
+		panelBtnCrud.setBounds(10, 150, 1043, 36);
 		panelContenido.add(panelBtnCrud);
 
 		JSeparator separator = new JSeparator();
@@ -124,6 +123,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 		setPanelBanner(new BannerPanel());
 		DashboardAdmin dashboardAdmin = new DashboardAdmin();
 		setPanelContent(dashboardAdmin);
+		dashboardAdmin.setLayout(null);
 		setPanelBtnCrud(new BtnGroupCrud());
 	}
 	

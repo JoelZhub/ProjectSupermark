@@ -1,22 +1,28 @@
 package view.modules.admin;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import model.Categoria;
 import model.Producto;
 import view.components.AssetManager;
+import view.components.Fonts;
 import view.components.RoundePanel;
 import view.table.TableFactory;
 import view.table.schemas.ProductosSchema;
 import view.table.schemas.TableSchema;
+import view.table.style.TableStyle;
+import view.table.style.TableStyleConfigure;
 
 public class DashboardAdmin extends JPanel {
 
@@ -162,6 +168,7 @@ public class DashboardAdmin extends JPanel {
 	public void crearViewPort() {
 		
 		// reemplazar esta linea por el controlador que obtiene todos los elementos de la base de datos
+		
 		List<Producto> data = new ArrayList<>();
 		
 		data.add(new Producto("P001", "Arroz Premium 10lb", 520.00, Categoria.COMESTIBLES, 40));
@@ -174,14 +181,43 @@ public class DashboardAdmin extends JPanel {
 		data.add(new Producto("P008", "Jugo de Naranja 1L", 95.00, Categoria.BEBIDAS, 75));
 		data.add(new Producto("P009", "Leche Entera 1L", 70.00, Categoria.LACTEOS, 100));
 		data.add(new Producto("P010", "Pan de Agua 6 unidades", 55.00, Categoria.PANES, 90));
+		data.add(new Producto("P001", "Arroz Premium 10lb", 520.00, Categoria.COMESTIBLES, 40));
+		data.add(new Producto("P002", "Manzana Roja", 35.00, Categoria.VEGETALES_FRUTAS, 120));
+		data.add(new Producto("P003", "Carne de Res Suprema", 380.00, Categoria.CARNES, 25));
+		data.add(new Producto("P004", "Pechuga de Pollo", 210.00, Categoria.POLLO_AVES, 50));
+		data.add(new Producto("P005", "Oregano Molido 50g", 45.00, Categoria.CONDIMENTOS, 80));
+		
+	
 	
 		TableSchema<Producto> schema = ProductosSchema.create();
 		JTable table = TableFactory.createTable(data, schema);
+		table.setBackground(TableStyleConfigure.COLOR_ROW_BG);
 		
-		scrollPanel = new JScrollPane();
-		scrollPanel.setLayout(null);
+		table.setShowVerticalLines(true);
+		table.setGridColor(new Color(0xE5E7EB));
+		table.setBorder(BorderFactory.createEmptyBorder());
+		table.setShowGrid(false);
+		table.setIntercellSpacing(new Dimension(0, 0));
+		
+	
+	    TableStyle.apply(table);
+		table.setBounds(0, 0,  1040, 253);
+		
+		scrollPanel = new JScrollPane(table);
+		scrollPanel.setBackground(null);
+		scrollPanel.setBorder(null);
+		
+		scrollPanel.setBorder(null);
+		
+		scrollPanel.setOpaque(false);
+		scrollPanel.getViewport().setBorder(null);
+		scrollPanel.getViewport().setBackground(Color.WHITE);
+		scrollPanel.getViewport().setOpaque(false);
+			
 		scrollPanel.setBounds(10, 161, 1043, 253);
-		scrollPanel.add(table);
+	
+		UIManager.put("ScrollBar.showButtons", false);
+		UIManager.put("ScrollBar.width", 12);
 		add(scrollPanel);
 	
 		

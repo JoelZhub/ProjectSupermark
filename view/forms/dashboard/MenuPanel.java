@@ -25,7 +25,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	
 	private JPanel panelBotones;
 	
-	private JButton btnAgregar, btnDashboard, btnVenta, btnFactura, btnUsuarios,  btnCategorias;
+	private JButton btnAgregar, btnDashboard, btnVenta, btnFactura, btnUsuarios,  btnProductos;
 	
 	private JLabel lbTitulo, lbIconCasa, lbIconUsuarios,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto;
 	
@@ -75,11 +75,11 @@ public class MenuPanel extends JPanel implements ActionListener {
 		btnDashboard.addActionListener(this);
 	
 		
-		btnCategorias = new JButton("Categorias");
-		btnCategorias.setBounds(87, 104, 158, 34);
-		BtnStyle.second(btnCategorias);
-		btnCategorias.setFont(Fonts.custom);
-		btnCategorias.addActionListener(this);
+		btnProductos = new JButton("Productos");
+		btnProductos.setBounds(87, 104, 158, 34);
+		BtnStyle.second(btnProductos);
+		btnProductos.setFont(Fonts.custom);
+		btnProductos.addActionListener(this);
 		
 		
 		btnVenta = new JButton("Ventas");
@@ -115,7 +115,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		panelBotones.add(btnFactura);
 		panelBotones.add(btnUsuarios);
 		panelBotones.add(btnVenta);
-		panelBotones.add(btnCategorias);
+		panelBotones.add(btnProductos);
 		panelBotones.add(btnDashboard);
 		
 		panelBotones.add(lbIconCategorias);

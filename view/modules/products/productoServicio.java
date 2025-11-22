@@ -34,10 +34,10 @@ public class productoServicio {
 		return true;
 	}
 	
-	public String crearPruducto(Producto producto) {	
-		return productoC.agregar(producto);
-	}
-	
+//	public String crearPruducto(Producto producto) {	
+//		//return productoC.agregar(producto);
+//	}
+//	
 	
 	
 
