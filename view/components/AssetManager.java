@@ -1,4 +1,4 @@
-package utils;
+package view.components;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 public class AssetManager {

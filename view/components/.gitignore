@@ -7,3 +7,12 @@
 /RoundeButton.class
 /Messages.class
 /AssetManager.class
+/BtnRoundePanel.class
+/tabletContenido.class
+/ColumnDefinition.class
+/ColumnDefinition$Builder.class
+/TableSchema.class
+/TableSchema$Builder.class
+/UniversalTableModel.class
+/TableFactory.class
+/BtnGroupCrud.class

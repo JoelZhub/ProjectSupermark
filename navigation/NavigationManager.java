@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import model.Modulo;
 import session.SessionContext;
 import session.UsersContext;
-import utils.Messages;
+import view.components.Messages;
 import view.forms.dashboard.Dahsboard;
 
 //clase que recibe los permisos y 

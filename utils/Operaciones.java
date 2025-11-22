@@ -1,4 +1,4 @@
-package control;
+package utils;
 
 public interface Operaciones {
     String agregar(Object obj);

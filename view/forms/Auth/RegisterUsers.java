@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import utils.BtnStyle;
-import utils.Fonts;
-import utils.FrameDragger;
+import view.components.BtnStyle;
+import view.components.Fonts;
+import view.components.FrameDragger;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;

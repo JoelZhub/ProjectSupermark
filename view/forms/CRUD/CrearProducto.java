@@ -25,10 +25,10 @@ import javax.swing.JButton;
 import model.Categoria;
 import model.Producto;
 import model.Proveedor;
-import utils.BtnStyle;
-import utils.Fonts;
-import utils.FrameDragger;
-import utils.Messages;
+import view.components.BtnStyle;
+import view.components.Fonts;
+import view.components.FrameDragger;
+import view.components.Messages;
 import view.modules.products.productoServicio;
 
 public class CrearProducto extends JFrame implements ActionListener {

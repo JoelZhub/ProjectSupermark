@@ -16,11 +16,12 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import control.AuthenticatorController;
 import navigation.NavigationManager;
-import utils.AssetManager;
-import utils.BtnStyle;
-import utils.Fonts;
-import utils.FrameDragger;
-import utils.Messages;
+import view.components.AssetManager;
+import view.components.BtnStyle;
+import view.components.Fonts;
+import view.components.FrameDragger;
+import view.components.Messages;
+import view.forms.dashboard.Dahsboard;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -179,6 +180,8 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 				new Messages(this, "Datos erroneos intente de nuevo").messageError();
 				return;
 			}
+			Dahsboard dash =new Dahsboard(null);
+			dash.setVisible(true);
 			
 			
 			

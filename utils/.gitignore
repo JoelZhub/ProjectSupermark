@@ -6,3 +6,8 @@
 /FrameDragger.class
 /Messages.class
 /AssetManager.class
+/BtnGroupCrud.class
+/ColumnDefinition$Builder.class
+/ColumnDefinition.class
+/TableSchema$Builder.class
+/TableSchema.class
