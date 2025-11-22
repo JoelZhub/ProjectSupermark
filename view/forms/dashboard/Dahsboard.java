@@ -121,9 +121,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 		setPanelMenu(new MenuPanel());
 		setPanelTopBar(new TopBarPanel());
 		setPanelBanner(new BannerPanel());
-		DashboardAdmin dashboardAdmin = new DashboardAdmin();
-		setPanelContent(dashboardAdmin);
-		dashboardAdmin.setLayout(null);
+		setPanelContent(new DashboardAdmin());
 		setPanelBtnCrud(new BtnGroupCrud());
 	}
 	

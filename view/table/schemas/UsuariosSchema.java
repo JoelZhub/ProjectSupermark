@@ -40,6 +40,10 @@ public class UsuariosSchema {
                 .preferredWidth(120)
                 .build()
         )
+        
+        .rowHeight(28)
+        .singleSection(true)
+        .build();	
 	 * 
 	 * }
 	 * 
