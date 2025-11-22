@@ -1,82 +1,53 @@
 package control;
-import model.*;
-import utils.Operaciones;
 
-import java.util.ArrayList;
+import model.*;
+import dao.ProductoDAO;
 import java.util.List;
 
 
-public class ProductoController implements Operaciones {
+public class ProductoController {
 
-    private List<Producto> productos;
+    private ProductoDAO dao;
 
     public ProductoController() {
-        this.productos = new ArrayList<>();
-    }
-
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    @Override
-    public String agregar(Object obj) {
-        if (!(obj instanceof Producto)) {
-            return "Error: El objeto no es un producto válido.";
-        }
-
-        Producto producto = (Producto) obj;
-
-        if (existeProducto(producto.getCodigo())) {
-            return "Error: Ya existe un producto con ese código.";
-        }
-
-        productos.add(producto);
-        return "Producto agregado correctamente. ID: " + producto.getCodigo();
-    }
-
-    @Override
-    public String eliminar(String id) {
-        for (Producto p : productos) {
-            if (p.getCodigo().equals(id)) {
-                productos.remove(p);
-                return "Producto eliminado correctamente.";
-            }
-        }
-        return "Producto no encontrado.";
-    }
-
-    @Override
-    public String editar(String id, Object nuevosDatos) {
-        if (!(nuevosDatos instanceof Producto)) {
-            return "Error: Datos inválidos para edición.";
-        }
-
-        Producto nuevoProducto = (Producto) nuevosDatos;
-
-        for (int i = 0; i < productos.size(); i++) {
-            if (productos.get(i).getCodigo().equals(id)) {
-                productos.set(i, nuevoProducto);
-                return "Producto actualizado correctamente.";
-            }
-        }
-        return "Producto no encontrado.";
-    }
-
-    @Override
-    public Object buscar(String id) {
-        for (Producto p : productos) {
-            if (p.getCodigo().equals(id)) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    public boolean existeProducto(String codigo) {
-        return productos.stream().anyMatch(p -> p.getCodigo().equals(codigo));
+        this.dao = new ProductoDAO();
     }
 
     public List<Producto> listarProductos() {
-        return productos;
+        return dao.listar();
+    }
+
+    public String agregar(String id, String nombre, double precio, String cat, int cant, String unidad) {
+        try {
+            Categoria categoria = Categoria.valueOf(cat.toUpperCase());
+            Producto p = new Producto(id, nombre, precio, categoria, cant, unidad);
+
+            if (dao.buscar(id) != null)
+                return "Error: Ya existe un producto con ese código.";
+
+            return dao.insertar(p) ? "Producto agregado" : "Error al agregar";
+
+        } catch (IllegalArgumentException e) {
+            return "Categoría inválida.";
+        }
+    }
+
+    public String eliminar(String id) {
+        return dao.eliminar(id) ? "Producto eliminado correctamente." : "Producto no encontrado.";
+    }
+
+    public String editar(String id, String nombre, double precio, String cat, int cant, String unidad) {
+        try {
+            Categoria categoria = Categoria.valueOf(cat.toUpperCase());
+            Producto p = new Producto(id, nombre, precio, categoria, cant, unidad);
+            return dao.editar(p) ? "Actualizado" : "No encontrado";
+
+        } catch (IllegalArgumentException e) {
+            return "Categoría inválida.";
+        }
+    }
+    
+    public Producto buscar(String id) {
+        return dao.buscar(id);
     }
 }
