@@ -22,8 +22,7 @@ public class AuthenticatorController {
 	//private static final int email_max_length = 254;
 	private static final int  password_min_length = 6;
 	
-	public AuthenticatorController( /*colocar aqui la refencia del elemento que recibe
-	 a los usuarios de la bd y se encarga de crearlos*/  ) {
+	public AuthenticatorController( ) {
 		
 	}
 	
@@ -43,13 +42,23 @@ public class AuthenticatorController {
 		//rol de la clase USERSCONTEXT  
 		
 		Set<Permiso> permisos  = PermissionsProvider.getPermissionsProvider(/*usuario.getRol()*/);
-		
+	
 		//usa ese elemento de permisos para cuando creen en el usuario
 		//(reucerden que deben descomentar el construtor de la clase USUARIOSCONTEX)
-		return new UsersContext(
-				1,
-				"juan"
-			);
+		
+		/*
+		 * Rol rol = Rol.valueOf(usuario.getRol());
+		 * return new UsersContext(
+		 * 		
+		 * 	usuario.getId(),
+		 *	rol,
+		 *	usuario.getNombre(),
+		 *	permisos
+		 *  
+		 *);
+		 * */
+		
+		return null;
 	}
 	
 	public boolean validateFieldsLogin(String email, String password) {

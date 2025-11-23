@@ -23,7 +23,7 @@ public class PermissionsProvider {
 						Permiso.PRODUCTOS_VER,
 						Permiso.VENTAS_VER,
 						Permiso.FACTURACION_VER,
-						Permiso.INVENTARIO_VER,
+//						Permiso.INVENTARIO_VER,
 						Permiso.USUARIOS_VER
 						
 				);
@@ -37,7 +37,7 @@ public class PermissionsProvider {
 			 );
 			 
 			 Case ENCARGADOINVENTARIO  -> Set.of(
-						Permiso.INVENTARIO_VER,
+						Permiso.PRODUCTOS_VER,
 			
 				);
 			 

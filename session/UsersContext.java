@@ -14,7 +14,7 @@ public class UsersContext {
 
 	private final int idUsuario;
 	//private final Rol rol;
-	//private final Set<Permiso> permisos; // si crean un elemento que contenga los persios reemplazar este 
+	private final Set<Permiso> permisos; 
 	private final String nombreUsuario; 
 	
 	public UsersContext(int idUsuario, /*Rol rol,*/  String nombreUsuario, Set<Permiso> permisos) {
@@ -22,7 +22,7 @@ public class UsersContext {
 		this.idUsuario = idUsuario;
 		//this.rol = rol;   -> comentado porque no se ha recibido el enum de roles, descomentar cuando se reciba el enum correspondiente
 		this.nombreUsuario = nombreUsuario;
-		//this.permisos = permisos;
+		this.permisos = permisos;
 		
 	}
 	
@@ -30,16 +30,19 @@ public class UsersContext {
 	//si no es el caso y ya tienen una funcionalidad creada favor colocar la en esta clase y hacer los cambios pertienentes
 	
 	
-	public  UsersContext(int idUsuario, String nombreUsuario) {
-		this.idUsuario = idUsuario;
-		this.nombreUsuario = nombreUsuario;
+//	public  UsersContext(int idUsuario, String nombreUsuario) { -> no descomentar esto es para pruebas locales
+//		this.idUsuario = idUsuario;
+//		this.permisos = null;
+//		this.nombreUsuario = nombreUsuario;
+//	}
+	
+	/*public Rol getRolUsuarioLogueado(){
+	
+		 return rol;
 	}
-	
-	//descomentar las lineas de permiso en caso de usar esta clase  -> tomar encuenta que si lo hacen
-	// la clase que gestiona y recibe la lista de usuarios ya debe estar creada para ser utilizada
-	
+	*/
 	public boolean tienePermisos(Permiso p) {
-		return false; //  permisos.contains(p); 
+		return  permisos.contains(p); 
 	}
 	
 	public int getIdUsuarioLogueado() {
@@ -47,7 +50,7 @@ public class UsersContext {
 	}
 	
 	public Set<Permiso> getPermisosUser() {
-		return null; // permisos;
+		return  permisos;
 	}
 	
 	public String getNombreUsuarioLogueado() {

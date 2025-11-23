@@ -1,5 +1,6 @@
 package view.table.schemas;
 
+import model.Factura;
 import view.table.ColumnDefinition;
 
 public class FacturasSchema {
@@ -8,42 +9,49 @@ public class FacturasSchema {
 	//descomentar cuando se cree la clase que manejara las facturas
 	
 	
-	/* public static TableSchema<Facturas> create(){
+	 public static TableSchema<Factura> create(){
 		
-		return new TableSchema.Builder<Facturas>()
-		.addColumn(new ColumnDefinition.Builder<Facturas>()
+		return new TableSchema.Builder<Factura>()
+		.addColumn(new ColumnDefinition.Builder<Factura>()
                 .header("ID")
                 .key("id")
-                .value(Facturas::getCodigo)
+                .value(Factura::getIdFactura)
                 .preferredWidth(25)
                 .build()
         )
-        .addColumn(new ColumnDefinition.Builder<Facturas>()
-                .header("Producto")
-                .key("Producto")
-                .value(p -> p.getProducto().getNombre())
+        .addColumn(new ColumnDefinition.Builder<Factura>()
+                .header("Fecha")
+                .key("fecha")
+                .value(Factura::getFecha)
                 .preferredWidth(180)
                 .build()
         )
         
-        .addColumn(new ColumnDefinition.Builder<Facturas>()
-                .header("Precio")
-                .key("precio")
-                .value(p -> p.getPrecio())   
+        .addColumn(new ColumnDefinition.Builder<Factura>()
+                .header("Total")
+                .key("total")
+                .value(p -> p.getTotal())   
                 .preferredWidth(90)
                 .build()
         )
-        .addColumn(new ColumnDefinition.Builder<Producto>()
-                .header("Categoría")
-                .key("categoria")
-                .value(p -> p.getCategoria()) 
+        .addColumn(new ColumnDefinition.Builder<Factura>()
+                .header("Metodo de pago")
+                .key("metodoPago")
+                .value(Factura::getMetodoPago) 
                 .preferredWidth(120)
                 .build()
         )
-        .addColumn(new ColumnDefinition.Builder<Producto>()
-                .header("Cantidad")
-                .key("cantidad")
-                .value(Producto::getCantida)
+        .addColumn(new ColumnDefinition.Builder<Factura>()
+                .header("IDCliente")
+                .key("idCliente")
+                .value(Factura::getClienteId)
+                .preferredWidth(80)
+                .build()
+        )
+        .addColumn(new ColumnDefinition.Builder<Factura>()
+                .header("IDCajero")
+                .key("idCajero")
+                .value(Factura::getCajeroId)
                 .preferredWidth(80)
                 .build()
         )
@@ -51,7 +59,5 @@ public class FacturasSchema {
         .singleSection(true)
         .build();		  
 	}
-	 * 
-	 * 
-	 * */
+	
 }

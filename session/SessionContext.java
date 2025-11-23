@@ -1,8 +1,10 @@
 package session;
-//clase que maneja los estados del usuario logueado
+//clase que maneja los estados del usuario logueado - > estado global
 
 public class SessionContext {
+	
 	private static UsersContext current;
+	
 	public static void set(UsersContext userContext) {
 		current = userContext;
 	}	

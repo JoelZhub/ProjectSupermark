@@ -9,18 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
+//clase inabilitada de momento -> decidi implementar estos elementos por separado en cada modulo
 
-//util que se encarga de crear group de btns que trabajara con los forms crud de cada modulo
-
-//evita repetir tener que crear estos btn en los demas archivos y que funcionen en base los roles 
 
 public class BtnGroupCrud extends JPanel implements ActionListener {
 
 	
-	private JButton btnEditarProducto, btnBuscar, btnEliminar;
-	private JPanel panelSearch ;
+	private JButton btnEditarProducto, btnEliminar;
+	private JPanel panelSearch, panelContenedorAccionesCrud;
+	private JTextField textFieldSearch;
+	private JLabel lbTotalRegister ;
 	
 	/**
 	 * 
@@ -31,12 +30,14 @@ public class BtnGroupCrud extends JPanel implements ActionListener {
 		
 		setLayout(null);
 		setBackground(null);
-		crearPanel();
-		crearPanelBuscar();
+		
 		
 	}
 	
-	public void crearPanel() {
+	
+	
+	public void crearBtns() {
+		
 		
 		btnEditarProducto = new JButton();
 		btnEditarProducto.setText("Editar");
@@ -47,12 +48,11 @@ public class BtnGroupCrud extends JPanel implements ActionListener {
 		btnEditarProducto.setIconTextGap(6);
 		btnEditarProducto.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
 		btnEditarProducto.setForeground(new Color(88, 177, 237));
-		btnEditarProducto.setBackground(new Color(255,255,255));
+		btnEditarProducto.setBackground(null);
 		btnEditarProducto.putClientProperty("JButton.arc", 8);
-		add(btnEditarProducto);
-				
+		
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(255,255,255));
+		btnEliminar.setBackground(null);
 		btnEliminar.setForeground(new Color(255, 90, 90));
 		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
 		btnEliminar.putClientProperty("JButton.arc",20);
@@ -62,9 +62,22 @@ public class BtnGroupCrud extends JPanel implements ActionListener {
 		btnEliminar.setIconTextGap(6);
 		btnEliminar.setFont(Fonts.custom);
 		btnEliminar.addActionListener(this);
-		add(btnEliminar);
-			
+		
+	}
+	public void crearPanel() {
+		
+		panelContenedorAccionesCrud = new JPanel();
+		panelContenedorAccionesCrud.setLayout(null);
+		panelContenedorAccionesCrud.setBackground(Color.WHITE);
+		panelContenedorAccionesCrud.setBounds(10, 150, 1043, 36);
 	
+		crearPanelBuscar();
+		crearBtns();
+		panelContenedorAccionesCrud.add(btnEditarProducto);
+		panelContenedorAccionesCrud.add(btnEliminar);
+		
+		panelContenedorAccionesCrud.add(panelSearch);
+			
 		
 	}
 	
@@ -72,16 +85,19 @@ public class BtnGroupCrud extends JPanel implements ActionListener {
 		
 		panelSearch = new JPanel();
 		panelSearch.setBounds(760, 0, 246, 32);
-		panelSearch.setBackground(new Color(255, 255, 255));
+		panelSearch.setBackground(null);
 		panelSearch.setLayout(null);
 		
-		//JLabel lbTotalRegister = new JLabel(usuarios.size() + "");
-		JLabel lbTotalRegister = new JLabel("0");
+		//lbTotalRegister = new JLabel(usuarios.size() + "");
+		lbTotalRegister = new JLabel("0");
 		lbTotalRegister.setBounds(0, 0, 45, 32);
+		lbTotalRegister.setFont(Fonts.custom);
+		lbTotalRegister.setForeground(Color.BLACK);
 		panelSearch.add(lbTotalRegister);
 		
-		JTextField textFieldSearch = new JTextField();
+		textFieldSearch = new JTextField();
 		textFieldSearch.setText("Search");
+		textFieldSearch.setBackground(null);
 		textFieldSearch.setBounds(57, 4, 190, 26);
 		textFieldSearch.setColumns(10);
 		panelSearch.add(textFieldSearch);
