@@ -17,7 +17,7 @@ public class ProductoController {
         return dao.listar();
     }
 
-    public String agregar(String id, String nombre, double precio, String cat, int cant, String unidad) {
+    public String agregar(int id, String nombre, double precio, String cat, int cant, String unidad) {
         try {
             Categoria categoria = Categoria.valueOf(cat.toUpperCase());
             Producto p = new Producto(id, nombre, precio, categoria, cant, unidad);
@@ -32,11 +32,11 @@ public class ProductoController {
         }
     }
 
-    public String eliminar(String id) {
+    public String eliminar(int id) {
         return dao.eliminar(id) ? "Producto eliminado correctamente." : "Producto no encontrado.";
     }
 
-    public String editar(String id, String nombre, double precio, String cat, int cant, String unidad) {
+    public String editar(int id, String nombre, double precio, String cat, int cant, String unidad) {
         try {
             Categoria categoria = Categoria.valueOf(cat.toUpperCase());
             Producto p = new Producto(id, nombre, precio, categoria, cant, unidad);
@@ -47,7 +47,7 @@ public class ProductoController {
         }
     }
     
-    public Producto buscar(String id) {
+    public Producto buscar(int id) {
         return dao.buscar(id);
     }
 }
