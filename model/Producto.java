@@ -2,16 +2,16 @@ package model;
 
 public class Producto {
 
-    private String idProducto;
+    private int idProducto;
     private String nombre;
     private double precio;
     private Categoria categoria;
     private int cantidad;
-    private String unidad; // Unitario o Lb
-    private Oferta oferta; // Puede ser null
+    private String unidad;
+    private Oferta oferta;
     private Detalles detalles;
 
-    public Producto(String idProducto, String nombre, double precio, Categoria categoria, int cantidad, String unidad){
+    public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad, String unidad){
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -20,50 +20,20 @@ public class Producto {
         this.unidad = unidad;
     }
 
-
-   //este construvtor es una prueba solo esta para probar si los schema se crean y se muestran correctamente
-    
-    public Producto(String idProducto, String nombre, double precio, Categoria categoria, int cantidad) {
-    	  this.idProducto = idProducto;
-          this.nombre = nombre;
-          this.precio = precio;
-          this.categoria = categoria;
-          this.cantidad = cantidad;
-    }
-    
-    
-    
-
-	public String getCodigo() {
+    public int getCodigo() {
         return idProducto;
-    }
-
-    public void setCodigo(String codigo) {
-        this.idProducto = codigo;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
     public Categoria getCategoria() {
         return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
     }
 
     public int getCantida() {
@@ -76,10 +46,6 @@ public class Producto {
 
     public String getUnidad() {
         return unidad;
-    }
-
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
     }
 
     public Oferta getOferta() {

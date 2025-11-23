@@ -24,7 +24,7 @@ public class ProductoDAO implements Operaciones<Producto> {
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setString(1, p.getCodigo());
+            stmt.setInt(1, p.getCodigo());
             stmt.setString(2, p.getNombre());
             stmt.setDouble(3, p.getPrecio());
             stmt.setString(4, p.getCategoria().name());
@@ -53,7 +53,7 @@ public class ProductoDAO implements Operaciones<Producto> {
             stmt.setString(3, p.getCategoria().name());
             stmt.setInt(4, p.getCantida());
             stmt.setString(5, p.getUnidad());
-            stmt.setString(6, p.getCodigo());
+            stmt.setInt(6, p.getCodigo());
 
             return stmt.executeUpdate() > 0;
 
@@ -64,13 +64,13 @@ public class ProductoDAO implements Operaciones<Producto> {
     }
 
     @Override
-    public boolean eliminar(String id) {
+    public boolean eliminar(int id) {
         String sql = "DELETE FROM productos WHERE idProducto = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setString(1, id);
+            stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -80,18 +80,18 @@ public class ProductoDAO implements Operaciones<Producto> {
     }
 
     @Override
-    public Producto buscar(String id) {
+    public Producto buscar(int id) {
         String sql = "SELECT * FROM productos WHERE idProducto = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setString(1, id);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return new Producto(
-                        rs.getString("idProducto"),
+                        rs.getInt("idProducto"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         Categoria.valueOf(rs.getString("categoria")),
@@ -119,7 +119,7 @@ public class ProductoDAO implements Operaciones<Producto> {
             while (rs.next()) {
 
                 Producto p = new Producto(
-                        rs.getString("idProducto"),
+                        rs.getInt("idProducto"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         Categoria.valueOf(rs.getString("categoria")),
@@ -131,7 +131,7 @@ public class ProductoDAO implements Operaciones<Producto> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error listar productos: " + e.getMessage());
+            System.out.println("Error al listar productos: " + e.getMessage());
         }
 
         return lista;
