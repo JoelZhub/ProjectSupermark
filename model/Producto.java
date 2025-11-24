@@ -11,6 +11,15 @@ public class Producto {
     private Oferta oferta;
     private Detalles detalles;
 
+    public Producto(String nombre, double precio, Categoria categoria, int cantidad, String unidad){
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.cantidad = cantidad;
+        this.unidad = unidad;
+    }
+
+
     public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad, String unidad){
         this.idProducto = idProducto;
         this.nombre = nombre;
@@ -22,6 +31,10 @@ public class Producto {
 
     public int getCodigo() {
         return idProducto;
+    }
+
+    public void setCodigo(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombre() {

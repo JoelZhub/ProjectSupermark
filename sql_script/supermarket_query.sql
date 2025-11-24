@@ -28,3 +28,11 @@ CREATE TABLE factura_producto (
     FOREIGN KEY (idFactura) REFERENCES facturas(idFactura),
     FOREIGN KEY (idProducto) REFERENCES productos(idProducto)
 );
+
+CREATE TABLE usuarios (
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    pin VARCHAR(255) NOT NULL,
+    rol VARCHAR(100) NOT NULL
+);

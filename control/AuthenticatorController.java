@@ -5,10 +5,13 @@ import java.util.regex.Pattern;
 
 import model.Permiso;
 import model.PermissionsProvider;
+import model.User;
+import dao.UserDAO;
 import session.UsersContext;
 
 public class AuthenticatorController {
 
+	private UserDAO userDAO;
 	//clase que se encarga de la autentificacion de los datos ingresados
 	//login -> registro de usuarios
 	
@@ -42,14 +45,21 @@ public class AuthenticatorController {
 		//este lo cree para realizar pruebas de sistema -> favor recordar descomentar la linea de 
 		//rol de la clase USERSCONTEXT  
 		
-		Set<Permiso> permisos  = PermissionsProvider.getPermissionsProvider(/*usuario.getRol()*/);
+		User usuario = userDAO.buscarPorEmail(email);
+
+        if (usuario == null) return null;
+        if (!usuario.getPassword().equals(password)) return null;
+
+        Set<Permiso> permisos = PermissionsProvider.getPermissionsProvider(usuario.getRol());
 		
 		//usa ese elemento de permisos para cuando creen en el usuario
 		//(reucerden que deben descomentar el construtor de la clase USUARIOSCONTEX)
 		return new UsersContext(
-				1,
-				"juan"
-			);
+            usuario.getId(),
+			usuario.getRol(),
+            usuario.getNombre(),
+            permisos
+        );
 	}
 	
 	public boolean validateFieldsLogin(String email, String password) {
