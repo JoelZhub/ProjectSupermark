@@ -25,7 +25,7 @@ CREATE TABLE factura_producto (
     idProducto int,
     cantidad INT,
     PRIMARY KEY (idFactura, idProducto),
-    FOREIGN KEY (idFactura) REFERENCES facturas(idFactura),
+    FOREIGN KEY (idFactura) REFERENCES factura(idFactura),
     FOREIGN KEY (idProducto) REFERENCES productos(idProducto)
 );
 

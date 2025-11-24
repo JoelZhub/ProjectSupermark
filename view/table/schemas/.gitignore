@@ -1,3 +1,9 @@
 /ProductosSchema.class
 /TableSchema$Builder.class
 /TableSchema.class
+/UsuariosSchema.class
+/DetallesProductosSchema.class
+/FacturasSchema.class
+/VentasSchema.class
+/OfertaSchema.class
+/ProductosSchemaStockBajo.class

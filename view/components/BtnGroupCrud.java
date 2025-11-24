@@ -4,19 +4,22 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+//clase inabilitada de momento -> decidi implementar estos elementos por separado en cada modulo
 
-//util que se encarga de crear group de btns que trabajara con los forms crud de cada modulo
-
-//evita repetir tener que crear estos btn en los demas archivos y que funcionen en base los roles 
 
 public class BtnGroupCrud extends JPanel implements ActionListener {
 
 	
-	private JButton btnEditarProducto, btnBuscar, btnEliminar;
-	
+	private JButton btnEditarProducto, btnEliminar;
+	private JPanel panelSearch, panelContenedorAccionesCrud;
+	private JTextField textFieldSearch;
+	private JLabel lbTotalRegister ;
 	
 	/**
 	 * 
@@ -27,35 +30,79 @@ public class BtnGroupCrud extends JPanel implements ActionListener {
 		
 		setLayout(null);
 		setBackground(null);
-		crearPanel();
+		
 		
 	}
 	
+	
+	
+	public void crearBtns() {
+		
+		
+		btnEditarProducto = new JButton();
+		btnEditarProducto.setText("Editar");
+		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 18, 18));
+		btnEditarProducto.setBounds(0, 0, 120, 35);
+		btnEditarProducto.addActionListener(this);
+		btnEditarProducto.setFocusPainted(false);
+		btnEditarProducto.setIconTextGap(6);
+		btnEditarProducto.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
+		btnEditarProducto.setForeground(new Color(88, 177, 237));
+		btnEditarProducto.setBackground(null);
+		btnEditarProducto.putClientProperty("JButton.arc", 8);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBackground(null);
+		btnEliminar.setForeground(new Color(255, 90, 90));
+		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
+		btnEliminar.putClientProperty("JButton.arc",20);
+		btnEliminar.setFocusPainted(false);
+		btnEliminar.setIcon(AssetManager.icon("borrar.png", 18, 18));
+		btnEliminar.setBounds(150, 0, 120, 35);
+		btnEliminar.setIconTextGap(6);
+		btnEliminar.setFont(Fonts.custom);
+		btnEliminar.addActionListener(this);
+		
+	}
 	public void crearPanel() {
 		
-		btnEditarProducto = new JButton("");
-		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 30, 30));
-		btnEditarProducto.setBounds(0, 0, 30, 30);
-		btnEditarProducto.addActionListener(this);
-		BtnStyle.flat(btnEditarProducto);
-		add(btnEditarProducto);
-				
-		btnBuscar = new JButton("");
-		btnBuscar.setIcon(AssetManager.icon("lupa.png", 30, 30));
-		btnBuscar.setBounds(81, 0, 30, 30);
-		btnBuscar.addActionListener(this);
-		BtnStyle.flat(btnBuscar);
-		add(btnBuscar);
-				
-		btnEliminar = new JButton("");
-		btnEliminar.setIcon(AssetManager.icon("eliminar.png", 30, 30));
-		btnEliminar.setBounds(159, 0, 30, 30);
-		BtnStyle.flat(btnEliminar);
-		btnEliminar.addActionListener(this);
-		add(btnEliminar);
-			
+		panelContenedorAccionesCrud = new JPanel();
+		panelContenedorAccionesCrud.setLayout(null);
+		panelContenedorAccionesCrud.setBackground(Color.WHITE);
+		panelContenedorAccionesCrud.setBounds(10, 150, 1043, 36);
 	
+		crearPanelBuscar();
+		crearBtns();
+		panelContenedorAccionesCrud.add(btnEditarProducto);
+		panelContenedorAccionesCrud.add(btnEliminar);
 		
+		panelContenedorAccionesCrud.add(panelSearch);
+			
+		
+	}
+	
+	public void crearPanelBuscar() {
+		
+		panelSearch = new JPanel();
+		panelSearch.setBounds(760, 0, 246, 32);
+		panelSearch.setBackground(null);
+		panelSearch.setLayout(null);
+		
+		//lbTotalRegister = new JLabel(usuarios.size() + "");
+		lbTotalRegister = new JLabel("0");
+		lbTotalRegister.setBounds(0, 0, 45, 32);
+		lbTotalRegister.setFont(Fonts.custom);
+		lbTotalRegister.setForeground(Color.BLACK);
+		panelSearch.add(lbTotalRegister);
+		
+		textFieldSearch = new JTextField();
+		textFieldSearch.setText("Search");
+		textFieldSearch.setBackground(null);
+		textFieldSearch.setBounds(57, 4, 190, 26);
+		textFieldSearch.setColumns(10);
+		panelSearch.add(textFieldSearch);
+		
+		add(panelSearch);
 	}
 
 	@Override

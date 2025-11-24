@@ -11,11 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.formdev.flatlaf.FlatDarkLaf;
+
 import com.formdev.flatlaf.FlatLightLaf;
 
 import control.AuthenticatorController;
 import navigation.NavigationManager;
+import session.SessionContext;
 import view.components.AssetManager;
 import view.components.BtnStyle;
 import view.components.Fonts;
@@ -30,13 +31,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 public class Login extends JFrame implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldNombre;
+	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 	private JButton btnClose, btnIngresar;
 	private JLabel lbIconPassword;
@@ -53,11 +53,11 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 				try {
 				
 					FlatLightLaf.setup();
-					UIManager.put("Component.arc", 12);
-					UIManager.put("Button.arc", 16);
-					UIManager.put("TextComponent.arc", 10);
-					UIManager.put("Component.focusWidth", 0);
-					UIManager.put("Component.innerFocusWidth", 0);
+//					UIManager.put("Component.arc", 12);
+//					UIManager.put("Button.arc", 16);
+//					UIManager.put("TextComponent.arc", 10);
+//					UIManager.put("Component.focusWidth", 0);
+//					UIManager.put("Component.innerFocusWidth", 0);
 				
 					
 				} catch (Exception e) {
@@ -76,8 +76,6 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		setResizable(false);
 		setUndecorated(true);		
 		
-	
-
 		setBounds(100, 100, 770, 401);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -115,10 +113,10 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		lbEmailUser.setFont(Fonts.custom);
 		panelDatosLogin.add(lbEmailUser);
 		
-		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(20, 166, 356, 31);
-		panelDatosLogin.add(textFieldNombre);
-		textFieldNombre.setColumns(10);
+		textFieldEmail = new JTextField();
+		textFieldEmail.setBounds(20, 166, 356, 31);
+		panelDatosLogin.add(textFieldEmail);
+		textFieldEmail.setColumns(10);
 		
 		JLabel passwordUser = new JLabel("Contraseña");
 		passwordUser.setBounds(21, 216, 190, 22);
@@ -175,14 +173,25 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		if(e.getSource() == btnIngresar) {
 			
 			String password =  new String(passwordField.getPassword());
-			boolean exito = authenticator.validateFieldsLogin(textFieldNombre.getText(), password);
-			if(!exito) {
-				new Messages(this, "Datos erroneos intente de nuevo").messageError();
+			boolean dataValidate = authenticator.validateFieldsLogin(textFieldEmail.getText(), password);
+			
+			if(!dataValidate) {
+				new Messages(this, "Ingrese un emaul y password validos").messageError();
 				return;
 			}
-			Dahsboard dash =new Dahsboard(null);
-			dash.setVisible(true);
 			
+//			var User = authenticator.authenticate(textFieldEmail.getText(), password);
+//			
+//			if(User == null) {
+//				
+//				new Messages(this, "Usuario no encontrado").messageError();
+//				return;
+//			}
+
+			//SessionContext.set(User);
+			Dahsboard dash = new Dahsboard(navigation);
+			dash.setVisible(true);
+			this.dispose();
 			
 			
 		}

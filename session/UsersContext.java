@@ -35,9 +35,11 @@ public class UsersContext {
 		this.nombreUsuario = nombreUsuario;
 	}*/
 	
-	//descomentar las lineas de permiso en caso de usar esta clase  -> tomar encuenta que si lo hacen
-	// la clase que gestiona y recibe la lista de usuarios ya debe estar creada para ser utilizada
+	/*public Rol getRolUsuarioLogueado(){
 	
+		 return rol;
+	}
+	*/
 	public boolean tienePermisos(Permiso p) {
         return permisos != null && permisos.contains(p);
     }

@@ -1,6 +1,8 @@
 package navigation;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import model.Modulo;
 import session.SessionContext;
 import session.UsersContext;
@@ -12,10 +14,15 @@ import view.forms.dashboard.Dahsboard;
 
 public class NavigationManager {
 	
+	private JPanel panelContenido;
 	private final JFrame dashboard;
-		
-	public NavigationManager(JFrame dashboard) {
+	private Modulo moduloActual;
+	//private final Rol rolActual;
+	
+	public NavigationManager(JPanel panelContenido, JFrame dashboard) {
+		this.panelContenido = panelContenido;
 		this.dashboard = dashboard;
+		//rolActual = SessionContext.get().getRolUsuarioLogueado();
 	}
 
 	
@@ -27,13 +34,18 @@ public class NavigationManager {
 			new Messages(dashboard,"No tienes permisos para acceder a este modulo").messageError();
 			return;
 		}	
-		
+
 		//remover elementos mostrados, agregar el componente y refrescar el dashboard
-		dashboard.removeAll();
-		dashboard.add(modulo.construirPanel());
-		dashboard.revalidate();
-		dashboard.repaint();
+		moduloActual = modulo;
+		panelContenido.removeAll();
+		panelContenido.add(modulo.construirPanel());
+		panelContenido.revalidate();
+		panelContenido.repaint();
 			
+	}
+	
+	public Modulo getModuloActual() {
+		return moduloActual;
 	}
 	
 	public void navigationToDashboard(UsersContext user) {
@@ -42,8 +54,13 @@ public class NavigationManager {
 		dash.setVisible(true);
 	}
 	
+	public void setPanelContenido(JPanel panelContenido) {
+		this.panelContenido = panelContenido;
+	}
+	
 	public JFrame getDashboard() {
 		return dashboard;
 	}
+	
 	
 }

@@ -25,8 +25,7 @@ public class AuthenticatorController {
 	//private static final int email_max_length = 254;
 	private static final int  password_min_length = 6;
 	
-	public AuthenticatorController( /*colocar aqui la refencia del elemento que recibe
-	 a los usuarios de la bd y se encarga de crearlos*/  ) {
+	public AuthenticatorController( ) {
 		
 	}
 	
