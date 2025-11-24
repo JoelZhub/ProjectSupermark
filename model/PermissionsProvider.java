@@ -11,41 +11,32 @@ import java.util.Set;
 
 public class PermissionsProvider {
 	
-	public static Set<Permiso> getPermissionsProvider(/*Rol rol*/){
+	public static Set<Permiso> getPermissionsProvider(Rol rol){
 		
 		// en caso de decidir usar esta clase combinada con el enum 
 		//cambien los valores de los casos por los del enum de Rol
-		/*
-		 * 
-		return switch(rol)
+		return switch (rol) {
+            case ADMIN -> Set.of(
+                Permiso.PRODUCTOS_VER,
+                Permiso.VENTAS_VER,
+                Permiso.FACTURACION_VER,
+                Permiso.INVENTARIO_VER,
+                Permiso.USUARIOS_VER
+            );
 
-				Case ADMIN  -> Set.of(
-						Permiso.PRODUCTOS_VER,
-						Permiso.VENTAS_VER,
-						Permiso.FACTURACION_VER,
-//						Permiso.INVENTARIO_VER,
-						Permiso.USUARIOS_VER
-						
-				);
-				
-			 Case VENDEDOR -> Set.of(
-					Permiso.VENTAS_VER,
-			 );
-			 
-			 Case CAJERO -> Set.of(
-					Permiso.FACTURACION_VER,
-			 );
-			 
-			 Case ENCARGADOINVENTARIO  -> Set.of(
-						Permiso.PRODUCTOS_VER,
-			
-				);
-			 
-			 
-			 
-		*/
-		
-		return null;
+            case VENDEDOR -> Set.of(
+                Permiso.VENTAS_VER
+            );
+
+            case CAJERO -> Set.of(
+                Permiso.FACTURACION_VER
+            );
+
+            case ENCARGADO_INVENTARIO -> Set.of(
+                Permiso.INVENTARIO_VER
+            );
+        };
+
 	}
 	
 }
