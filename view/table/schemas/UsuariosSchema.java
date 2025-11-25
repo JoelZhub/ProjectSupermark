@@ -1,51 +1,43 @@
 package view.table.schemas;
 
-import model.Producto;
+import model.User;
 import view.table.ColumnDefinition;
 
 public class UsuariosSchema {
 
 	//descomentar cuando se reciba la clase que gestiona la lista de usuarios
 	
-	
-	/* public static TableSchema<Usuarios> create(){
-	 * 
-	 * return new TableSchema.Builder<Usuarios>()
-	 * .addColumn(new ColumnDefinition.Builder<Usuarios>()
-                .header("ID")
-                .key("id")
-                .value(Usuarios::getId)
-                .preferredWidth(80)
-                .build()
-        )
-        
-         .addColumn(new ColumnDefinition.Builder<Usuarios>()
+//	
+	 public static TableSchema<User> create(){
+	  
+	  return new TableSchema.Builder<User>()
+         .addColumn(new ColumnDefinition.Builder<User>()
                 .header("Nombre")
                 .key("nombre")
-                .value(Usuarios::getNombre)
+                .value(User::getNombre)
                 .preferredWidth(180)
                 .build()
         )
-        .addColumn(new ColumnDefinition.Builder<Usuarios>()
-                .header("Correo")
-                .key("correo")
-                .value(p -> p.getCorreo())   
-                .preferredWidth(90)
-                .build()
-        )
-        .addColumn(new ColumnDefinition.Builder<Usuarios>()
+   
+         .addColumn(new ColumnDefinition.Builder<User>()
+                 .header("Email")
+                 .key("email")
+                 .value(User::getEmail)
+                 .preferredWidth(80)
+                 .build()
+         )
+        .addColumn(new ColumnDefinition.Builder<User>()
                 .header("Rol")
                 .key("rol")
                 .value(p -> p.getRol()) 
                 .preferredWidth(120)
                 .build()
         )
-        
-        .rowHeight(28)
+        .rowHeight(70)
         .singleSection(true)
         .build();	
-	 * 
-	 * }
-	 * 
-	 * */
+	  
+	  }
+	  
+	 
 }

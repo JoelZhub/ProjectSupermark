@@ -9,16 +9,9 @@ public class ProductosSchema {
 	public static TableSchema<Producto> create(){
 		
 		return new TableSchema.Builder<Producto>()
-		.addColumn(new ColumnDefinition.Builder<Producto>()
-                .header("ID")
-                .key("id")
-                .value(Producto::getCodigo)
-                .preferredWidth(80)
-                .build()
-        )
         .addColumn(new ColumnDefinition.Builder<Producto>()
-                .header("Nombre")
-                .key("nombre")
+                .header("Producto")
+                .key("nombreP")
                 .value(Producto::getNombre)
                 .preferredWidth(180)
                 .build()
@@ -44,7 +37,7 @@ public class ProductosSchema {
                 .preferredWidth(80)
                 .build()
         )
-        .rowHeight(28)
+        .rowHeight(35)
         .singleSection(true)
         .build();		  
 	}

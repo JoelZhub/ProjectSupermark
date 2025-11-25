@@ -58,7 +58,8 @@ public class Messages {
 
         panel.add(lbl, BorderLayout.CENTER);
         panel.add(btn, BorderLayout.SOUTH);
-
+        
+        dialog.setModal(true);
         dialog.setContentPane(panel);
         dialog.setVisible(true);
 	}

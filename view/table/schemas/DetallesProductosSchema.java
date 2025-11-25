@@ -8,6 +8,8 @@ public class DetallesProductosSchema {
 	public static TableSchema<Detalles> create(){
 		
 		return new TableSchema.Builder<Detalles>()
+				//cuando se crre el controlador de detalles de producto, cambiar este campo
+				//por el nombre del producto
 				.addColumn(new ColumnDefinition.Builder<Detalles>()
 		                .header("ID")
 		                .key("id")

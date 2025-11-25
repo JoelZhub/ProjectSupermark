@@ -9,9 +9,9 @@ public static TableSchema<Producto> create(){
 		
 		return new TableSchema.Builder<Producto>()
 		.addColumn(new ColumnDefinition.Builder<Producto>()
-                .header("ID")
-                .key("id")
-                .value(Producto::getCodigo)
+                .header("Producto")
+                .key("nombreP")
+                .value(Producto::getNombre)
                 .preferredWidth(80)
                 .build()
         )

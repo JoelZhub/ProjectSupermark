@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,14 +15,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-
+import control.FacturaController;
+import dao.UserDAO;
+import model.User;
 import view.components.AssetManager;
 import view.components.Fonts;
 import view.components.RoundePanel;
 import view.table.TableFactory;
 import view.table.schemas.TableSchema;
+import view.table.schemas.UsuariosSchema;
 import view.table.style.TableStyle;
-import view.table.style.TableStyleConfigure;
+//import view.table.style.TableStyleConfigure;
 
 public class DashboardAdmin extends JPanel implements ActionListener {
 
@@ -39,10 +40,12 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 	private JScrollPane scrollPanel;
 	private static final long serialVersionUID = 1L;
 	
+	private UserDAO usuarios;
+	
 	private JLabel lbUsuarioPanel, lbVentasPanelImg, lbPanelVentas, lbPanelFacturacionConteo,  lbFacturasPanelImg, lbPanelFacturacion,
 	lbPanelVentaConteo, lbPanelUsuarios, lbPanelUsuariosConteo;
 	
-	
+	private FacturaController facturas;
 	private JButton btnEditarProducto, btnEliminar;
 	private JPanel panelSearch, panelContenedorAccionesCrud;
 	private JTextField textFieldSearch;
@@ -51,8 +54,9 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 	public DashboardAdmin () {
 		
 		setBackground(null);
-		//panelMenuBtnCrud.setBounds(330, 125, 1040, 400);
 		setLayout(null);
+		usuarios = new UserDAO();
+		facturas = new  FacturaController();
 		crearCards();
 		crearViewPort();
 		crearPanelOperacionesCurd();
@@ -116,9 +120,6 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 		panelCategorias.add(lbPanelFacturacion);
 		panelCategorias.add(lbPanelFacturacionConteo);
 		
-		
-		
-		
 	}
 	
 	
@@ -136,8 +137,7 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 		lbPanelUsuarios.setFont(Fonts.custom);
 		lbPanelUsuarios.setBounds(104, 46, 94, 12);
 		
-		//lbPanelUsuariosConteo = new JLabel(usuarios.size() + "");
-		lbPanelUsuariosConteo = new JLabel("0");
+		lbPanelUsuariosConteo = new JLabel(usuarios.listar().size() + "");
 		lbPanelUsuariosConteo.setForeground(Color.BLACK);
 		lbPanelUsuariosConteo.setHorizontalAlignment(SwingConstants.CENTER);
 		lbPanelUsuariosConteo.setFont(Fonts.custom);
@@ -172,8 +172,7 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 		lbPanelFacturacion.setForeground(Color.BLACK);
 		lbPanelFacturacion.setBounds(104, 49, 94, 12);
 	
-		//lbPanelFacturacionConteo = new JLabel(facturas.size() + ""); //
-		lbPanelFacturacionConteo = new JLabel("0");
+		lbPanelFacturacionConteo = new JLabel(facturas.listarFacturas().size() + ""); //
 		lbPanelFacturacionConteo.setForeground(Color.BLACK);
 		lbPanelFacturacionConteo.setHorizontalAlignment(SwingConstants.CENTER);
 		lbPanelFacturacionConteo.setFont(Fonts.custom);
@@ -184,38 +183,35 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 	//table correspondiente
 	public void crearViewPort() {
 		
-		///obtener lista de usuarios
-		//
-		// aqui solo va el de usuarios 
-		
-		//List<Usuarios> data = new ArrayList<>();
+	List<User> data = usuarios.listar();
 	
-//		TableSchema<Usuarios> schema = UsuariosSchema.create();
-//		JTable table = TableFactory.createTable(data, schema);
-//		table.setBackground(TableStyleConfigure.COLOR_ROW_BG);
-//		
-//		table.setShowVerticalLines(true);
-//		table.setGridColor(new Color(0xE5E7EB));
-//		table.setBorder(BorderFactory.createEmptyBorder());
-//		table.setShowGrid(false);
-//		table.setIntercellSpacing(new Dimension(0, 0));
-//		
-//	    TableStyle.apply(table);
-//		table.setBounds(0, 0,  250, 253);
-//		
-//		scrollPanel = new JScrollPane(table);
-//		scrollPanel.setBackground(null);
-//		scrollPanel.setBorder(null);
-//		scrollPanel.setBorder(null);
-//		scrollPanel.setOpaque(false);
-//		scrollPanel.getViewport().setBorder(null);
-//		scrollPanel.getViewport().setBackground(Color.WHITE);
-//		scrollPanel.getViewport().setOpaque(false);
-//		scrollPanel.setBounds(10, 161,250, 253);
-//	
-//		UIManager.put("ScrollBar.showButtons", false);
-//		UIManager.put("ScrollBar.width", 12);
-//		add(scrollPanel);
+	TableSchema<User> schema = UsuariosSchema.create();
+	JTable table = TableFactory.createTable(data, schema);
+	table.setBackground(null);
+	table.setOpaque(false);
+	
+		table.setShowVerticalLines(true);
+		table.setGridColor(new Color(0xE5E7EB));
+		table.setBorder(BorderFactory.createEmptyBorder());
+		table.setShowGrid(false);
+		table.setIntercellSpacing(new Dimension(0, 0));
+////		
+	    TableStyle.apply(table);
+		table.setBounds(0, 0,  800, 253);
+////		
+		scrollPanel = new JScrollPane(table);
+		scrollPanel.setBackground(null);
+		scrollPanel.setBorder(null);
+		scrollPanel.setBorder(null);
+		scrollPanel.setOpaque(false);
+		scrollPanel.getViewport().setBorder(null);
+		scrollPanel.getViewport().setBackground(Color.WHITE);
+		scrollPanel.getViewport().setOpaque(false);
+		scrollPanel.setBounds(10, 161,850, 253);
+////	
+		UIManager.put("ScrollBar.showButtons", false);
+		UIManager.put("ScrollBar.width", 12);
+		add(scrollPanel);
 	
 		
 	}
@@ -264,9 +260,7 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 		crearBtns();
 		panelContenedorAccionesCrud.add(btnEditarProducto);
 		panelContenedorAccionesCrud.add(btnEliminar);
-		
 		panelContenedorAccionesCrud.add(panelSearch);
-		
 		add(panelContenedorAccionesCrud);
 			
 		
@@ -279,7 +273,7 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 		panelSearch.setBackground(null);
 		panelSearch.setLayout(null);
 		
-		//lbTotalRegister = new JLabel(usuarios.size() + "");
+		//lbTotalRegister = new JLabel(usuarios.listar().size() + "");
 		lbTotalRegister = new JLabel("0");
 		lbTotalRegister.setBounds(0, 0, 45, 32);
 		lbTotalRegister.setFont(Fonts.custom);
@@ -299,7 +293,7 @@ public class DashboardAdmin extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		//acciones de busqueda y demas
 		
 	}
 

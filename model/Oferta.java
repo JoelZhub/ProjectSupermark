@@ -4,18 +4,20 @@ import java.util.Date;
 
 public class Oferta {
 
-    private String idProducto;
+    private int idProducto;
     private double porcentaje; 
     private Date fechaInicio;
     private Date fechaFin;
 
     public Oferta() { }
 
-    public String getIdProducto() {
+    //cambie el tipo de dato del idProducto de  esta clase por INT puesto que en la clase productos 
+    //esta como int y entonces me estaba chocando con schema de la table, es decir me estaba dando error
+    public int getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(String idProducto) {
+    public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
 

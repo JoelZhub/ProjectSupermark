@@ -17,7 +17,7 @@ public class UserDAO implements Operaciones<User> {
 
         if (buscarPorEmail(u.getEmail()) != null) return false;
 
-        String sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nombre, email, pin, rol) VALUES (?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,7 +47,7 @@ public class UserDAO implements Operaciones<User> {
     public boolean editar(User u) {
         if (u == null) return false;
 
-        String sql = "UPDATE usuarios SET nombre=?, email=?, password=?, rol=? WHERE idUsuario=?";
+        String sql = "UPDATE usuarios SET nombre=?, email=?, pin=?, rol=? WHERE idUsuario=?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -97,7 +97,7 @@ public class UserDAO implements Operaciones<User> {
                         rs.getInt("idUsuario"),
                         rs.getString("nombre"),
                         rs.getString("email"),
-                        rs.getString("password"),
+                        rs.getString("pin"),
                         Rol.valueOf(rs.getString("rol"))
                 );
             }
@@ -124,7 +124,7 @@ public class UserDAO implements Operaciones<User> {
                         rs.getInt("idUsuario"),
                         rs.getString("nombre"),
                         rs.getString("email"),
-                        rs.getString("password"),
+                        rs.getString("pin"),
                         Rol.valueOf(rs.getString("rol"))
                 );
 
@@ -152,7 +152,7 @@ public class UserDAO implements Operaciones<User> {
                         rs.getInt("idUsuario"),
                         rs.getString("nombre"),
                         rs.getString("email"),
-                        rs.getString("password"),
+                        rs.getString("pin"),
                         Rol.valueOf(rs.getString("rol"))
                 );
             }

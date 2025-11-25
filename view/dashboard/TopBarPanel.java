@@ -1,30 +1,24 @@
-	package view.forms.dashboard;
+	package view.dashboard;
 	
 	import java.awt.Color;
 	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.time.LocalDateTime;
+	import java.awt.event.MouseEvent;
+	import java.awt.event.MouseListener;
+	import java.time.LocalDateTime;
 	import java.time.format.DateTimeFormatter;
-	
 	import javax.swing.JButton;
 	import javax.swing.JDialog;
 	import javax.swing.JLabel;
 	import javax.swing.JPanel;
 	import javax.swing.SwingConstants;
-	import javax.swing.SwingUtilities;
-	import javax.swing.UIManager;
-	
-	import com.formdev.flatlaf.FlatDarkLaf;
-	import com.formdev.flatlaf.FlatLightLaf;
-	
 	import session.SessionContext;
+import view.AplicationContext;
 import view.App;
-import view.components.AssetManager;
+	import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;
-import view.forms.Auth.Login;
+	import view.Auth.Login;
 	
 	public class TopBarPanel extends JPanel implements  ActionListener, MouseListener{
 	
@@ -38,14 +32,16 @@ import view.forms.Auth.Login;
 		private JLabel lbDate;
 		private JDialog dialog;
 		private boolean desplegar = true;
-		private JButton btnLogout, btnDark, btnLight, btnSalir, btnCerrarSesion;
+		private JButton btnLogout, /*btnDark, btnLight*/ btnSalir, btnCerrarSesion;
 		private static final long serialVersionUID = 1L;
-	
+		@SuppressWarnings("unused")
+		private final AplicationContext context;
 		
-		public TopBarPanel(Dahsboard dashboard) {
+		public TopBarPanel(Dahsboard dashboard, AplicationContext context) {
 			
 			setBackground(null);
 			setLayout(null);
+			this.context = context;
 			this.dashboard = dashboard;
 			crearPanel();
 		}
@@ -62,8 +58,12 @@ import view.forms.Auth.Login;
 			
 			//descomentar cuando el login este funcionando y este todo eso funcionando
 			
-			//btnLogout = new JButton(SessionContext.get().getNombreUsuarioLogueado());
-			btnLogout = new JButton("Joel Benitez");
+			String nombreUser = "admin";
+			if(SessionContext.get() != null) {
+				
+				nombreUser = SessionContext.get().getNombreUsuarioLogueado();
+			}
+			btnLogout = new JButton(nombreUser);
 			BtnStyle.flat(btnLogout);
 			btnLogout.setHorizontalAlignment(SwingConstants.LEFT);
 			btnLogout.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -73,19 +73,19 @@ import view.forms.Auth.Login;
 			btnLogout.addActionListener(this);
 			add(btnLogout);
 			
-			btnDark = new JButton("");
-			BtnStyle.flat(btnDark);
-			btnDark.setIcon(AssetManager.icon("oscuro.png", 24, 24));
-			btnDark.setBounds(797, 2, 27, 27);
-			btnDark.addActionListener(this);
-			add(btnDark);
-			
-			btnLight = new JButton("");
-			BtnStyle.flat(btnLight);
-			btnLight.setIcon(AssetManager.icon("modo-claro.png", 24, 24));
-			btnLight.setBounds(853, 2, 27, 27);
-			btnLight.addActionListener(this);
-			add(btnLight);
+//			btnDark = new JButton("");
+//			BtnStyle.flat(btnDark);
+//			btnDark.setIcon(AssetManager.icon("oscuro.png", 24, 24));
+//			btnDark.setBounds(797, 2, 27, 27);
+//			btnDark.addActionListener(this);
+//			add(btnDark);
+//			
+//			btnLight = new JButton("");
+//			BtnStyle.flat(btnLight);
+//			btnLight.setIcon(AssetManager.icon("modo-claro.png", 24, 24));
+//			btnLight.setBounds(853, 2, 27, 27);
+//			btnLight.addActionListener(this);
+//			add(btnLight);
 		
 			//panelHeader.setBounds(287, 10, 1103, 35);
 			
@@ -95,15 +95,15 @@ import view.forms.Auth.Login;
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if(e.getSource() == btnDark) {	
-				FlatDarkLaf.setup();
-				SwingUtilities.updateComponentTreeUI(dashboard);
-				dashboard.applyDarkMode();
-			}
-			if(e.getSource() == btnLight) {
-				FlatLightLaf.setup();
-				dashboard.applyLightMode();
-			}
+//			if(e.getSource() == btnDark) {	
+//				FlatDarkLaf.setup();
+//				SwingUtilities.updateComponentTreeUI(dashboard);
+//				dashboard.applyDarkMode();
+//			}
+//			if(e.getSource() == btnLight) {
+//				FlatLightLaf.setup();
+//				dashboard.applyLightMode();
+////			}
 			
 			if(e.getSource() == btnLogout) {
 				
@@ -125,11 +125,10 @@ import view.forms.Auth.Login;
 				}	
 			}
 			
-			if(e.getSource() ==btnCerrarSesion) {
+			if(e.getSource() == btnCerrarSesion) {
 				
-				App app = new App();
-				Login login = new Login(app.getAuthenticatorController(),dashboard.getNavigation());
-				//SessionContext.clear();
+				Login login = new Login(context);
+				SessionContext.clear();
 				login.setVisible(true);
 				dashboard.dispose();
 			}
@@ -148,8 +147,6 @@ import view.forms.Auth.Login;
 			dialog.setBounds(1200, 95, 250, 100);
 			dialog.setUndecorated(true);
 			dialog.setResizable(false);
-			
-//			dialog.setOpaque(true);
 			
 			//arreglar background cuando se active el modo dark o claro
 			

@@ -7,10 +7,11 @@ public class OfertaSchema {
 	public static TableSchema<Oferta> create(){
 		
 		return new TableSchema.Builder<Oferta>()
+				//cambiar por nombre de producto cuando se cree el controlador de  ofertas
 				.addColumn(new ColumnDefinition.Builder<Oferta>()
-		                .header("ID")
-		                .key("id")
-		                .value(Oferta::getIdProducto)
+		                .header("Producto")
+		                .key("nombreP")
+		                .value(p -> p.getIdProducto())
 		                .preferredWidth(25)
 		                .build()
 		        )

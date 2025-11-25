@@ -1,4 +1,4 @@
-package view.forms.Auth;
+package view.Auth;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -6,24 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-
-import com.formdev.flatlaf.FlatLightLaf;
-
-import control.AuthenticatorController;
-import navigation.NavigationManager;
 import session.SessionContext;
+import view.AplicationContext;
 import view.components.AssetManager;
 import view.components.BtnStyle;
 import view.components.Fonts;
 import view.components.FrameDragger;
 import view.components.Messages;
-import view.forms.dashboard.Dahsboard;
-
+import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -43,23 +36,13 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 	private boolean cambioIconPassword = true;;
 	private char passwordHidden;
 	
-	
-	private AuthenticatorController authenticator;;
-	private NavigationManager navigation;
-	
+	private final AplicationContext context;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-				
-					FlatLightLaf.setup();
-//					UIManager.put("Component.arc", 12);
-//					UIManager.put("Button.arc", 16);
-//					UIManager.put("TextComponent.arc", 10);
-//					UIManager.put("Component.focusWidth", 0);
-//					UIManager.put("Component.innerFocusWidth", 0);
-				
-					
+							
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,10 +50,9 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		});
 	}
 
-	public Login(AuthenticatorController authenticator, NavigationManager navigation) {
+	public Login(AplicationContext context) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		new FrameDragger(this);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setResizable(false);
@@ -160,8 +142,7 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		separator.setBounds(436, 0, 1, 400);
 		contentPane.add(separator);
 		
-		this.authenticator = authenticator;
-		this.navigation = navigation;
+		this.context = context;
 
 	}
 
@@ -173,25 +154,30 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		if(e.getSource() == btnIngresar) {
 			
 			String password =  new String(passwordField.getPassword());
-			boolean dataValidate = authenticator.validateFieldsLogin(textFieldEmail.getText(), password);
 			
+			boolean dataValidate = context.getUserController().validateFieldsLogin(textFieldEmail.getText(), password);
+//			
 			if(!dataValidate) {
-				new Messages(this, "Ingrese un emaul y password validos").messageError();
+				new Messages(this, "Ingrese un email y password validos").messageError();
 				return;
 			}
-			
-//			var User = authenticator.authenticate(textFieldEmail.getText(), password);
 //			
-//			if(User == null) {
-//				
-//				new Messages(this, "Usuario no encontrado").messageError();
-//				return;
-//			}
+			var User = context.getUserController().authenticate(textFieldEmail.getText(), password);
+			
+			if(User == null) {
+				
+				new Messages(this, "Usuario no encontrado").messageError();
+				return;
+			}else {
 
-			//SessionContext.set(User);
-			Dahsboard dash = new Dahsboard(navigation);
-			dash.setVisible(true);
-			this.dispose();
+				SessionContext.set(User);
+				var object =  new Dahsboard(context);
+				context.getNavigation().setDahsboard(object);
+//				navigation.setRolActual(SessionContext.get().getRolUsuarioLogueado());
+				context.getNavigation().setCambioModuloActual(SessionContext.get().getRolUsuarioLogueado());
+				object.setVisible(true);
+				this.dispose();
+			}
 			
 			
 		}

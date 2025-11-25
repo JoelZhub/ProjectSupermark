@@ -12,13 +12,6 @@ public class FacturasSchema {
 	 public static TableSchema<Factura> create(){
 		
 		return new TableSchema.Builder<Factura>()
-		.addColumn(new ColumnDefinition.Builder<Factura>()
-                .header("ID")
-                .key("id")
-                .value(Factura::getIdFactura)
-                .preferredWidth(25)
-                .build()
-        )
         .addColumn(new ColumnDefinition.Builder<Factura>()
                 .header("Fecha")
                 .key("fecha")
@@ -41,6 +34,7 @@ public class FacturasSchema {
                 .preferredWidth(120)
                 .build()
         )
+        // cambiar esto por el nombre del cliente y
         .addColumn(new ColumnDefinition.Builder<Factura>()
                 .header("IDCliente")
                 .key("idCliente")

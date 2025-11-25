@@ -1,66 +1,62 @@
 package navigation;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import model.Modulo;
+import model.Rol;
 import session.SessionContext;
-import session.UsersContext;
 import view.components.Messages;
-import view.forms.dashboard.Dahsboard;
-
-//clase que recibe los permisos y 
-//habilita los modulos por los cuales el usuario puede manejar
+import view.dashboard.Dahsboard;
 
 public class NavigationManager {
-	
-	private JPanel panelContenido;
-	private final JFrame dashboard;
-	private Modulo moduloActual;
-	//private final Rol rolActual;
-	
-	public NavigationManager(JPanel panelContenido, JFrame dashboard) {
-		this.panelContenido = panelContenido;
-		this.dashboard = dashboard;
-		//rolActual = SessionContext.get().getRolUsuarioLogueado();
-	}
 
+	private Dahsboard dahsboard;
+	private Modulo moduloActual;
 	
-	//segun el modulo al cual quiera ir se redirige
-	
+//	private Rol rolActual;
+//	
+//	public void setRolActual(Rol rol) {
+//		rolActual = rol;
+//	}
+//	
 	public void goTo(Modulo modulo) {
-		
 		if(!SessionContext.get().tienePermisos(modulo.getPermisoNecesarios())) {
-			new Messages(dashboard,"No tienes permisos para acceder a este modulo").messageError();
+			new Messages(dahsboard,"No tienes permisos para acceder a este modulo").messageError();
 			return;
 		}	
-
-		//remover elementos mostrados, agregar el componente y refrescar el dashboard
 		moduloActual = modulo;
-		panelContenido.removeAll();
-		panelContenido.add(modulo.construirPanel());
-		panelContenido.revalidate();
-		panelContenido.repaint();
-			
+		dahsboard.setPanelContent(modulo.construirPanel());
+		
+		
 	}
 	
+			
 	public Modulo getModuloActual() {
 		return moduloActual;
 	}
 	
-	public void navigationToDashboard(UsersContext user) {
-		SessionContext.set(user);
-		Dahsboard dash  = new Dahsboard(this);
-		dash.setVisible(true);
+	public void setCambioModuloActual(Rol rol) {
+		if(SessionContext.get()  != null) {
+			switch(SessionContext.get().getRolUsuarioLogueado()) {
+			case ADMIN: 	
+				moduloActual = Modulo.ADMIN;
+				break;
+			case VENDEDOR: 	
+				moduloActual = Modulo.VENTAS;
+				break;
+			case CAJERO: 	
+				moduloActual = Modulo.FACTURACION;
+				break;
+			case ENCARGADO_INVENTARIO: 	
+				moduloActual = Modulo.PRODUCTOS;
+				break;
+			default:
+				moduloActual = null;
+		
+			}
+		}	
 	}
 	
-	public void setPanelContenido(JPanel panelContenido) {
-		this.panelContenido = panelContenido;
+	public void setDahsboard(Dahsboard dahsboard) {
+		this.dahsboard = dahsboard;
+		
 	}
-	
-	public JFrame getDashboard() {
-		return dashboard;
-	}
-	
-	
+		
 }
