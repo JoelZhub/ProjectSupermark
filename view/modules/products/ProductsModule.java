@@ -30,7 +30,7 @@ import view.table.style.TableStyleConfigure;
 
 public class ProductsModule extends JPanel implements ActionListener {
 
-	private JButton btnEditarProducto, btnEliminar, btnEditarOferta, 
+	private JButton btnEditarProducto, btnEliminar, btnRefrescar, btnEditarOferta, 
 	btnCrearOferta, btnEliminarOferta;
 	private JPanel panelSearch, panelOperacionesOferta,  panelContenedorAccionesCrud;
 	private JTextField textFieldSearch, textFieldSearchOferta;
@@ -233,6 +233,25 @@ public class ProductsModule extends JPanel implements ActionListener {
 		btnEliminar.setIconTextGap(6);
 		btnEliminar.setFont(Fonts.custom);
 		btnEliminar.addActionListener(this);
+		
+		btnRefrescar = new JButton();
+		btnRefrescar.setBackground(null);
+		btnRefrescar.setBorder(BorderFactory.createLineBorder(new Color(140, 255, 179), 2, true));
+		btnRefrescar.putClientProperty("JButton.arc",20);
+		btnRefrescar.setFocusPainted(false);
+		btnRefrescar.setIcon(AssetManager.icon("actualizar.png", 28, 28));
+		btnRefrescar.setBounds(300, 0, 50, 35);
+		btnRefrescar.setIconTextGap(6);
+		btnRefrescar.setFont(Fonts.custom);
+//		btnRefrescar.addActionListener(e -> {
+//			List<User> newData = context.getUserController().listar();
+//			  lbPanelUsuariosConteo.setText(context.getUserController().listar().size() + "");
+//			  lbPanelUsuariosConteo.revalidate();
+//			  lbPanelUsuariosConteo.repaint();
+//			  ((UniversalTableModel<User>) table.getModel()).setData(newData);	
+//			
+//
+//		});
 		
 	}
 		

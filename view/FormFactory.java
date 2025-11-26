@@ -3,8 +3,13 @@ package view;
 import javax.swing.JDialog;
 
 import model.Modulo;
+import model.OperationType;
 import view.dashboard.Dahsboard;
-import view.modules.admin.forms.CrearUsuariosForm;
+import view.modules.admin.forms.CrEdUsuariosForm;
+import view.modules.admin.forms.DeleteUsuarioForm;
+import view.modules.admin.forms.EditUsuarioForm;
+import view.modules.billing.forms.CrearFactura;
+import view.modules.products.forms.CrearProducto;
 
 public class FormFactory {
 
@@ -14,19 +19,22 @@ public class FormFactory {
 		
 		this.context = context;
 	}
-	public JDialog crearForm(Modulo modulo, Dahsboard dahsboard) {
+	public JDialog crearForm(Modulo modulo, Dahsboard dahsboard, OperationType op ) {
 		
 		switch(modulo) {
-		case ADMIN: return new CrearUsuariosForm(dahsboard, context);
-		
-		default:
-			break;
-		
-		}
+		case ADMIN:
+			return switch(op) {
+			case CREATE -> new  CrEdUsuariosForm(dahsboard, context);
+			case EDIT -> new EditUsuarioForm(dahsboard, context);
+			case DELETE -> new DeleteUsuarioForm(dahsboard, context);
+			default -> new JDialog();
+			};
 	
+		case FACTURACION: return new CrearFactura();
+		case PRODUCTOS: return new CrearProducto();
+		default:
+			return new JDialog();
 		
-		return null;
-		
-		
+		}	
 	}
 }

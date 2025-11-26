@@ -81,34 +81,34 @@ public class SalesModule extends JPanel  implements ActionListener{
 		
 	}
 	
-	public void crearBtns() {
-		
-		btnEditarProducto = new JButton();
-		btnEditarProducto.setText("Editar");
-		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 18, 18));
-		btnEditarProducto.setBounds(0, 0, 120, 35);
-		btnEditarProducto.addActionListener(this);
-		btnEditarProducto.setFocusPainted(false);
-		btnEditarProducto.setIconTextGap(6);
-		btnEditarProducto.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
-		btnEditarProducto.setForeground(new Color(88, 177, 237));
-		btnEditarProducto.setBackground(null);
-		btnEditarProducto.putClientProperty("JButton.arc", 8);
-		
-		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(null);
-		btnEliminar.setForeground(new Color(255, 90, 90));
-		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
-		btnEliminar.putClientProperty("JButton.arc",20);
-		btnEliminar.setFocusPainted(false);
-		btnEliminar.setIcon(AssetManager.icon("borrar.png", 18, 18));
-		btnEliminar.setBounds(150, 0, 120, 35);
-		btnEliminar.setIconTextGap(6);
-		btnEliminar.setFont(Fonts.custom);
-		btnEliminar.addActionListener(this);
-		
-	}
-		
+//	public void crearBtns() {
+//		
+//		btnEditarProducto = new JButton();
+//		btnEditarProducto.setText("Editar");
+//		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 18, 18));
+//		btnEditarProducto.setBounds(0, 0, 120, 35);
+//		btnEditarProducto.addActionListener(this);
+//		btnEditarProducto.setFocusPainted(false);
+//		btnEditarProducto.setIconTextGap(6);
+//		btnEditarProducto.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
+//		btnEditarProducto.setForeground(new Color(88, 177, 237));
+//		btnEditarProducto.setBackground(null);
+//		btnEditarProducto.putClientProperty("JButton.arc", 8);
+//		
+//		btnEliminar = new JButton("Eliminar");
+//		btnEliminar.setBackground(null);
+//		btnEliminar.setForeground(new Color(255, 90, 90));
+//		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
+//		btnEliminar.putClientProperty("JButton.arc",20);
+//		btnEliminar.setFocusPainted(false);
+//		btnEliminar.setIcon(AssetManager.icon("borrar.png", 18, 18));
+//		btnEliminar.setBounds(150, 0, 120, 35);
+//		btnEliminar.setIconTextGap(6);
+//		btnEliminar.setFont(Fonts.custom);
+//		btnEliminar.addActionListener(this);
+//		
+//	}
+//		
 	public void crearPanelOperacionesCurd() {
 	
 		panelContenedorAccionesCrud = new JPanel();
@@ -118,9 +118,9 @@ public class SalesModule extends JPanel  implements ActionListener{
 		panelContenedorAccionesCrud.setBounds(10, 10, 1043, 36);
 	
 		crearPanelBuscar();
-		crearBtns();
-		panelContenedorAccionesCrud.add(btnEditarProducto);
-		panelContenedorAccionesCrud.add(btnEliminar);
+//		crearBtns();
+//		panelContenedorAccionesCrud.add(btnEditarProducto);
+//		panelContenedorAccionesCrud.add(btnEliminar);
 		panelContenedorAccionesCrud.add(panelSearch);
 		add(panelContenedorAccionesCrud);
 			

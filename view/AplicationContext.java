@@ -17,11 +17,11 @@ public class AplicationContext {
 	private final UserDAO userDao = new UserDAO();
 	
 	private final UserController userController = new UserController(userDao);
-	
+
 	private final FacturaDAO facturaDAO = new FacturaDAO();
-	private final FacturaController facturaController = new FacturaController();
-	
 	private final ProductoDAO productoDao = new ProductoDAO();
+	
+	private final FacturaController facturaController = new FacturaController(facturaDAO, productoDao );
 	private final ProductoController productoController = new ProductoController();
 	
 	

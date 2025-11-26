@@ -15,7 +15,7 @@ public class UniversalTableModel<T> extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final List<T> data;
+	private  List<T> data;
 	private final TableSchema<T> schema;
 	
 	public UniversalTableModel(List<T> data, TableSchema<T> schema) {
@@ -24,6 +24,10 @@ public class UniversalTableModel<T> extends AbstractTableModel {
 	}
 	
 	
+	 public void setData(List<T> newData) {
+	        this.data = newData;
+	        fireTableDataChanged();
+	    }
 	
 	@Override
 	public int getRowCount() {

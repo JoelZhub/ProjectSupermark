@@ -42,7 +42,6 @@ CREATE TABLE usuarios (
 );
 
 select * from usuarios;
-
 INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 ('Carlos Méndez', 'cmendez@empresa.com', '1234', 'ADMIN'),
 ('Ana Rodríguez', 'arodriguez@empresa.com', '9876', 'VENDEDOR'),

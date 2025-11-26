@@ -6,22 +6,22 @@
 	import java.util.HashMap;
 	import java.util.Map;
 	import model.Modulo;
-	import model.Permiso;
-	import model.Rol;
+import model.OperationType;
+import model.Permiso;
 	import session.SessionContext;
 
 	import javax.swing.JButton;
 	import javax.swing.JLabel;
 	import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+	import javax.swing.SwingUtilities;
 
 	import view.AplicationContext;
 	import view.FormFactory;
 	import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;
-import view.components.Messages;
-import view.components.RoundePanel;
+	import view.components.Messages;
+	import view.components.RoundePanel;
 	
 	public class MenuPanel extends JPanel implements ActionListener {
 		
@@ -151,7 +151,8 @@ import view.components.RoundePanel;
 		                        lblNuevoProducto.setText("Nueva factura");
 		                        break;
 		                    case VENTAS:
-		                        lblNuevoProducto.setText("Inhabilitado");
+		                        lblNuevoProducto.setText("Solo lectura");
+		                    
 		                        break;
 		                    default:
 		                        lblNuevoProducto.setText("No identificado");
@@ -162,6 +163,7 @@ import view.components.RoundePanel;
 		        
 		        lblNuevoProducto.revalidate();
 		        lblNuevoProducto.repaint();
+		       
 		        dahsboard.revalidate();
 		        dahsboard.repaint();
 		        
@@ -267,11 +269,11 @@ import view.components.RoundePanel;
 		public void actionPerformed(ActionEvent e) {
 
 			if(e.getSource() == btnAgregar) {
-				if(SessionContext.get().getRolUsuarioLogueado() == Rol.VENDEDOR) {
-					new Messages(dahsboard, "Acción no permitida para este perfil").messageError();
+				if(context.getNavigation().getModuloActual() == Modulo.VENTAS) {
+					new Messages(dahsboard, "Zona informativa. Edición no habilitada en este módulo").messageError();
 					return;
 				}else {
-					new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), dahsboard).setVisible(true);;
+					new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.CREATE).setVisible(true);;
 				}
 			}
 			

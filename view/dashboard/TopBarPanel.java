@@ -14,7 +14,6 @@
 	import javax.swing.SwingConstants;
 	import session.SessionContext;
 import view.AplicationContext;
-import view.App;
 	import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;

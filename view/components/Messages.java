@@ -1,5 +1,4 @@
 package view.components;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -18,29 +17,44 @@ public class Messages {
 	
 	
 	private static  String message = "";
+	@SuppressWarnings("unused")
 	private JFrame frame;
 	private JDialog dialog;
+	private boolean confirme  = false;
 	
+	@SuppressWarnings("static-access")
 	public Messages(JFrame frame, String message) {
 		this.message = message;
 		this.frame = frame;
+		
 		dialog = new JDialog(frame, true);
-		this.dialog.setSize(400, 160);
+		this.dialog.setSize(700, 160);
 		this.dialog.setLocationRelativeTo(frame);
 		this.dialog.setResizable(false);
+		this.dialog.setModal(true);
 	}
 	
-	public  void messageAlert() {
+	public  boolean messageAlert() {
 		builderDialog(new Color(125, 201, 149));
+		return showAnGet();
+
 	}
-	public  void messageWarning() {
-		builderDialog(new Color(252, 233, 71));
+	public  boolean messageWarning() {
+		builderDialog(new Color(255, 183, 66));
+		return showAnGet();
+
 	}
-	public  void messageError() {
-		builderDialog(new Color(222, 56, 55));
+	public  boolean messageError() {
+
+		builderDialog(new Color(222, 56, 55));		return showAnGet();
+	}
+	public boolean messageCancelaciones() {
+		
+		builderDialog(new Color(66, 133, 244));
+		return  showAnGet();
 	}
 	
-	public void builderDialog(Color bg) {
+	private void builderDialog(Color bg) {
 		
         JPanel panel = new JPanel();
         panel.setBackground(bg);
@@ -54,14 +68,24 @@ public class Messages {
         btn.setFont(Fonts.custom);
         BtnStyle.flat(btn);
         btn.setForeground(Color.white);
-        btn.addActionListener(e -> dialog.dispose());
+        btn.addActionListener(e -> {
+        	confirme = true;
+        	dialog.dispose();
+        });
 
         panel.add(lbl, BorderLayout.CENTER);
         panel.add(btn, BorderLayout.SOUTH);
         
-        dialog.setModal(true);
+       
         dialog.setContentPane(panel);
-        dialog.setVisible(true);
+        
 	}
+	
+	private  boolean showAnGet() {
+		dialog.setVisible(true);
+		return confirme;
+	}
+	
+	
 	
 }

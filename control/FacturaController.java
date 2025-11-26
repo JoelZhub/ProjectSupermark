@@ -13,11 +13,12 @@ import utils.ValidacionFecha;
 public class FacturaController {
 
     private FacturaDAO facturaDAO;
-    private ProductoDAO productoDAO;
+    @SuppressWarnings("unused")
+	private ProductoDAO productoDAO;
 
-    public FacturaController() {
-        facturaDAO = new FacturaDAO();
-        productoDAO = new ProductoDAO();
+    public FacturaController( FacturaDAO facturaDAO,  ProductoDAO productoDAO) {
+        this.facturaDAO =facturaDAO;
+        this.productoDAO = productoDAO;
     }
 
     public List<Factura> listarFacturas() {

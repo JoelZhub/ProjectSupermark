@@ -21,6 +21,8 @@ import view.AplicationContext;
 import view.components.AssetManager;
 import view.components.BtnStyle;
 import view.components.Fonts;
+import view.components.GenerateEmail;
+import view.components.GeneratePassword;
 import view.components.Messages;
 import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
@@ -32,19 +34,21 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 
-public class CrearUsuariosForm extends JDialog implements MouseListener {
+public class CrEdUsuariosForm extends JDialog implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-
 	@SuppressWarnings("unused")
-	private Dahsboard dahsboard;
+	private final Dahsboard dahsboard;
 	private JTextField textFieldNombre;
 	private JTextField textFieldEmail;
 	private boolean cambioIcon = true;
 	private JLabel lbIconPassword;
 	private JPasswordField passwordField;
 	private char passwordHidden;
+	private JButton btnCancelar, btnGuardar;
+	private JPanel buttonPane;
+	private JComboBox<Rol> selectRol;
 	
 	@SuppressWarnings("unused")
 	private final  AplicationContext context;
@@ -56,22 +60,25 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 			e.printStackTrace();
 		}
 	}
-
 	
-	public CrearUsuariosForm(Dahsboard dahsboard, AplicationContext context) {
-		setBounds(100, 100, 695, 413);
-		setUndecorated(true);
+	public CrEdUsuariosForm(Dahsboard dahsboard, AplicationContext context) {
+		
 		this.context = context;
+		this.dahsboard = dahsboard;
+		
+		setBounds(100, 100, 695, 434);
+		setBackground(new Color(56, 56, 56));
 		getContentPane().setLayout(new BorderLayout());
 		setModal(true);
+		setResizable(false);
 		Point p = dahsboard.getLocationOnScreen();
+		getContentPane().setBackground(new Color(56,56,56));
 		setLocation(p.x, p.y);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		contentPanel.setBackground(new Color(56, 56, 56));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.dahsboard = dahsboard;
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
 		JLabel lbTitulo = new JLabel("Crear Usuario");
 		lbTitulo.setFont(Fonts.bold);
@@ -89,13 +96,14 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 			
 			 @Override
 			    public void keyReleased(KeyEvent e) {
-				 textFieldEmail.setText(textFieldNombre.getText() + "@empresa.com");
-				 String input = textFieldNombre.getText();
+				 String input = textFieldNombre.getText().trim();
+				
 				 	if(input.isEmpty()) {
 				 		passwordField.setText("");
-				 		 textFieldEmail.setText("");
+				 		textFieldEmail.setText("");
 				 	}else {
-				 		passwordField.setText(generateSecurePassword());
+				 		passwordField.setText(GeneratePassword.generateSecurePassword());
+				 		 textFieldEmail.setText(GenerateEmail.generarEmail(input));
 				 	}
 			    }
 		});
@@ -136,7 +144,7 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 		lbPassword.setForeground(Color.WHITE);
 		contentPanel.add(lbPassword);
 		
-		JComboBox<Rol> selectRol = new JComboBox<Rol>(Rol.values());
+		selectRol = new JComboBox<Rol>(Rol.values());
 		selectRol.setBounds(209, 239, 349, 28);
 		selectRol.setBackground(new Color(56,56,56));
 		selectRol.setForeground(Color.white);
@@ -177,24 +185,20 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 		passwordField.setBounds(209, 303, 349, 28);
 		
 		
-		
-		
 		contentPanel.add(passwordField);
 		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setBackground(new Color(56,56,56));
 			buttonPane.setLayout (new GridLayout(1, 2, 10, 0));
 			
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnGuardar = new JButton("Guardar");
+				btnGuardar = new JButton("Guardar");
 				btnGuardar.setBorder(null);
-				
 				BtnStyle.primary(btnGuardar, new Color(102, 237, 142));
 				btnGuardar.setFont(Fonts.custom);
 				btnGuardar.setForeground(Color.WHITE);
 				btnGuardar.setPreferredSize(new Dimension(200, 40));
-			
 				btnGuardar.setBounds(0, 10, 200, 30);
 				btnGuardar.addActionListener(e -> {
 					
@@ -207,14 +211,23 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 					boolean dataV = context.getUserController().validateFieldsRegister(user);
 				
 					if(dataV) {
-						if(context.getUserController().crearUsuario(user)) {
-							new Messages(dahsboard, "Usuario creado exitosamente").messageAlert();
-							textFieldNombre.setText("");
-							passwordField.setText("");
-							textFieldEmail.setText("");
-							return;
+						
+						boolean exito = new Messages(dahsboard, "Esta por crear un nuevo usuario, desea continuar?").messageWarning();
+						 
+						if(exito) {
+							if(context.getUserController().crearUsuario(user)) {
+								new Messages(dahsboard, "Usuario creado exitosamente").messageAlert();
+								textFieldNombre.setText("");
+								passwordField.setText("");
+								textFieldEmail.setText("");
+								return;
+							}else {
+								new Messages(dahsboard, "Error inesperado al crear el usuario, intente de nuevo").messageError();
+								return;
+							}
+							
 						}else {
-							new Messages(dahsboard, "Error al crear el usuario").messageError();
+							new Messages(dahsboard, "La acción fue cancelada").messageCancelaciones();
 							return;
 						}
 						
@@ -230,7 +243,7 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 				getRootPane().setDefaultButton(btnGuardar);
 			}
 			{
-				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar = new JButton("Cancelar");
 				btnCancelar.setBorder(null);
 				btnCancelar.setPreferredSize(new Dimension(200, 40));
 				BtnStyle.primary(btnCancelar, new Color(204, 204, 204));
@@ -240,9 +253,13 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 				buttonPane.add(btnCancelar);
 			}
 		}
+		
+		
+	
+		
 	}
-
-
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
@@ -264,26 +281,9 @@ public class CrearUsuariosForm extends JDialog implements MouseListener {
 		
 	}
 
-	private String generateSecurePassword() {
-	    int min = 8;
-	    int max = 10;
-	    int length = (int) (Math.random() * (max - min + 1)) + min;
 
-	    String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    String lower = "abcdefghijklmnopqrstuvwxyz";
-	    String digits = "0123456789";
-	    String symbols = "!@#$%&*?";
-	    String pool = upper + lower + digits + symbols;
-
-	    StringBuilder sb = new StringBuilder();
-
-	    for (int i = 0; i < length; i++) {
-	        int idx = (int) (Math.random() * pool.length());
-	        sb.append(pool.charAt(idx));
-	    }
-
-	    return sb.toString();
-	}
+	
+	
 	
 	@Override
 	public void mousePressed(MouseEvent e) {

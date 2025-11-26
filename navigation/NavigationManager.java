@@ -22,9 +22,9 @@ public class NavigationManager {
 			return;
 		}	
 		moduloActual = modulo;
-		dahsboard.setPanelContent(modulo.construirPanel());
-		
-		
+		modulo.setAplicationContext(dahsboard.getContext());
+		modulo.setDahsboard(dahsboard);
+		dahsboard.setPanelContent(modulo.construirPanel());	
 	}
 	
 			

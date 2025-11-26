@@ -17,9 +17,11 @@ import javax.swing.UIManager;
 
 import control.FacturaController;
 import model.Factura;
+import model.User;
 import view.components.AssetManager;
 import view.components.Fonts;
 import view.table.TableFactory;
+import view.table.UniversalTableModel;
 import view.table.schemas.FacturasSchema;
 import view.table.schemas.TableSchema;
 import view.table.style.TableStyle;
@@ -30,7 +32,7 @@ public class BillingModule extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
-	private JButton btnEditarProducto, btnEliminar;
+	private JButton btnEditarProducto, btnEliminar, btnRefrescar;
 	private JPanel panelSearch, panelContenedorAccionesCrud;
 	private JTextField textFieldSearch;
 	private JLabel lbTotalRegister;
@@ -43,7 +45,7 @@ public class BillingModule extends JPanel implements ActionListener {
 		
 		setLayout(null);
 		setBackground(null);
-		facturas = new FacturaController();
+//		facturas = new FacturaController();
 		crearPanelViewPortVentas();
 		crearPanelOperacionesCurd();
 	}
@@ -105,6 +107,25 @@ public class BillingModule extends JPanel implements ActionListener {
 		btnEliminar.setIconTextGap(6);
 		btnEliminar.setFont(Fonts.custom);
 		btnEliminar.addActionListener(this);
+		
+		btnRefrescar = new JButton();
+		btnRefrescar.setBackground(null);
+		btnRefrescar.setBorder(BorderFactory.createLineBorder(new Color(140, 255, 179), 2, true));
+		btnRefrescar.putClientProperty("JButton.arc",20);
+		btnRefrescar.setFocusPainted(false);
+		btnRefrescar.setIcon(AssetManager.icon("actualizar.png", 28, 28));
+		btnRefrescar.setBounds(300, 0, 50, 35);
+		btnRefrescar.setIconTextGap(6);
+		btnRefrescar.setFont(Fonts.custom);
+//		btnRefrescar.addActionListener(e -> {
+//			List<User> newData = context.getUserController().listar();
+//			  lbPanelUsuariosConteo.setText(context.getUserController().listar().size() + "");
+//			  lbPanelUsuariosConteo.revalidate();
+//			  lbPanelUsuariosConteo.repaint();
+//			  ((UniversalTableModel<User>) table.getModel()).setData(newData);	
+//			
+//
+//		});
 		
 	}
 		

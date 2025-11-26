@@ -85,6 +85,9 @@ public class Dahsboard extends JFrame implements ActionListener {
 	}
 	
 	
+	public AplicationContext getContext() {
+		return context;
+	}
 	
 	public void inicializarComponentes() {
 		setPanelMenu(new MenuPanel(context, this));
@@ -97,7 +100,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 				setPanelContent(new BillingModule());
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN) {
-				setPanelContent(new DashboardAdmin());
+				setPanelContent(new DashboardAdmin(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.VENDEDOR) {
 				setPanelContent(new SalesModule());
