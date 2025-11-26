@@ -53,6 +53,8 @@ public class EditUsuarioForm extends JDialog implements ActionListener, MouseLis
 	private JComboBox<Rol> selectRol;
 	private JLabel lbIconPassword, lbCambiarPassword;
 	private JTextField textFielID;
+	private int idUser;
+	private User userEncontrado;
 	
 	public static void main(String[] args) {
 		try {
@@ -254,24 +256,23 @@ public class EditUsuarioForm extends JDialog implements ActionListener, MouseLis
 		
 		if(e.getSource() == textFielID) {
 			
-			int idUser;
 			if(textFielID.getText().trim().matches("\\d+")) {
 				idUser = Integer.parseInt(textFielID.getText().trim());
-				var user = context.getUserController().buscarUsuario(idUser);
+				userEncontrado = context.getUserController().buscarUsuario(idUser);
 				
-				if(user != null) {
+				if(userEncontrado != null) {
 					selectRol.setEnabled(true);
-					textFielID.setText(user.getId() + "");
+					textFielID.setText(userEncontrado.getId() + "");
 					textFielID.setEditable(false);
-					textFieldNombre.setText(user.getNombre());
-					textFieldEmail.setText(user.getEmail().trim());
-					selectRol.setSelectedItem(user.getRol());
+					textFieldNombre.setText(userEncontrado.getNombre());
+					textFieldEmail.setText(userEncontrado.getEmail().trim());
+					selectRol.setSelectedItem(userEncontrado.getRol());
 					
-					if(user.getId() == SessionContext.get().getIdUsuarioLogueado()) {
+					if(userEncontrado.getId() == SessionContext.get().getIdUsuarioLogueado()) {
 						selectRol.setEnabled(false);
 					}
 			
-					passwordField.setText(user.getPassword());
+					passwordField.setText(userEncontrado.getPassword());
 					
 				}else {
 					new Messages(dahsboard, "Usuario no encontrao").messageError();
@@ -296,24 +297,28 @@ public class EditUsuarioForm extends JDialog implements ActionListener, MouseLis
 		
 		if(e.getSource() == btnGuardar) {
 			
-			//este metodo todavia no esta en funcionamiento busca pero todavia no acciona el cambio
+			
 			String password = new String(passwordField.getPassword());
 			
-			var user = new User(textFieldNombre.getText(),
+			userEncontrado = new User(idUser,textFieldNombre.getText(),
 					textFieldEmail.getText(), password, (Rol) selectRol.getSelectedItem());
 			
-			if(context.getUserController().validateFieldsRegister(user)) {
-				if(new Messages(dahsboard, "Esta por editar la informacion de este usuario, ¿Desea continuar?").messageWarning()) {
-					if(context.getUserController().editarUser(user)) {
+			if(context.getUserController().validateFieldsRegister(userEncontrado)) {
+				
+				if(new Messages(dahsboard, "Esta por editar la información de este usuario, ¿Desea continuar?").messageWarning()) {
+					
+					if(context.getUserController().editarUser(userEncontrado)) {
+					
 						new Messages(dahsboard, "Usuario editado con éxito").messageAlert();
 						return;
+						
 					}else {
 						new Messages(dahsboard, "Error al editar el usuario").messageError();
 						return;
 					}
 					
 				}else {
-					new Messages(dahsboard, "Accion cancelada").messageCancelaciones();
+					new Messages(dahsboard, "Acción cancelada").messageCancelaciones();
 					return;
 				}
 	
