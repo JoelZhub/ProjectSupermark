@@ -2,7 +2,7 @@ CREATE DATABASE supermarket_DB;
 
 USE supermarket_DB;
 
-CREATE TABLE productos (
+CREATE TABLE productos ( 
     idProducto INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     precio DOUBLE NOT NULL,
@@ -53,3 +53,16 @@ INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 ('Elena Torres', 'etorres@empresa.com', '5522', 'ENCARGADO_INVENTARIO'),
 ('Samuel Castro', 'scastro@empresa.com', '9911', 'VENDEDOR'),
 ('Daniela Ruiz', 'druiz@empresa.com', '1100', 'CAJERO');
+
+INSERT INTO productos (nombre, precio, categoria, cantidad, unidad) VALUES
+('Arroz Premium 2lb', 95.00, 'COMESTIBLES', 10, 'lb'),
+('Manzana Roja', 18.00, 'VEGETALES_FRUTAS', 6, 'unidad'),
+('Carne Molida Res 1lb', 165.00, 'CARNES', 3, 'lb'),
+('Pechuga de Pollo 1lb', 145.00, 'POLLO_AVES', 8, 'lb'),
+('Orégano Molido', 55.00, 'CONDIMENTOS', 4, 'unidad'),
+('Sardinas en Salsa 155g', 52.00, 'ENLATADOS', 7, 'unidad'),
+('Salami Italiano 1lb', 130.00, 'EMBUTIDOS', 2, 'lb'),
+('Refresco Cola 2L', 75.00, 'BEBIDAS', 9, 'botella'),
+('Leche Entera 1L', 68.00, 'LACTEOS', 5, 'litro'),
+('Pan Sobao', 45.00, 'PANES', 1, 'unidad');
+

@@ -2,6 +2,8 @@ package control;
 
 import model.*;
 import dao.ProductoDAO;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,8 +11,8 @@ public class ProductoController {
 
     private ProductoDAO dao;
 
-    public ProductoController() {
-        this.dao = new ProductoDAO();
+    public ProductoController(ProductoDAO dao) {
+        this.dao = dao;
     }
 
     public List<Producto> listarProductos() {
@@ -27,6 +29,27 @@ public class ProductoController {
         } catch (IllegalArgumentException e) {
             return "Categoría inválida.";
         }
+    }
+    
+    @SuppressWarnings("null")
+	public List<Producto> listarProductosStockBajo(){
+    		List<Producto> productosBajo = new ArrayList<>();
+    		 var list = dao.listar();
+    		    for (Producto p : list) {
+    		        if (p.getCantida() <= 10) {
+    		            productosBajo.add(p);
+    		        }
+    		    }
+
+    		    return productosBajo;
+    }
+    
+    // campo para validar los elementos que se coloquen en el form -> si ya tienen otra logica implementada entonces quitar este metodo
+    //y usar el que crearon.
+    public boolean validarCampos() {
+   
+    	return true;
+    	
     }
 
     public String eliminar(int id) {

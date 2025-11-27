@@ -12,7 +12,7 @@ public class Oferta {
     public Oferta() { }
 
     //cambie el tipo de dato del idProducto de  esta clase por INT puesto que en la clase productos 
-    //esta como int y entonces me estaba chocando con schema de la table, es decir me estaba dando error
+    //esta como int y entonces me estaba chocando con schema de la table.
     public int getIdProducto() {
         return idProducto;
     }

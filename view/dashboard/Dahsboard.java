@@ -95,7 +95,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 		setPanelBanner(new BannerPanel());	
 	if(SessionContext.get() != null) {
 			if(SessionContext.get().getRolUsuarioLogueado() == Rol.ENCARGADO_INVENTARIO) {
-				setPanelContent(new ProductsModule());
+				setPanelContent(new ProductsModule(this, context));
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.CAJERO) {
 				setPanelContent(new BillingModule());
 				

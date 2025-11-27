@@ -10,6 +10,8 @@ import view.modules.admin.forms.DeleteUsuarioForm;
 import view.modules.admin.forms.EditUsuarioForm;
 import view.modules.billing.forms.CrearFactura;
 import view.modules.products.forms.CrearProducto;
+import view.modules.products.forms.DeleteProducto;
+import view.modules.products.forms.EditarProducto;
 
 public class FormFactory {
 
@@ -29,9 +31,16 @@ public class FormFactory {
 			case DELETE -> new DeleteUsuarioForm(dahsboard, context);
 			default -> new JDialog();
 			};
-	
+			
 		case FACTURACION: return new CrearFactura();
-		case PRODUCTOS: return new CrearProducto();
+		case PRODUCTOS:
+			return  switch(op) {		
+			case CREATE -> new CrearProducto(dahsboard, context);
+			case EDIT -> new EditarProducto(context, dahsboard);
+			case DELETE -> new DeleteProducto(dahsboard, context);
+			default -> new JDialog();
+		
+			};
 		default:
 			return new JDialog();
 		

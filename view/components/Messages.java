@@ -34,6 +34,12 @@ public class Messages {
 		this.dialog.setModal(true);
 	}
 	
+	public boolean messageAvisos() {
+		
+//		/90,110,140
+		builderDialog(new Color(90,110,140));
+		return showAnGet();
+	}
 	public  boolean messageAlert() {
 		builderDialog(new Color(125, 201, 149));
 		return showAnGet();

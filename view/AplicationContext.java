@@ -22,7 +22,7 @@ public class AplicationContext {
 	private final ProductoDAO productoDao = new ProductoDAO();
 	
 	private final FacturaController facturaController = new FacturaController(facturaDAO, productoDao );
-	private final ProductoController productoController = new ProductoController();
+	private final ProductoController productoController = new ProductoController(productoDao);
 	
 	
 	private final  NavigationManager navigation = new NavigationManager();

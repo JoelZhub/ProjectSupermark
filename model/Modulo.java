@@ -42,7 +42,7 @@ public enum Modulo {
 		
 		switch(this) {
 		
-		case PRODUCTOS : return new ProductsModule();
+		case PRODUCTOS : return new ProductsModule(dahsboard, context);
 		case VENTAS : return new SalesModule();
 		case ADMIN : return new DashboardAdmin(context, dahsboard);
 		case FACTURACION : return new BillingModule();

@@ -274,11 +274,10 @@ public class DashboardAdmin extends JPanel implements ActionListener, MouseListe
 		btnRefrescar.setIconTextGap(6);
 		btnRefrescar.setFont(Fonts.custom);
 		btnRefrescar.addActionListener(e -> {
-			List<User> newData = context.getUserController().listar();
 			  lbPanelUsuariosConteo.setText(context.getUserController().listar().size() + "");
 			  lbPanelUsuariosConteo.revalidate();
 			  lbPanelUsuariosConteo.repaint();
-			  ((UniversalTableModel<User>) table.getModel()).setData(newData);	
+			  ((UniversalTableModel<User>) table.getModel()).setData(context.getUserController().listar());	
 			
 
 		});

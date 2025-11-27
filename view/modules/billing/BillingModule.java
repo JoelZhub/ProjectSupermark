@@ -46,7 +46,7 @@ public class BillingModule extends JPanel implements ActionListener {
 		setLayout(null);
 		setBackground(null);
 //		facturas = new FacturaController();
-		crearPanelViewPortVentas();
+		//crearPanelViewPortVentas();
 		crearPanelOperacionesCurd();
 	}
 	

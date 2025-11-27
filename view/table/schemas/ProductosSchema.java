@@ -13,7 +13,7 @@ public class ProductosSchema {
                 .header("Producto")
                 .key("nombreP")
                 .value(Producto::getNombre)
-                .preferredWidth(180)
+                .preferredWidth(150)
                 .build()
         )
         .addColumn(new ColumnDefinition.Builder<Producto>()
@@ -34,6 +34,25 @@ public class ProductosSchema {
                 .header("Cantidad")
                 .key("cantidad")
                 .value(Producto::getCantida)
+                .preferredWidth(50)
+                .build()
+        )
+        .addColumn(new ColumnDefinition.Builder<Producto>()
+                .header("Activo")
+                .key("Activo")
+                .value( p ->
+                		{
+                			if(p.getActivo() == 0) {
+                				return "Bloqueado";
+                			}
+                			if(p.getCantida() == 0 && p.getActivo() == 1) {
+                				return "Sin Stock";
+                			}
+							return "Disponible";
+                			
+                		}
+                		
+                		)
                 .preferredWidth(80)
                 .build()
         )

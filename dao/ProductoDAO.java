@@ -96,7 +96,8 @@ public class ProductoDAO implements Operaciones<Producto> {
                         rs.getDouble("precio"),
                         Categoria.valueOf(rs.getString("categoria")),
                         rs.getInt("cantidad"),
-                        rs.getString("unidad")
+                        rs.getString("unidad"),
+                        rs.getInt("activo")
                 );
             }
 
@@ -124,7 +125,8 @@ public class ProductoDAO implements Operaciones<Producto> {
                         rs.getDouble("precio"),
                         Categoria.valueOf(rs.getString("categoria")),
                         rs.getInt("cantidad"),
-                        rs.getString("unidad")
+                        rs.getString("unidad"),
+                        rs.getInt("activo")
                 );
 
                 lista.add(p);
