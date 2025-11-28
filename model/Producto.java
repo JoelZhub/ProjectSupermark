@@ -21,7 +21,9 @@ public class Producto {
         this.unidad = unidad;
     }
 
-    public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad, String unidad, int activo){
+    public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad,
+    		String unidad, int activo){
+    	
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -33,6 +35,8 @@ public class Producto {
     }
 
   
+
+    
     public int getCodigo() {
         return idProducto;
     }

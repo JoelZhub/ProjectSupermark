@@ -2,9 +2,11 @@ package view;
 
 import control.FacturaController;
 import control.ProductoController;
+import control.ProveedoresController;
 import control.UserController;
 import dao.FacturaDAO;
 import dao.ProductoDAO;
+import dao.ProveedorDAO;
 import dao.UserDAO;
 import navigation.NavigationManager;
 
@@ -15,6 +17,7 @@ public class AplicationContext {
 	//la cree para no tener instancias repetidas de multiples objectos 
 	// no hice esto en app pq seria meter logica de backend en el front-end
 	private final UserDAO userDao = new UserDAO();
+	private final ProveedorDAO proveedorDAO  = new ProveedorDAO();
 	
 	private final UserController userController = new UserController(userDao);
 
@@ -23,8 +26,8 @@ public class AplicationContext {
 	
 	private final FacturaController facturaController = new FacturaController(facturaDAO, productoDao );
 	private final ProductoController productoController = new ProductoController(productoDao);
-	
-	
+	private final ProveedoresController proveedoresController = new ProveedoresController(proveedorDAO);
+
 	private final  NavigationManager navigation = new NavigationManager();
 	
 	
@@ -32,5 +35,6 @@ public class AplicationContext {
 	public FacturaController  getFacturaController() {return facturaController;}
 	public ProductoController getProductoController() {return productoController;}
 	public NavigationManager getNavigation() {return navigation;}
+	public ProveedoresController getProveedorController() {return proveedoresController;}
 
 }

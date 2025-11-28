@@ -46,14 +46,22 @@ public class ProductoController {
     
     // campo para validar los elementos que se coloquen en el form -> si ya tienen otra logica implementada entonces quitar este metodo
     //y usar el que crearon.
-    public boolean validarCampos() {
-   
+    public boolean validarProductoInformacionBase(Producto prod) {
+    	
+    	if(prod.getNombre().length() < 3 || prod.getNombre()== null)  return false;
+    	if(prod.getCantida() <= 0) return false;
+    	if(prod.getActivo() > 2 ) return false;
+    	if(prod.getCategoria() == null) return false;
+    	if(prod.getPrecio() <= 0) return false;
+    	if(prod.getUnidad().length() < 2 || prod.getUnidad() == null) return false;
     	return true;
     	
     }
+    
+  
 
-    public String eliminar(int id) {
-        return dao.eliminar(id) ? "Producto eliminado correctamente." : "Producto no encontrado.";
+    public String inhabilitarProducto(int id) {
+        return dao.eliminar(id) ? "Producto inhabilitado correctamente." : "Producto no encontrado.";
     }
 
     public String editar(Producto producto) {

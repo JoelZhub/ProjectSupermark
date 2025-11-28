@@ -1,9 +1,8 @@
-package view.modules.products.forms;
+package view.modules.inventory.forms.products;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,10 +18,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
 
 import model.Categoria;
+import model.Detalles;
+import model.Producto;
 import model.Proveedor;
 import view.AplicationContext;
 import view.components.BtnStyle;
 import view.components.Fonts;
+import view.components.Messages;
 import view.components.NumericFilter;
 import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
@@ -41,6 +43,9 @@ public class CrearProducto extends JDialog implements ActionListener {
 	private final Dahsboard dahsboard;
 	@SuppressWarnings("unused")
 	private final AplicationContext context;
+	private Producto producto;
+	@SuppressWarnings("unused")
+	private Detalles detalles;
 	private JTextField textFieldProducto;
 	private JTextField textFieldUnidad;
 	private JTextField textFieldPrecio;
@@ -53,7 +58,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 	private JLabel lbDetalleProducto;
 	private JComboBox<Proveedor> textFieldProeveedor;
 	private JLabel lbOrigen;
-	private JComboBox<Proveedor> textFieldOrigen;
+	private JComboBox<String> textFieldOrigen;
 	private JLabel lbFecha;
 	private JTextField textField;
 	private JPanel buttonPane;
@@ -121,7 +126,9 @@ public class CrearProducto extends JDialog implements ActionListener {
 		lbOrigen.setBounds(340, 208, 98, 12);
 		panelDetalleProducto.add(lbOrigen);
 		
-		textFieldOrigen = new JComboBox<Proveedor>();
+		textFieldOrigen = new JComboBox<String>();
+		textFieldOrigen.addItem("Importado");
+		textFieldOrigen.addItem("Nacional");
 		textFieldOrigen.setForeground(Color.WHITE);
 		textFieldOrigen.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
 		textFieldOrigen.setBackground(new Color(56, 56, 56));
@@ -231,47 +238,43 @@ public class CrearProducto extends JDialog implements ActionListener {
 		
 		textFieldCategoria = new JComboBox<>(Categoria.values());
 		textFieldCategoria.setBounds(376, 218, 343, 26);
+		textFieldCategoria.setSelectedItem(null);
 		textFieldCategoria.setBackground(new Color(56,56,56));
 		textFieldCategoria.setForeground(Color.WHITE);
 		textFieldCategoria.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
 		panelInformacionBasica.add(textFieldCategoria);
 		{
 			buttonPane = new JPanel();
-			buttonPane.setLayout (new GridLayout(1, 2, 10, 0));
+			buttonPane.setBackground(new Color(56,56,56));
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnGuardar = new JButton("Guardar");
-				BtnStyle.primary(btnGuardar, new Color(99, 255, 170));
-				btnGuardar.setForeground(Color.WHITE);
-				btnGuardar.setEnabled(false);
-				btnGuardar.setPreferredSize(new Dimension(200, 40));
+				BtnStyle.primary(btnGuardar, Color.BLACK);
+				btnGuardar.setFont(Fonts.custom);
+				
 				
 				btnContinuar = new JButton("Continuar");
-				btnContinuar.setForeground(Color.WHITE);
-				BtnStyle.primary(btnContinuar, new Color(110, 184, 255));
+				btnContinuar.setFont(Fonts.custom);
+				BtnStyle.primary(btnContinuar,Color.BLACK);
 				btnContinuar.addActionListener(this);
-				btnContinuar.setPreferredSize(new Dimension(200, 40));
 				
 				btnRegresar = new JButton("Regresar");
-				BtnStyle.primary(btnRegresar, new Color(110, 184, 255));
+				btnRegresar.setFont(Fonts.custom);
+				BtnStyle.primary(btnRegresar, Color.BLACK);
 				btnRegresar.addActionListener(this);
-				btnRegresar.setEnabled(false);
-				btnRegresar.setForeground(Color.WHITE);
-				btnRegresar.setPreferredSize(new Dimension(200, 40));
-	
 				
-				buttonPane.add(btnGuardar);
+				
 				buttonPane.add(btnContinuar);
-				buttonPane.add(btnRegresar);
+			
 				getRootPane().setDefaultButton(btnGuardar);
 			}
 			{
 				btnCancelar = new JButton("Cancelar");
-				BtnStyle.primary(btnCancelar,new Color(222, 222, 222));
-				btnCancelar.setForeground(Color.WHITE);
+				btnCancelar.setFont(Fonts.custom);
+				BtnStyle.primary(btnCancelar, Color.BLACK);
 				btnCancelar.addActionListener(e -> this.dispose());
-				btnCancelar.setPreferredSize(new Dimension(200, 40));
 				buttonPane.add(btnCancelar);
 			}
 		}
@@ -290,21 +293,54 @@ public class CrearProducto extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnContinuar) {
-			panelInformacionBasica.setVisible(false);
-			panelDetalleProducto.setVisible(true);
-			btnGuardar.setEnabled(true);
-			btnRegresar.setEnabled(true);
-			btnContinuar.setEnabled(false);
+		
+			double precio = 0;
+			int cantidad = 0;
+			if(!textFieldPrecio.getText().equals("")  && textFieldCantidad.getValue() !=  null ) {
+				
+				precio = Double.parseDouble(textFieldPrecio.getText());
+				cantidad =  (int)textFieldCantidad.getValue();
+
+				/*producto = /* new Producto(textFieldProducto.getText(), precio, (Categoria)textFieldCategoria.getSelectedItem(), 
+						cantidad,  textFieldUnidad.getText())*/;
+				
+				if(context.getProductoController().validarProductoInformacionBase(producto)) {
+					panelInformacionBasica.setVisible(false);
+					panelDetalleProducto.setVisible(true);
+					buttonPane.add(btnRegresar);
+					buttonPane.remove(btnContinuar);
+					buttonPane.add(btnGuardar);
+					
+				}else {
+					
+					new Messages(dahsboard, "Rellene los campos correctamente").messageError();
+					return;
+				}
+				
+			}else {	
+				new Messages(dahsboard, "Ingrese una cantidad y precio validos").messageError();
+				return;
+				
+			}
+			
+			
+			
+			
 		}
 		
 		if(e.getSource() == btnRegresar) {
 			
 			panelInformacionBasica.setVisible(true);
 			panelDetalleProducto.setVisible(false);
-			btnGuardar.setEnabled(false);
-			btnRegresar.setEnabled(false);
-			btnContinuar.setEnabled(true);
+			buttonPane.remove(btnGuardar);
+			buttonPane.remove(btnRegresar);
+			buttonPane.add(btnContinuar);
+			
+		}
 		
+		if(e.getSource() == btnGuardar) {
+			
+			/*gestionar cuando se cree el controller de  detalles y proveedores*/
 			
 		}
 		

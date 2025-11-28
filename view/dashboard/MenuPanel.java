@@ -16,12 +16,12 @@ import model.Permiso;
 	import javax.swing.SwingUtilities;
 
 	import view.AplicationContext;
-	import view.FormFactory;
-	import view.components.AssetManager;
+import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;
 	import view.components.Messages;
 	import view.components.RoundePanel;
+import view.formFactory.FormFactory;
 	
 	public class MenuPanel extends JPanel implements ActionListener {
 		

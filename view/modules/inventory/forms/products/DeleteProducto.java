@@ -1,4 +1,4 @@
-package view.modules.products.forms;
+package view.modules.inventory.forms.products;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -65,12 +65,7 @@ public class DeleteProducto extends JDialog {
 		
 		textFieldId = new JTextField();
 		aplicarFiltroNumericoPrecio(textFieldId);
-		
-		textFieldId.addActionListener(e -> {
-			
-				
-			
-		});
+	
 		textFieldId.setBounds(10, 120, 372, 26);
 		contentPanel.add(textFieldId);
 		textFieldId.setColumns(10);
@@ -91,17 +86,14 @@ public class DeleteProducto extends JDialog {
 				btnGuardar.addActionListener(e -> {
 					int id;	
 				if(textFieldId.getText().trim().matches("\\d+")) {
-						
 						id = Integer.parseInt(textFieldId.getText().trim());
-						
 						if(new Messages(dahsboard, "Esta por eliminar este producto desea continuar?").messageWarning()) {
-							String message = context.getProductoController().eliminar(id);
+							String message = context.getProductoController().inhabilitarProducto(id);
 							new Messages(dahsboard, message).messageAvisos();
 						}else {
 							new Messages(dahsboard, "Accion Cancelada").messageCancelaciones();
 							return;
 						}
-						
 					}else {
 						new Messages(dahsboard, "Ingrese un id valido").messageError();
 						return;

@@ -15,6 +15,7 @@ public class FacturaDAO implements Operaciones<Factura> {
         String sql = "INSERT INTO facturas (fecha, total, metodoPago, clienteId, empleadoId) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
+        		
              PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
             stmt.setString(1, f.getFecha());

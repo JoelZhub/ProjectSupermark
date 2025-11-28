@@ -6,8 +6,7 @@ import view.AplicationContext;
 import view.dashboard.Dahsboard;
 import view.modules.admin.DashboardAdmin;
 import view.modules.billing.BillingModule;
-//import view.modules.inventory.InventoryModule;
-import view.modules.products.ProductsModule;
+import view.modules.inventory.InventoryModule;
 import view.modules.sales.SalesModule;
 
 public enum Modulo {
@@ -42,7 +41,7 @@ public enum Modulo {
 		
 		switch(this) {
 		
-		case PRODUCTOS : return new ProductsModule(dahsboard, context);
+		case PRODUCTOS : return new InventoryModule(dahsboard, context);
 		case VENTAS : return new SalesModule();
 		case ADMIN : return new DashboardAdmin(context, dahsboard);
 		case FACTURACION : return new BillingModule();

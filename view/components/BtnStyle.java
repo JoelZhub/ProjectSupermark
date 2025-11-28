@@ -20,6 +20,8 @@ public class BtnStyle  {
 	        b.setOpaque(true);
 	        b.setBackground(c);
 	        b.setForeground(Color.WHITE);
+	        b.setFocusPainted(false);       
+	        b.setBorderPainted(false);    
 	    }
 	 
 	 

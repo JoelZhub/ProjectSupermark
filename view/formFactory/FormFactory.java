@@ -1,17 +1,16 @@
-package view;
+package view.formFactory;
 
 import javax.swing.JDialog;
 
 import model.Modulo;
 import model.OperationType;
+import view.AplicationContext;
 import view.dashboard.Dahsboard;
 import view.modules.admin.forms.CrEdUsuariosForm;
 import view.modules.admin.forms.DeleteUsuarioForm;
 import view.modules.admin.forms.EditUsuarioForm;
 import view.modules.billing.forms.CrearFactura;
-import view.modules.products.forms.CrearProducto;
-import view.modules.products.forms.DeleteProducto;
-import view.modules.products.forms.EditarProducto;
+import view.modules.inventory.forms.products.*;
 
 public class FormFactory {
 

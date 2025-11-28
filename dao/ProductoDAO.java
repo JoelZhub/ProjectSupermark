@@ -19,18 +19,19 @@ public class ProductoDAO implements Operaciones<Producto> {
             return false;
         }
 
-        String sql = "INSERT INTO productos (idProducto, nombre, precio, categoria, cantidad, unidad) VALUES (?, ?, ?, ?, ?, ?)";
+       
+        String sql = "INSERT INTO productos (nombre, precio, categoria, cantidad, unidad) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setInt(1, p.getCodigo());
-            stmt.setString(2, p.getNombre());
-            stmt.setDouble(3, p.getPrecio());
-            stmt.setString(4, p.getCategoria().name());
-            stmt.setInt(5, p.getCantida());
-            stmt.setString(6, p.getUnidad());
-
+//            stmt.setInt(1, p.getCodigo());
+            stmt.setString(1, p.getNombre());
+            stmt.setDouble(2, p.getPrecio());
+            stmt.setString(3, p.getCategoria().name());
+            stmt.setInt(4, p.getCantida());
+            stmt.setString(5, p.getUnidad());
+     
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -42,8 +43,10 @@ public class ProductoDAO implements Operaciones<Producto> {
     @Override
     public boolean editar(Producto p) {
         if (p == null) return false;
-
-        String sql = "UPDATE productos SET nombre=?, precio=?, categoria=?, cantidad=?, unidad=? WHERE idProducto=?";
+        
+        //le agregue el campo activo y el idProveedor 
+        
+      String sql = "UPDATE productos SET nombre=?, precio=?, categoria=?, cantidad=?, unidad=?, activo=?, idProveedor=? WHERE idProducto=?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -53,7 +56,9 @@ public class ProductoDAO implements Operaciones<Producto> {
             stmt.setString(3, p.getCategoria().name());
             stmt.setInt(4, p.getCantida());
             stmt.setString(5, p.getUnidad());
-            stmt.setInt(6, p.getCodigo());
+            stmt.setInt(6, p.getActivo());
+//            stmt.setInt(7, p.getProveedor());
+            stmt.setInt(7, p.getCodigo());
 
             return stmt.executeUpdate() > 0;
 
@@ -63,7 +68,11 @@ public class ProductoDAO implements Operaciones<Producto> {
         }
     }
 
-    @Override
+    
+    //el metodo original lo comente 
+    
+    /*
+     *@Override
     public boolean eliminar(int id) {
         String sql = "DELETE FROM productos WHERE idProducto = ?";
 
@@ -77,8 +86,31 @@ public class ProductoDAO implements Operaciones<Producto> {
             System.out.println("Error eliminar producto: " + e.getMessage());
             return false;
         }
-    }
+    
+     * */
+    @Override
+    public boolean eliminar(int id) {
+        String sql = "UPDATE productos SET activo = ? WHERE idProducto = ?";
 
+        try (Connection con = DBConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, 0);
+        	stmt.setInt(2, id);
+            
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error al inhabilitar el producto: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    
+    
+   
+    
+    //aqui tambien agregue el campo activo y el idProveedor
+    
     @Override
     public Producto buscar(int id) {
         String sql = "SELECT * FROM productos WHERE idProducto = ?";
@@ -98,6 +130,7 @@ public class ProductoDAO implements Operaciones<Producto> {
                         rs.getInt("cantidad"),
                         rs.getString("unidad"),
                         rs.getInt("activo")
+                       
                 );
             }
 
@@ -108,6 +141,8 @@ public class ProductoDAO implements Operaciones<Producto> {
         return null;
     }
 
+    //igual
+    
     @Override
     public List<Producto> listar() {
         String sql = "SELECT * FROM productos";
@@ -127,6 +162,7 @@ public class ProductoDAO implements Operaciones<Producto> {
                         rs.getInt("cantidad"),
                         rs.getString("unidad"),
                         rs.getInt("activo")
+                     
                 );
 
                 lista.add(p);

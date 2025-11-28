@@ -1,4 +1,4 @@
-package view.modules.products;
+package view.modules.inventory;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,39 +20,41 @@ import javax.swing.UIManager;
 
 import model.OperationType;
 import model.Producto;
+import model.Proveedor;
 import view.AplicationContext;
-import view.FormFactory;
 import view.components.AssetManager;
 import view.components.Fonts;
 import view.components.Messages;
 import view.dashboard.Dahsboard;
+import view.formFactory.FormFactory;
 import view.table.TableFactory;
 import view.table.UniversalTableModel;
 import view.table.schemas.ProductosSchema;
 import view.table.schemas.ProductosSchemaStockBajo;
+import view.table.schemas.ProveedorSchema;
 import view.table.schemas.TableSchema;
 import view.table.style.TableStyle;
 import view.table.style.TableStyleConfigure;
 
-public class ProductsModule extends JPanel implements ActionListener, MouseListener {
+public class InventoryModule extends JPanel implements ActionListener, MouseListener {
 
 	private JButton btnEditarProducto, btnEliminar, btnRefrescar, btnEditarOfPr, 
-	btnCrearOfPr, btnEliminarOfPr;
-	private JPanel panelSearch, panelOperacionesOferta,  panelContenedorAccionesCrud;
+	btnCrearOfPr, btnEliminarOfPr, btnProveedores, btnOfertas;
+	private JPanel panelSearch, panelOperacionesOfPr,  panelContenedorAccionesCrud;
 	private JTextField textFieldSearch, textFieldSearchOfPr;
 	private JLabel lbTotalRegister, lbCantidadProductosStockBajo;
-	private JScrollPane scrollPaneProductos, scrollPaneAlertCantidad, scrollPaneOfertas ;
-	
+	private JScrollPane scrollPaneProductos, scrollPaneAlertCantidad, scrollPaneOfertasProveedores ;
+	private int vistOfPr = 0;
 	private final Dahsboard dahsboard;
 	private final AplicationContext context;
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
 	private List<Producto> data, productosStockBajo;
+	private List<Proveedor> proveedores;
 	private TableSchema<Producto> schema;
 	private JTable table, tableProductosStock, tableOfertas, tableProveedores;
-	//	private int elementActivo = 0;
 	
-	public  ProductsModule(Dahsboard dahsboard, AplicationContext context) {
+	public  InventoryModule(Dahsboard dahsboard, AplicationContext context) {
 		
 		setLayout(null);
 		setBackground(null);
@@ -60,12 +62,11 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		this.context = context;
 		crearPanelOperacionesCurd();
 		crearPanelViewPortProductos();
-		crearPanelViewPortOfertas();
+		crearPanelViewPortOfertasProveedores();
 		crearPanelStockBajo();
 		crearPanelOperacionesOfPr();
 		
 	}
-	
 	
 	public void crearPanelViewPortProductos() {
 		
@@ -96,47 +97,43 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		
 	}
 	
-	public void crearPanelViewPortOfertas() {
+	public void crearPanelViewPortOfertasProveedores() {
 		
-		
-		//List<Oferta> data =  ofertas.listarOfertas();
-		
-		
-//		TableSchema<Oferta> schema = OfertaSchema.create();
-//		JTable table = TableFactory.createTable(data, schema);
-//		table.setBackground(TableStyleConfigure.COLOR_ROW_BG);
+		proveedores =  context.getProveedorController().listarProveedores();
+		TableSchema<Proveedor> schema = ProveedorSchema.create();
+		tableProveedores = TableFactory.createTable(proveedores, schema);
+		tableProveedores.setBackground(TableStyleConfigure.COLOR_ROW_BG);
 //		
-//		table.setShowVerticalLines(true);
-//		table.setGridColor(new Color(0xE5E7EB));
-//		table.setBorder(BorderFactory.createEmptyBorder());
-//		table.setShowGrid(false);
-//		table.setIntercellSpacing(new Dimension(0, 0));
+		tableProveedores.setShowVerticalLines(true);
+		tableProveedores.setGridColor(new Color(0xE5E7EB));
+		tableProveedores.setBorder(BorderFactory.createEmptyBorder());
+		tableProveedores.setShowGrid(false);
+		tableProveedores.setIntercellSpacing(new Dimension(0, 0));
 //		
-//	    TableStyle.apply(table);
-//		table.setBounds(0, 0,  250, 253);
+	    TableStyle.apply(table);
+	    tableProveedores.setBounds(0, 0,  250, 253);
 
-			
-		 scrollPaneOfertas = new JScrollPane(/*table*/);
-		 scrollPaneOfertas.getViewport().setBorder(null);
-		 scrollPaneOfertas.getViewport().setBackground(null);
-		 scrollPaneOfertas.setOpaque(false);
-		 scrollPaneOfertas.getViewport().setOpaque(false);
-		 scrollPaneOfertas.setBounds(515, 107, 500, 207);
+		 scrollPaneOfertasProveedores = new JScrollPane(tableProveedores);
+		 scrollPaneOfertasProveedores.getViewport().setBorder(null);
+		 scrollPaneOfertasProveedores.getViewport().setBackground(null);
+		 scrollPaneOfertasProveedores.setOpaque(false);
+		 scrollPaneOfertasProveedores.getViewport().setOpaque(false);
+		 scrollPaneOfertasProveedores.setBounds(515, 107, 500, 207);
 		 
-		 	UIManager.put("ScrollBar.showButtons", false);
-			UIManager.put("ScrollBar.width", 12);
+		UIManager.put("ScrollBar.showButtons", false);
+		UIManager.put("ScrollBar.width", 12);
 			
-		 add(scrollPaneOfertas);
+		 add(scrollPaneOfertasProveedores);
 		
 	}
 	
 	public void crearPanelOperacionesOfPr() {
 		
-		panelOperacionesOferta = new JPanel();
-		panelOperacionesOferta.setOpaque(true);
-		panelOperacionesOferta.setBackground(null);
-		panelOperacionesOferta.setBounds(515, 71, 388, 34);
-		panelOperacionesOferta.setLayout(null);
+		panelOperacionesOfPr = new JPanel();
+		panelOperacionesOfPr.setOpaque(true);
+		panelOperacionesOfPr.setBackground(null);
+		panelOperacionesOfPr.setBounds(515, 71, 388, 34);
+		panelOperacionesOfPr.setLayout(null);
 		
 		btnCrearOfPr = new JButton();
 		btnCrearOfPr.setBorder(BorderFactory.createLineBorder(new Color(73, 230, 115), 2, true));
@@ -145,7 +142,7 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		btnCrearOfPr.setBounds(75, 0, 35, 32);
 		btnCrearOfPr.setBackground(null);
 		btnCrearOfPr.setOpaque(true);
-		panelOperacionesOferta.add(btnCrearOfPr);
+		panelOperacionesOfPr.add(btnCrearOfPr);
 		
 		btnEliminarOfPr = new JButton();
 		btnEliminarOfPr.setBackground(null);
@@ -154,7 +151,7 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		btnEliminarOfPr.addActionListener(this);
 		btnEliminarOfPr.setIcon(AssetManager.icon("borrar.png", 24, 24));
 		btnEliminarOfPr.setBounds(152, 0, 35, 32);
-		panelOperacionesOferta.add(btnEliminarOfPr);
+		panelOperacionesOfPr.add(btnEliminarOfPr);
 		
 		btnEditarOfPr = new JButton();
 		btnEditarOfPr.setBackground(null);
@@ -163,7 +160,7 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		btnEditarOfPr.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
 		btnEditarOfPr.setIcon(AssetManager.icon("editar.png", 24, 24));
 		btnEditarOfPr.setBounds(0, 0, 35, 32);
-		panelOperacionesOferta.add(btnEditarOfPr);
+		panelOperacionesOfPr.add(btnEditarOfPr);
 		
 		textFieldSearchOfPr = new JTextField();
 		textFieldSearchOfPr.setText("Search");
@@ -172,9 +169,9 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		textFieldSearchOfPr.addActionListener(this);
 		textFieldSearchOfPr.setBounds(230, 6, 158, 24);
 		textFieldSearchOfPr.setBackground(null);
-		panelOperacionesOferta.add(textFieldSearchOfPr);
+		panelOperacionesOfPr.add(textFieldSearchOfPr);
 		
-		add(panelOperacionesOferta);
+		add(panelOperacionesOfPr);
 	}
 	
 	public void crearPanelStockBajo() {
@@ -256,6 +253,30 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		btnRefrescar.setFont(Fonts.custom);
 		btnRefrescar.addActionListener(this);
 		
+
+		btnProveedores = new JButton();
+		btnProveedores.setBackground(null);
+		btnProveedores.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 2, true));
+		btnProveedores.setFocusPainted(false);
+		btnProveedores.setIcon(AssetManager.icon("proveedor.png", 28, 28));
+		btnProveedores.setBounds(360, 0, 50, 35);
+		btnProveedores.setIconTextGap(6);
+		btnProveedores.setFont(Fonts.custom);
+		btnProveedores.addActionListener(this);
+			
+		btnOfertas = new JButton();
+		btnOfertas.setBackground(null);
+		btnOfertas.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 2, true));
+		btnOfertas.setFocusPainted(false);
+		btnOfertas.setIcon(AssetManager.icon("oferta.png", 28, 28));
+		btnOfertas.setBounds(430, 0, 50, 35);
+		btnOfertas.setIconTextGap(6);
+		btnOfertas.setFont(Fonts.custom);
+		btnOfertas.addActionListener(this);
+		
+		
+		
+		
 	}
 		
 	public void crearPanelOperacionesCurd() {
@@ -271,6 +292,8 @@ public class ProductsModule extends JPanel implements ActionListener, MouseListe
 		panelContenedorAccionesCrud.add(btnEditarProducto);
 		panelContenedorAccionesCrud.add(btnRefrescar);
 		panelContenedorAccionesCrud.add(btnEliminar);
+		panelContenedorAccionesCrud.add(btnProveedores);
+		panelContenedorAccionesCrud.add(btnOfertas);
 		panelContenedorAccionesCrud.add(panelSearch);
 		add(panelContenedorAccionesCrud);
 			

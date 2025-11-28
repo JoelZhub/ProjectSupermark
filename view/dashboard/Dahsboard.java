@@ -8,7 +8,7 @@ import view.components.FrameDragger;
 import view.components.Messages;
 import view.modules.admin.DashboardAdmin;
 import view.modules.billing.BillingModule;
-import view.modules.products.ProductsModule;
+import view.modules.inventory.InventoryModule;
 import view.modules.sales.SalesModule;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -95,7 +95,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 		setPanelBanner(new BannerPanel());	
 	if(SessionContext.get() != null) {
 			if(SessionContext.get().getRolUsuarioLogueado() == Rol.ENCARGADO_INVENTARIO) {
-				setPanelContent(new ProductsModule(this, context));
+				setPanelContent(new InventoryModule(this, context));
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.CAJERO) {
 				setPanelContent(new BillingModule());
 				
