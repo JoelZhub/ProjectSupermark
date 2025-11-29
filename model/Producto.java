@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Producto {
 
     private int idProducto;
@@ -11,7 +13,6 @@ public class Producto {
     private Oferta oferta;
     private Detalles detalles;
     private int activo;
-   
     
     public Producto(String nombre, double precio, Categoria categoria, int cantidad, String unidad){
         this.nombre = nombre;
@@ -22,8 +23,7 @@ public class Producto {
     }
 
     public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad,
-    		String unidad, int activo){
-    	
+    		String unidad, int activo){    	
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -34,9 +34,6 @@ public class Producto {
         
     }
 
-  
-
-    
     public int getCodigo() {
         return idProducto;
     }
@@ -76,6 +73,7 @@ public class Producto {
         return unidad;
     }
 
+    
     public Oferta getOferta() {
         return oferta;
     }
@@ -95,5 +93,29 @@ public class Producto {
     public boolean verificarOferta() {
         if (oferta == null) return false;
         return oferta.activa();
+    }
+    
+    //este lo agregue para la seleccion del producto, tanto para la factura como al momento de crear las ofertas y eso
+    //internamente se busca por el id como estaba definido pero  a la vista el usuario selecciona por nombre y de ahi entonces 
+    //hace al operacion pertinente
+    public String toString() {
+    	return nombre;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Producto producto = (Producto) obj;
+        return idProducto == producto.idProducto; 
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProducto);
     }
 }

@@ -6,19 +6,26 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import model.Proveedor;
+import view.AplicationContext;
 import view.components.BtnStyle;
+import view.components.Filtros;
 import view.components.Fonts;
+import view.components.Messages;
+import view.dashboard.Dahsboard;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class CrearProveedor extends JDialog  implements ActionListener {
+public class CrearProveedor extends JDialog  implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -30,7 +37,12 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 	private JTextField textFieldRnc;
 	private JTextField textFieldCiudad;
 	private JTextField textFieldPais;
-
+	private Proveedor proveedor;
+	
+	@SuppressWarnings("unused")
+	private final AplicationContext context;
+	private final Dahsboard dahsboard;
+	
 	public static void main(String[] args) {
 		try {
 			
@@ -40,9 +52,13 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 	}
 
 
-	public CrearProveedor() {
+	public CrearProveedor(AplicationContext context, Dahsboard dahsboard) {
+		
+		this.context = context;
+		this.dahsboard = dahsboard;
 		setBounds(100, 100, 698, 544);
 		setBackground(new Color(56,56,56));
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		getContentPane().setBackground(new Color(56,56,56));
 		getContentPane().setLayout(new BorderLayout());
@@ -66,6 +82,7 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 		}
 		{
 			textFieldNombre = new JTextField();
+			Filtros.aplicarFiltroSoloLetras(textFieldNombre);
 			textFieldNombre.setBounds(356, 143, 290, 26);
 			contentPanel.add(textFieldNombre);
 			textFieldNombre.setColumns(10);
@@ -85,7 +102,9 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 		}
 		{
 			textFieldTelefono = new JTextField();
+			Filtros.aplicarFiltroTelefono(textFieldTelefono);
 			textFieldTelefono.setColumns(10);
+			textFieldTelefono.addMouseListener(this);
 			textFieldTelefono.setBounds(356, 237, 290, 26);
 			contentPanel.add(textFieldTelefono);
 		}
@@ -111,6 +130,8 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 		}
 		{
 			textFieldRnc = new JTextField();
+			Filtros.aplicarFiltroNumericoTextField(textFieldRnc);
+			textFieldRnc.addMouseListener(this);
 			textFieldRnc.setColumns(10);
 			textFieldRnc.setBounds(10, 143, 290, 26);
 			contentPanel.add(textFieldRnc);
@@ -124,6 +145,7 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 		}
 		{
 			textFieldCiudad = new JTextField();
+			Filtros.aplicarFiltroSoloLetras(textFieldCiudad);
 			textFieldCiudad.setColumns(10);
 			textFieldCiudad.setBounds(356, 330, 290, 26);
 			contentPanel.add(textFieldCiudad);
@@ -137,6 +159,7 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 		}
 		{
 			textFieldPais = new JTextField();
+			Filtros.aplicarFiltroSoloLetras(textFieldPais);
 			textFieldPais.setColumns(10);
 			textFieldPais.setBounds(10, 414, 290, 26);
 			contentPanel.add(textFieldPais);
@@ -157,7 +180,42 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 				BtnStyle.primary(btnGuardar, new Color(56,56,56));
 				btnGuardar.addActionListener(e -> {
 					
+					proveedor = new Proveedor(
+							textFieldRnc.getText(),
+							textFieldNombre.getText(),
+							textFieldTelefono.getText(),
+							textFieldCorreo.getText(),
+							textFieldCalle.getText(),
+							textFieldCiudad.getText(),
+							textFieldPais.getText()
+							);
 					
+					if(context.getProveedorController().validarDatosProveedores(proveedor)) {
+						
+						boolean existe = context.getProveedorController().listarProveedores()
+								.stream()
+								.anyMatch(p -> p.getRncProveedor() == proveedor.getRncProveedor());
+						
+						if(existe) {
+							new Messages(dahsboard, "Ya existe un producto con el RNX" + proveedor.getRncProveedor()).messageError();
+							return;
+						}else {
+						
+							if(context.getProveedorController().insertarProveedor(proveedor)) {
+								new Messages(dahsboard, "Proveedor creado con exito").messageAlert();
+								return;
+								
+							}else {
+								new Messages(dahsboard, "Error al crear el proveedor").messageError();
+								return;
+							}
+							
+						}
+					}else {
+						
+						new Messages(dahsboard, "Rellene los campos de manera correcta").messageError();
+						return;
+					}
 					
 				});
 				btnGuardar.setFont(Fonts.custom);
@@ -179,6 +237,49 @@ public class CrearProveedor extends JDialog  implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if(e.getSource() == textFieldRnc) {
+			if(textFieldRnc.getText().length() < 9) {
+				new Messages(dahsboard, "Ingrese un RNC valido de 9 digitos").messageError();
+				return;
+			}
+			
+		}
+		if(e.getSource() == textFieldTelefono) {
+			
+		
+		}
 	}
 
 }

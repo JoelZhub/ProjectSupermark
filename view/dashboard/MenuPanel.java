@@ -8,7 +8,8 @@
 	import model.Modulo;
 import model.OperationType;
 import model.Permiso;
-	import session.SessionContext;
+import model.SubModulo;
+import session.SessionContext;
 
 	import javax.swing.JButton;
 	import javax.swing.JLabel;
@@ -273,7 +274,20 @@ import view.formFactory.FormFactory;
 					new Messages(dahsboard, "Zona informativa. Edición no habilitada en este módulo").messageError();
 					return;
 				}else {
-					new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.CREATE).setVisible(true);;
+					
+					if(context.getNavigation().getModuloActual() == Modulo.PRODUCTOS) {
+
+						if(context.getProveedorController().listarProveedores().size() == 0) {
+							new Messages(dahsboard, "Debe existir un proveedor antes de crear un nuevo producto").messageError();
+							return;
+							
+						}else {
+							new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), SubModulo.PRODUCTO,  OperationType.CREATE, dahsboard).setVisible(true);
+						}
+						
+					}else {
+						new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), null, OperationType.CREATE, dahsboard).setVisible(true);
+					}
 				}
 			}
 			

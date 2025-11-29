@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -18,17 +17,21 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import model.Oferta;
 import model.OperationType;
 import model.Producto;
 import model.Proveedor;
+import model.SubModulo;
 import view.AplicationContext;
 import view.components.AssetManager;
+import view.components.Filtros;
 import view.components.Fonts;
 import view.components.Messages;
 import view.dashboard.Dahsboard;
 import view.formFactory.FormFactory;
 import view.table.TableFactory;
 import view.table.UniversalTableModel;
+import view.table.schemas.OfertaSchema;
 import view.table.schemas.ProductosSchema;
 import view.table.schemas.ProductosSchemaStockBajo;
 import view.table.schemas.ProveedorSchema;
@@ -44,13 +47,15 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 	private JTextField textFieldSearch, textFieldSearchOfPr;
 	private JLabel lbTotalRegister, lbCantidadProductosStockBajo;
 	private JScrollPane scrollPaneProductos, scrollPaneAlertCantidad, scrollPaneOfertasProveedores ;
-	private int vistOfPr = 0;
+	private int vistOfPr = 1;
 	private final Dahsboard dahsboard;
 	private final AplicationContext context;
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
 	private List<Producto> data, productosStockBajo;
 	private List<Proveedor> proveedores;
+	private List<Oferta> ofertas;
+	
 	private TableSchema<Producto> schema;
 	private JTable table, tableProductosStock, tableOfertas, tableProveedores;
 	
@@ -109,10 +114,24 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		tableProveedores.setBorder(BorderFactory.createEmptyBorder());
 		tableProveedores.setShowGrid(false);
 		tableProveedores.setIntercellSpacing(new Dimension(0, 0));
+		
 //		
-	    TableStyle.apply(table);
+	    TableStyle.apply(tableProveedores);
 	    tableProveedores.setBounds(0, 0,  250, 253);
+	    
+	    ofertas = context.getOfertasController().listarOfertas();
+	    TableSchema<Oferta> schemaOferta = OfertaSchema.create();
+	    tableOfertas = TableFactory.createTable(ofertas, schemaOferta);
 
+	    tableOfertas.setShowVerticalLines(true);
+	    tableOfertas.setGridColor(new Color(0xE5E7EB));
+	    tableOfertas.setBorder(BorderFactory.createEmptyBorder());
+	    tableOfertas.setShowGrid(false);
+	    tableOfertas.setIntercellSpacing(new Dimension(0, 0));
+	    
+	    TableStyle.apply(tableOfertas);
+	    tableOfertas.setBounds(0, 0,  250, 253);
+	    
 		 scrollPaneOfertasProveedores = new JScrollPane(tableProveedores);
 		 scrollPaneOfertasProveedores.getViewport().setBorder(null);
 		 scrollPaneOfertasProveedores.getViewport().setBackground(null);
@@ -180,7 +199,7 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		TableSchema<Producto> schema = ProductosSchemaStockBajo.create();
 		tableProductosStock = TableFactory.createTable(productosStockBajo, schema);
 		tableProductosStock.setBackground(TableStyleConfigure.COLOR_ROW_BG);
-		
+
 		tableProductosStock.setShowVerticalLines(true);
 		tableProductosStock.setGridColor(new Color(0xE5E7EB));
 		tableProductosStock.setBorder(BorderFactory.createEmptyBorder());
@@ -221,7 +240,7 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		btnEditarProducto.setForeground(new Color(88, 177, 237));
 		btnEditarProducto.setBackground(null);
 		btnEditarProducto.addActionListener(e -> {
-			new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.EDIT).setVisible(true);
+			new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), SubModulo.PRODUCTO, OperationType.EDIT, dahsboard).setVisible(true);
 			
 		});
 		
@@ -237,7 +256,7 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		btnEliminar.setBounds(150, 0, 120, 35);
 		btnEliminar.setIconTextGap(6);
 		btnEliminar.addActionListener(e -> {
-			new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.DELETE).setVisible(true);
+			new FormFactory(context).crearForm(context.getNavigation().getModuloActual(), SubModulo.PRODUCTO,OperationType.DELETE,  dahsboard).setVisible(true);
 		});
 		btnEliminar.setFont(Fonts.custom);
 		btnEliminar.addActionListener(this);
@@ -253,7 +272,6 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		btnRefrescar.setFont(Fonts.custom);
 		btnRefrescar.addActionListener(this);
 		
-
 		btnProveedores = new JButton();
 		btnProveedores.setBackground(null);
 		btnProveedores.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 2, true));
@@ -273,9 +291,6 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		btnOfertas.setIconTextGap(6);
 		btnOfertas.setFont(Fonts.custom);
 		btnOfertas.addActionListener(this);
-		
-		
-		
 		
 	}
 		
@@ -307,7 +322,6 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		panelSearch.setBackground(null);
 		panelSearch.setLayout(null);
 		
-		//lbTotalRegister = new JLabel(usuarios.size() + "");
 		lbTotalRegister = new JLabel("0");
 		lbTotalRegister.setBounds(0, 0, 45, 32);
 		lbTotalRegister.setFont(Fonts.custom);
@@ -318,6 +332,7 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		textFieldSearch.addActionListener(this);
 		textFieldSearch.addMouseListener(this);
 		textFieldSearch.setText("Search");
+		Filtros.aplicarFiltroNumericoTextField(textFieldSearch);
 		textFieldSearch.setBackground(null);
 		textFieldSearch.setBounds(57, 4, 190, 26);
 		textFieldSearch.setColumns(10);
@@ -327,55 +342,146 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(e.getSource() == textFieldSearch) {
-			int idProducto;
-			if(textFieldSearch.getText().trim().matches("\\d+")) {
-				idProducto =  Integer.parseInt(textFieldSearch.getText().trim());
-				var producto = context.getProductoController().buscar(idProducto);
-				
-				if(producto != null) {
-					List<Producto> newData = new ArrayList<>();
-					newData.add(producto);
-					((UniversalTableModel<Producto>) table.getModel()).setData(newData);	
-					lbTotalRegister.setText(newData.size() + "");
-					lbTotalRegister.revalidate();
-					lbTotalRegister.repaint();
-					
-					
-				}else {
-					new Messages(dahsboard, "Producto no encontrado").messageError();
-					return;
-				}
-				
-			}else {
-				new Messages(dahsboard, "Ingrese un ID valido").messageError();
-				return;
-			}
-				
-			
-		}
-		if(e.getSource() == btnRefrescar) {
-			
-			((UniversalTableModel<Producto>) table.getModel()).setData(context.getProductoController().listarProductos());			
-		}
-		
-		if(e.getSource() == textFieldSearchOfPr) {
-			
-			//funcionara cuando se cree el DAO que traera las ofertas activas de la BD  
-			// y los proveedores
-			
-			
-			
-			
-		}
-		
+
+	    Object src = e.getSource();
+
+	    if (src == textFieldSearch) handleProductoSearch();
+	    else if (src == textFieldSearchOfPr) handleProveedorOfertaSearch();
+	    else if (src == btnRefrescar) handleRefresh();
+	    else if (src == btnCrearOfPr) handleCrud(OperationType.CREATE);
+	    else if (src == btnEliminarOfPr) handleCrud(OperationType.DELETE);
+	    else if (src == btnEditarOfPr) handleCrud(OperationType.EDIT);
+	    else if (src == btnOfertas) switchToOfertas();
+	    else if (src == btnProveedores) switchToProveedores();
 	}
 
 
+	///operaciones utilitarias metodos de llamados
+	///
+	///
+	
+	@SuppressWarnings({ "unchecked", "unused" })
+	private void handleProductoSearch() {
+		
+		 String txt = textFieldSearch.getText().trim();
+		    if (!txt.matches("\\d+")) {
+		        new Messages(dahsboard, "Ingrese un ID válido").messageError();
+		        return;
+		    }
+
+		    int id = Integer.parseInt(txt);
+		    var producto = context.getProductoController().buscar(id);
+
+		    if (producto == null) {
+		        new Messages(dahsboard, "Producto no encontrado").messageError();
+		        return;
+		    }
+
+		    List<Producto> data = List.of(producto);
+
+		    ((UniversalTableModel<Producto>) table.getModel()).setData(data);
+		    lbTotalRegister.setText(String.valueOf(data.size()));
+		
+	}
+	
+	
+	//buscar ofertas o proveedores segun table activa
+	
+	@SuppressWarnings("unused")
+	private void  handleProveedorOfertaSearch() {	
+	String txt = textFieldSearchOfPr.getText().trim();
+		    if (!txt.matches("\\d+")) {
+		        new Messages(dahsboard, "ID no válido").messageError();
+		        return;
+		    }
+		    int id = Integer.parseInt(txt);
+
+		    if (vistOfPr == 1) handleProveedorSearch(id);
+		    else handleOfertaSearch(id);
+	}
+
+	//
+	@SuppressWarnings("unchecked")
+	private void handleProveedorSearch(int id) {
+	    var proveedor = context.getProveedorController().buscarProveedor(id);
+
+	    if (proveedor == null) {
+	        new Messages(dahsboard, "Proveedor no encontrado").messageError();
+	        return;
+	    }
+
+	    ((UniversalTableModel<Proveedor>) tableProveedores.getModel())
+	        .setData(List.of(proveedor));
+	}
+
+	@SuppressWarnings("unchecked")
+	private void handleOfertaSearch(int id) {
+	    var oferta = context.getOfertasController().buscarOferta(id);
+
+	    if (oferta == null) {
+	        new Messages(dahsboard, "Oferta no encontrada").messageError();
+	        return;
+	    }
+
+	    ((UniversalTableModel<Oferta>) tableOfertas.getModel())
+	        .setData(List.of(oferta));
+	}
+
+
+	//refrescar tables
+	@SuppressWarnings({ "unchecked", "unused" })
+	private void handleRefresh() {
+	    ((UniversalTableModel<Producto>) table.getModel())
+	        .setData(context.getProductoController().listarProductos());
+
+	    ((UniversalTableModel<Proveedor>) tableProveedores.getModel())
+	        .setData(context.getProveedorController().listarProveedores());
+	    
+		((UniversalTableModel<Oferta>) tableOfertas.getModel())
+		.setData(context.getOfertasController().listarOfertas());
+	}
+
+	
+	//cambio de vista proveedores-ofertas
+	
+	private void switchToOfertas() {
+	    if (vistOfPr == 1) {
+	        scrollPaneOfertasProveedores.setViewportView(tableOfertas);
+	        vistOfPr = 0;
+	    }
+	}
+
+	private void switchToProveedores() {
+	    if (vistOfPr == 0) {
+	        scrollPaneOfertasProveedores.setViewportView(tableProveedores);
+	        vistOfPr = 1;
+	    }
+	}
+	
+	
+	//operaciones crud proveedores -> ofertas
+	
+	private void handleCrud(OperationType op) {
+
+	    SubModulo target = (vistOfPr == 1)
+	            ? SubModulo.PROVEEDOR
+	          : SubModulo.OFERTA;
+
+	    new FormFactory(context)
+	            .crearForm(
+	                context.getNavigation().getModuloActual(),
+	                target,
+	                op,
+	                dahsboard
+	            )
+	            .setVisible(true);
+	}
+
+	
+	//eventos mouse
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -422,9 +528,6 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		if(e.getSource() == textFieldSearchOfPr) {
 			
 			textFieldSearchOfPr.setText("Search");
-			lbTotalRegister.setText("0");
-			lbTotalRegister.revalidate();
-			lbTotalRegister.repaint();
 		}
 		
 	}

@@ -13,8 +13,8 @@ public class Proveedor {
     private int activo;
     
     
-    public Proveedor(String rncProveedor, String nombre, String telefono, String calle, String 
-    		ciudad, String pais, String correo) {
+    public Proveedor(String rncProveedor, String nombre, String telefono, String correo, String calle, String 
+    		ciudad, String pais) {
     	
     	this.rncProveedor = rncProveedor;
     	this.nombre = nombre;
@@ -26,8 +26,8 @@ public class Proveedor {
     	
     }
     
-    public Proveedor(int idProveedor, String rncProveedor, String nombre, String telefono, String calle, String 
-    		ciudad, String pais, String correo, int activo) {
+    public Proveedor(int idProveedor, String rncProveedor, String nombre, String telefono,  String correo, String calle, String 
+    		ciudad, String pais, int activo) {
     	
     	this.idProveedor = idProveedor;
     	this.rncProveedor = rncProveedor;
@@ -111,5 +111,10 @@ public class Proveedor {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+    
+    //esto es para el jCombox para cuando se cree el producto se pueda seleccionar un proveedor existente
+    public String toString() {
+    	return nombre;
     }
 }

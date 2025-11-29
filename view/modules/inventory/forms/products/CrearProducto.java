@@ -23,6 +23,7 @@ import model.Producto;
 import model.Proveedor;
 import view.AplicationContext;
 import view.components.BtnStyle;
+import view.components.Filtros;
 import view.components.Fonts;
 import view.components.Messages;
 import view.components.NumericFilter;
@@ -209,7 +210,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 		textFieldCantidad = new JSpinner(new SpinnerNumberModel(10, 1, null, 1));
 		textFieldCantidad.setBounds(20, 312, 343, 26);
 		textFieldCantidad.setEditor(new JSpinner.NumberEditor(textFieldCantidad, "#"));
-		aplicarFiltroNumericoSpinner(textFieldCantidad);
+		Filtros.aplicarFiltroNumericoSpinner(textFieldCantidad);
 		textFieldCantidad.setBackground(null);
 		textFieldCantidad.setForeground(Color.white);
 		textFieldCantidad.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
@@ -223,7 +224,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 		
 		textFieldPrecio = new JTextField();
 		textFieldPrecio.setBounds(376, 136, 343, 26);
-		aplicarFiltroNumericoPrecio(textFieldPrecio);
+		Filtros.aplicarFiltroNumericoTextField(textFieldPrecio);
 		textFieldPrecio.setColumns(10);
 		textFieldPrecio.setForeground(Color.WHITE);
 		textFieldPrecio.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
@@ -280,15 +281,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 		}
 	}
 	
-	private  void aplicarFiltroNumericoSpinner(JSpinner spinner) {
-	    
-		JFormattedTextField txt = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
-	    ((AbstractDocument) txt.getDocument()).setDocumentFilter(new NumericFilter());
-	}
 	
-	private void aplicarFiltroNumericoPrecio(JTextField precio) {
-		((AbstractDocument) precio.getDocument()).setDocumentFilter(new NumericFilter());
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -236,7 +236,7 @@ public class DashboardAdmin extends JPanel implements ActionListener, MouseListe
 		btnEditarUsuario.setBounds(0, 0, 120, 35);
 		btnEditarUsuario.addActionListener(e -> {
 			new FormFactory(context).
-			crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.EDIT).
+			crearForm(context.getNavigation().getModuloActual(), null, OperationType.EDIT, dahsboard).
 			setVisible(true);
 			
 		});
@@ -259,7 +259,7 @@ public class DashboardAdmin extends JPanel implements ActionListener, MouseListe
 		btnEliminar.setFont(Fonts.custom);
 		btnEliminar.addActionListener(e -> {
 			new FormFactory(context).
-			crearForm(context.getNavigation().getModuloActual(), dahsboard, OperationType.DELETE).
+			crearForm(context.getNavigation().getModuloActual(),null, OperationType.DELETE, dahsboard).
 			setVisible(true);
 			
 		});

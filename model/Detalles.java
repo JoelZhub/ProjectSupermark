@@ -4,19 +4,28 @@ import java.util.Date;
 
 public class Detalles {
 
-    private String idProducto;
+    private int idProducto;
+    private int idDetalleProducto;
     private String marca;
     private Proveedor proveedor; 
     private String origen; // Importado o Nacional
-    private Date fechaAgregado;
+    private Date fechaAgregado ;
 
     public Detalles() { }
 
-    public String getIdProducto() {
+    public int getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(String idProducto) {
+    public int getIdDetalleProducto() {	
+    	return idDetalleProducto;
+    }
+    
+    public void setIdDetalleProducto(int idDetalleProducto) {
+    	this.idDetalleProducto = idDetalleProducto;
+    }
+    
+    public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
 

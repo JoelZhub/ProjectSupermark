@@ -25,6 +25,8 @@ idProducto int not null,
 Foreign key(idProducto) references productos(idProducto)
 );
 
+select * from ofertas;
+
 create table proveedores(
 idProveedor INT PRIMARY KEY AUTO_INCREMENT,
 rncProveedor int not null,
@@ -78,6 +80,7 @@ CREATE TABLE usuarios (
 
 -- registros de prueba -< usuarios
 
+select * from usuarios;
 
 INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 ('Carlos Méndez', 'cmendez@empresa.com', '1234', 'ADMIN'),
@@ -94,35 +97,37 @@ INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 
 -- Registros de pruebas -> productos
 
--- INSERT INTO productos (nombre, precio, categoria, cantidad, unidad, activo, idProveedor) VALUES
--- ('Habichuelas Pintas 2lb', 120.00, 'COMESTIBLES', 8, 'lb', 1, 1),
--- ('Banano Maduro', 12.00, 'VEGETALES_FRUTAS', 15, 'unidad', 1, 2),
--- ('Chuleta de Cerdo 1lb', 180.00, 'CARNES', 4, 'lb', 1, 3),
--- ('Muslos de Pollo 1lb', 95.00, 'POLLO_AVES', 11, 'lb', 1, 4),
--- ('Comino Molido 50g', 40.00, 'CONDIMENTOS', 9, 'unidad', 1, 5),
--- ('Atún en Agua 140g', 78.00, 'ENLATADOS', 6, 'unidad', 1, 6),
--- ('Jamón de Pavo 1lb', 155.00, 'EMBUTIDOS', 5, 'lb', 1, 7),
--- ('Jugo de Naranja 1L', 82.00, 'BEBIDAS', 10, 'litro', 1, 8),
--- ('Yogurt Natural 500ml', 65.00, 'LACTEOS', 7, 'unidad', 1, 9),
--- ('Pan Integral Molde', 90.00, 'PANES', 3, 'unidad', 1, 10);
+INSERT INTO productos (nombre, precio, categoria, cantidad, unidad, activo) VALUES
+('Habichuelas Pintas 2lb', 120.00, 'COMESTIBLES', 8, 'lb', 1),
+('Banano Maduro', 12.00, 'VEGETALES_FRUTAS', 15, 'unidad', 1),
+('Chuleta de Cerdo 1lb', 180.00, 'CARNES', 4, 'lb', 1),
+('Muslos de Pollo 1lb', 95.00, 'POLLO_AVES', 11, 'lb', 1),
+('Comino Molido 50g', 40.00, 'CONDIMENTOS', 9, 'unidad', 1),
+('Atún en Agua 140g', 78.00, 'ENLATADOS', 6, 'unidad', 1),
+('Jamón de Pavo 1lb', 155.00, 'EMBUTIDOS', 5, 'lb', 1),
+('Jugo de Naranja 1L', 82.00, 'BEBIDAS', 10, 'litro', 1),
+('Yogurt Natural 500ml', 65.00, 'LACTEOS', 7, 'unidad', 1),
+('Pan Integral Molde', 90.00, 'PANES', 3, 'unidad', 1);
+
 
 
 -- registros de pruebas -> ofertas
 
--- INSERT INTO ofertas (oferta, monto, dateInicio, dateFin, activo, idProducto) VALUES
--- ('Descuento Fin de Semana', 15.00, '2025-01-10', '2025-01-12', 1, 1),
--- ('Precio Especial', 20.00, '2025-01-05', '2025-01-20', 1, 2),
--- ('Rebaja por Temporada', 35.00, '2025-02-01', '2025-02-28', 1, 3),
--- ('Oferta Flash', 10.00, '2025-01-15', '2025-01-16', 1, 4),
--- ('Combo Condimentos', 8.00, '2025-03-01', '2025-03-10', 1, 5),
--- ('Ahorro en Enlatados', 12.00, '2025-02-10', '2025-02-18', 1, 6),
--- ('Rebaja Embutidos', 25.00, '2025-01-22', '2025-01-30', 1, 7),
--- ('Oferta Bebidas 2x1', 30.00, '2025-01-28', '2025-02-05', 1, 8),
--- ('Precio Especial Lácteos', 18.00, '2025-02-15', '2025-02-25', 1, 9),
--- ('Descuento Panadería', 6.00, '2025-01-18', '2025-01-31', 1, 10);
+INSERT INTO ofertas (oferta, monto, dateInicio, dateFin, activo, idProducto) VALUES
+('Descuento Fin de Semana', 15.00, '2025-01-10', '2025-01-12', 1, 1),
+('Precio Especial', 20.00, '2025-01-05', '2025-01-20', 1, 2),
+('Rebaja por Temporada', 35.00, '2025-02-01', '2025-02-28', 1, 3),
+('Oferta Flash', 10.00, '2025-01-15', '2025-01-16', 1, 4),
+('Combo Condimentos', 8.00, '2025-03-01', '2025-03-10', 1, 5),
+('Ahorro en Enlatados', 12.00, '2025-02-10', '2025-02-18', 1, 6),
+('Rebaja Embutidos', 25.00, '2025-01-22', '2025-01-30', 1, 7),
+('Oferta Bebidas 2x1', 30.00, '2025-01-28', '2025-02-05', 1, 8),
+('Precio Especial Lácteos', 18.00, '2025-02-15', '2025-02-25', 1, 9),
+('Descuento Panadería', 6.00, '2025-01-18', '2025-01-31', 1, 10);
 
 
 -- REGISTROS DE PRUEBAS -> PROVEEDORES
+
 
 INSERT INTO proveedores 
 (rncProveedor, nombre, telefono, correo, calle, ciudad, pais, activo)
@@ -139,3 +144,23 @@ VALUES
 (408998877, 'Brasil Distribuidora', '+55-11-5566-7788', 'contato@brasild.com', 'Rua Paulista 500', 'São Paulo', 'Brasil', 1),
 (506554433, 'Andes Proveedores SAC', '+51-1-4455667', 'ventas@andes-sac.pe', 'Av. Arequipa 1220', 'Lima', 'Perú', 1),
 (607778899, 'Nippon Supply Co', '+81-3-4455-6677', 'service@nipponsupply.jp', 'Shibuya Crossing 22', 'Tokio', 'Japón', 1);
+
+select * from ofertas;
+
+select * from proveedores;
+
+INSERT INTO detalles_producto (idProducto, idProveedor, marca, origen)
+VALUES
+(1, 1, 'Caribeña Selecta', 'Nacional'),
+(2, 2, 'Quisqueya Agro', 'Nacional'),
+(3, 3, 'Antillas Prime Pork', 'Nacional'),
+(4, 4, 'RD Fresh Poultry', 'Nacional'),
+(5, 5, 'Mercantil Especias', 'Nacional'),
+(6, 6, 'Global Sea Fresh', 'Importado'),
+(7, 8, 'Brasil PavoPro', 'Importado'),
+(8, 9, 'Andes Citrus', 'Importado'),
+(9, 7, 'EuroLáctea', 'Importado'),
+(10, 1, 'Caribeña Bakery', 'Nacional');
+
+
+select * from proveedores;

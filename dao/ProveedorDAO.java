@@ -30,7 +30,7 @@ public class ProveedorDAO implements Operaciones<Proveedor>  {
 			stmt.setString(4, po.getCorreo());
 			stmt.setString(5, po.getCalle());
 			stmt.setString(6, po.getCiudad());
-			stmt.setString(7, po.getPais());	
+			stmt.setString(7, po.getPais());
 			return stmt.executeUpdate() > 0;
 			
 			
@@ -47,13 +47,12 @@ public class ProveedorDAO implements Operaciones<Proveedor>  {
 		
 	if(po == null) return false;
 		
-		String sql = "update proveedores set rncProveedor=?, nombre=?, telefono=?, correo=?, calle =?, ciudad=?, pais=?, activo=? "
-				+ "where idProveedor=? ";
+		String sql = "update proveedores set rncProveedor=?, nombre=?, telefono=?, correo=?, calle=?, ciudad=?, pais=?, activo=?  where idProveedor=?";
 //		
 		try(Connection con = DBConnection.getConnection();
-				PreparedStatement stmt = con.prepareStatement(sql) ){
+			PreparedStatement stmt = con.prepareStatement(sql) ){
 	
-			stmt.setString(1, po.getRncProveedor());
+			stmt.setInt(1,  Integer.parseInt(po.getRncProveedor()));
 			stmt.setString(2, po.getNombre());
 			stmt.setString(3, po.getTelefono());
 			stmt.setString(4, po.getCorreo());
@@ -109,6 +108,7 @@ public class ProveedorDAO implements Operaciones<Proveedor>  {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			
+			if(rs.next()) {
 			return  new Proveedor(
 						
 							rs.getInt("idProveedor"),
@@ -119,9 +119,13 @@ public class ProveedorDAO implements Operaciones<Proveedor>  {
 							rs.getString("calle"),
 							rs.getString("ciudad"),
 							rs.getString("pais"),
+
 							rs.getInt("activo")	
 					);
 					
+		}else {
+			return null;
+		}
 	
 		} catch (SQLException e) {
             System.out.println("Error al editar un proveedor: " + e.getMessage());

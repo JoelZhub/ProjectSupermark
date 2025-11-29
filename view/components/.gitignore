@@ -21,3 +21,7 @@
 /GeneratePassword.class
 /GenerateEmail.class
 /NumericFilter.class
+/Filtros.class
+/LettersFilter.class
+/PhoneFilter.class
+/ValidateDate.class

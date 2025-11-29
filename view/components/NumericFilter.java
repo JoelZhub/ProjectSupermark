@@ -9,7 +9,10 @@ public class NumericFilter extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
             throws BadLocationException {
-        if (isNumeric(string)) {
+
+        String newText = buildNewText(fb, offset, 0, string);
+
+        if (isNumeric(newText)) {
             super.insertString(fb, offset, string, attr);
         }
     }
@@ -18,12 +21,26 @@ public class NumericFilter extends DocumentFilter {
     public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
             throws BadLocationException {
 
-        if (isNumeric(text)) {
+        String newText = buildNewText(fb, offset, length, text);
+
+        if (isNumeric(newText)) {
             super.replace(fb, offset, length, text, attrs);
         }
     }
 
-    private boolean isNumeric(String str) {
-        return str != null && str.matches("\\d+");
+    private String buildNewText(FilterBypass fb, int offset, int length, String text)
+            throws BadLocationException {
+
+        String oldText = fb.getDocument().getText(0, fb.getDocument().getLength());
+        StringBuilder sb = new StringBuilder(oldText);
+        sb.replace(offset, offset + length, text == null ? "" : text);
+
+        return sb.toString();
+    }
+
+   
+    public boolean isNumeric(String value) {
+        if (value == null || value.isEmpty()) return true;
+        return value.matches("^\\d*(\\.\\d*)?$");
     }
 }
