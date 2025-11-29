@@ -18,7 +18,7 @@ public class App {
  * 
  *
  * los cambios que envie son de los modulos que estan funcionando perfectamente -> usuarios
- * > proveedores  y ofertas
+ * > proveedores, ofertas y productos
 
 favor provar dicho metodos y notificar de caulquier error
 
