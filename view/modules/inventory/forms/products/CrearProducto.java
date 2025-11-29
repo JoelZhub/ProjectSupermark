@@ -1,22 +1,16 @@
 package view.modules.inventory.forms.products;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AbstractDocument;
-
 import model.Categoria;
 import model.Detalles;
 import model.Producto;
@@ -26,14 +20,13 @@ import view.components.BtnStyle;
 import view.components.Filtros;
 import view.components.Fonts;
 import view.components.Messages;
-import view.components.NumericFilter;
 import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
-import com.github.lgooddatepicker.components.DatePicker;
+
 
 
 public class CrearProducto extends JDialog implements ActionListener {
@@ -60,8 +53,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 	private JComboBox<Proveedor> textFieldProeveedor;
 	private JLabel lbOrigen;
 	private JComboBox<String> textFieldOrigen;
-	private JLabel lbFecha;
-	private JTextField textField;
+	private JTextField textFieldMarca;
 	private JPanel buttonPane;
 	public static void main(String[] args) {
 		try {
@@ -70,12 +62,10 @@ public class CrearProducto extends JDialog implements ActionListener {
 		}
 	}
 
-	
-	//solo tiene el design de momento falta valdiar los campos y llamar el metood que se encarga de crear el producto de la clase producto controller
-	// tambien falta crear  el elemento que se encarga de gestionar los proveedores es decir el controller, el de oferta  y detalles del producto
-	
+		
 	public CrearProducto(Dahsboard dahsboard, AplicationContext context) {
 		setModal(true);
+		setResizable(false);
 		this.dahsboard = dahsboard;
 		this.context = context;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
@@ -109,47 +99,47 @@ public class CrearProducto extends JDialog implements ActionListener {
 		panelDetalleProducto.add(lbDetalleProducto);
 		
 		textFieldProeveedor = new JComboBox<Proveedor>();
+		
+		for(Proveedor p : context.getProveedorController().listarProveedores()) {
+			if(p.getActivo() == 1) {
+				textFieldProeveedor.addItem(p);				
+			}
+		}
+		
+		textFieldProeveedor.setSelectedItem(null);
 		textFieldProeveedor.setForeground(Color.WHITE);
 		textFieldProeveedor.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
 		textFieldProeveedor.setBackground(new Color(56, 56, 56));
-		textFieldProeveedor.setBounds(5, 248, 280, 26);
+		textFieldProeveedor.setBounds(340, 144, 280, 26);
 		panelDetalleProducto.add(textFieldProeveedor);
 		
 		JLabel lblProvedor = new JLabel("Proveedor");
 		lblProvedor.setForeground(Color.WHITE);
 		lblProvedor.setFont(Fonts.custom);
-		lblProvedor.setBounds(5, 208, 98, 12);
+		lblProvedor.setBounds(340, 104, 98, 12);
 		panelDetalleProducto.add(lblProvedor);
 		
 		lbOrigen = new JLabel("Origen");
 		lbOrigen.setForeground(Color.WHITE);
 		lbOrigen.setFont(Fonts.custom);
-		lbOrigen.setBounds(340, 208, 98, 12);
+		lbOrigen.setBounds(5, 206, 98, 12);
 		panelDetalleProducto.add(lbOrigen);
 		
 		textFieldOrigen = new JComboBox<String>();
 		textFieldOrigen.addItem("Importado");
 		textFieldOrigen.addItem("Nacional");
+		textFieldOrigen.setSelectedItem(null);
 		textFieldOrigen.setForeground(Color.WHITE);
 		textFieldOrigen.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
 		textFieldOrigen.setBackground(new Color(56, 56, 56));
-		textFieldOrigen.setBounds(340, 248, 280, 26);
+		textFieldOrigen.setBounds(5, 246, 280, 26);
 		panelDetalleProducto.add(textFieldOrigen);
 		
-		lbFecha = new JLabel("Fecha");
-		lbFecha.setFont(Fonts.custom);
-		lbFecha.setForeground(Color.WHITE);
-		lbFecha.setBounds(340, 104, 117, 12);
-		panelDetalleProducto.add(lbFecha);
-		
-		DatePicker textFieldFecha = new DatePicker();
-		textFieldFecha.setBounds(340, 148, 280, 26);
-		panelDetalleProducto.add(textFieldFecha);
-		
-		textField = new JTextField();
-		textField.setBounds(5, 148, 280, 26);
-		panelDetalleProducto.add(textField);
-		textField.setColumns(10);
+		textFieldMarca = new JTextField();
+		Filtros.aplicarFiltroSoloLetras(textFieldMarca);
+		textFieldMarca.setBounds(5, 148, 280, 26);
+		panelDetalleProducto.add(textFieldMarca);
+		textFieldMarca.setColumns(10);
 		
 		panelInformacionBasica = new JPanel();
 		panelInformacionBasica.setBounds(10, 10, 754, 393);
@@ -171,7 +161,6 @@ public class CrearProducto extends JDialog implements ActionListener {
 		
 		textFieldProducto = new JTextField();
 		textFieldProducto.setBounds(20, 136, 343, 26);
-		
 		textFieldProducto.setForeground(Color.WHITE);
 		textFieldProducto.setBackground(null);
 		textFieldProducto.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
@@ -185,17 +174,9 @@ public class CrearProducto extends JDialog implements ActionListener {
 		panelInformacionBasica.add(lbUnidad);
 		
 		textFieldUnidad = new JTextField();
+		Filtros.aplicarFiltroSoloLetras(textFieldUnidad);
 		textFieldUnidad.setBounds(20, 218, 343, 26);
-		textFieldUnidad.setColumns(10);
-		textFieldUnidad.addKeyListener( new KeyAdapter() {
-			 @Override
-			    public void keyReleased(KeyEvent e) {
-				 		if(textFieldUnidad.getText().trim().matches("\\d+")) {
-				 			textFieldUnidad.setText("");
-				 		}
-			    }
-		});
-		
+		textFieldUnidad.setColumns(10);	
 		textFieldUnidad.setForeground(Color.WHITE);
 		textFieldUnidad.setBackground(null);
 		textFieldUnidad.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
@@ -254,13 +235,14 @@ public class CrearProducto extends JDialog implements ActionListener {
 				btnGuardar = new JButton("Guardar");
 				BtnStyle.primary(btnGuardar, Color.BLACK);
 				btnGuardar.setFont(Fonts.custom);
+				btnGuardar.addActionListener(this);
 				
 				
 				btnContinuar = new JButton("Continuar");
 				btnContinuar.setFont(Fonts.custom);
 				BtnStyle.primary(btnContinuar,Color.BLACK);
 				btnContinuar.addActionListener(this);
-				
+			
 				btnRegresar = new JButton("Regresar");
 				btnRegresar.setFont(Fonts.custom);
 				BtnStyle.primary(btnRegresar, Color.BLACK);
@@ -283,6 +265,24 @@ public class CrearProducto extends JDialog implements ActionListener {
 	
 	
 
+
+	
+	
+	private void limpiarCampos() {
+		
+		textFieldProducto.setText("");
+		textFieldCategoria.setSelectedItem(null);
+		
+		textFieldUnidad.setText("");
+		textFieldPrecio.setText("");
+		textFieldMarca.setText("");
+		
+		textFieldProeveedor.setSelectedItem(null);
+		textFieldOrigen.setSelectedItem(null);
+		
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnContinuar) {
@@ -292,10 +292,9 @@ public class CrearProducto extends JDialog implements ActionListener {
 			if(!textFieldPrecio.getText().equals("")  && textFieldCantidad.getValue() !=  null ) {
 				
 				precio = Double.parseDouble(textFieldPrecio.getText());
-				cantidad =  (int)textFieldCantidad.getValue();
-
-				/*producto = /* new Producto(textFieldProducto.getText(), precio, (Categoria)textFieldCategoria.getSelectedItem(), 
-						cantidad,  textFieldUnidad.getText())*/;
+				cantidad = (int)textFieldCantidad.getValue();
+				
+				producto =  new Producto(textFieldProducto.getText(), precio, (Categoria)textFieldCategoria.getSelectedItem(), cantidad, textFieldUnidad.getText());
 				
 				if(context.getProductoController().validarProductoInformacionBase(producto)) {
 					panelInformacionBasica.setVisible(false);
@@ -303,9 +302,9 @@ public class CrearProducto extends JDialog implements ActionListener {
 					buttonPane.add(btnRegresar);
 					buttonPane.remove(btnContinuar);
 					buttonPane.add(btnGuardar);
+					limpiarCampos();
 					
 				}else {
-					
 					new Messages(dahsboard, "Rellene los campos correctamente").messageError();
 					return;
 				}
@@ -314,11 +313,7 @@ public class CrearProducto extends JDialog implements ActionListener {
 				new Messages(dahsboard, "Ingrese una cantidad y precio validos").messageError();
 				return;
 				
-			}
-			
-			
-			
-			
+			}			
 		}
 		
 		if(e.getSource() == btnRegresar) {
@@ -332,8 +327,37 @@ public class CrearProducto extends JDialog implements ActionListener {
 		}
 		
 		if(e.getSource() == btnGuardar) {
+	
+			Proveedor po = (Proveedor)  textFieldProeveedor.getSelectedItem();
+			int idP = context.getProductoController().listarProductos().size() + 1;
+			String origen = (String)textFieldOrigen.getSelectedItem();
 			
-			/*gestionar cuando se cree el controller de  detalles y proveedores*/
+			detalles = new Detalles(idP,textFieldMarca.getText(), po, origen);
+		
+			if(context.getProductoController().validarProductoDetalles(detalles)) {
+				producto.setDetalles(detalles);
+				
+				if(context.getProductoController().agregar(producto)) {
+					new Messages(dahsboard, "Producto agregado con exito").messageAlert();
+					panelInformacionBasica.setVisible(true);
+					panelDetalleProducto.setVisible(false);
+					buttonPane.remove(btnGuardar);
+					buttonPane.remove(btnRegresar);
+					buttonPane.add(btnContinuar);
+					return;
+					
+				}else {
+					new Messages(dahsboard, "Error al crear el producto").messageError();
+					return;
+				}
+				
+				
+				
+			}else {
+				
+				new Messages(dahsboard, "Rellene los campos correctamente").messageError();
+				return;
+			}
 			
 		}
 		

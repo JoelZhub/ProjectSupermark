@@ -5,6 +5,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +21,7 @@ import model.Producto;
 import model.Proveedor;
 import view.AplicationContext;
 import view.components.BtnStyle;
+import view.components.Filtros;
 import view.components.Fonts;
 import view.components.Messages;
 import view.dashboard.Dahsboard;
@@ -27,16 +33,15 @@ import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
 import com.github.lgooddatepicker.components.DatePicker;
 
+
 public class EditarProducto extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private final Dahsboard dahsboard;
 	private final AplicationContext context;
-	private JTextField textFieldId;
 	private JTextField textFieldNombre;
 	private JTextField textFieldUnidad;
-	private DatePicker datePicker;
 	private JTextField textFieldPrecio;
 	private JComboBox<Categoria> selectCategoria;
 	private JComboBox<Proveedor> selectProveedor;
@@ -46,11 +51,17 @@ public class EditarProducto extends JDialog implements ActionListener {
 	private Producto producto;
 	@SuppressWarnings("unused")
 	private Detalles detalles;
+	private Proveedor proveedor;
 	private JPanel buttonPane, panelDatosProductos;
 	private JPanel panelDetallesProducto;
 	private JLabel lbMarca;
 	private JTextField textFieldMarca;
 	private JComboBox<String> textFieldOrigen;
+	private JComboBox<Producto> SelectProducto;
+	private DatePicker fechaAgregado;
+	private int idDetalle;
+	
+	private int idProducto;
 
 	public static void main(String[] args) {
 		try {
@@ -84,18 +95,12 @@ public class EditarProducto extends JDialog implements ActionListener {
 		panelDatosProductos.setBackground(null);
 		panelDatosProductos.setLayout(null);
 		contentPanel.add(panelDatosProductos);
-
-		textFieldId = new JTextField();
-		textFieldId.setBounds(23, 68, 320, 26);
-		textFieldId.addActionListener(this);
-		panelDatosProductos.add(textFieldId);
-		textFieldId.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Introducir el id del producto");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(Fonts.custom);
-		lblNewLabel.setBounds(22, 24, 321, 20);
-		panelDatosProductos.add(lblNewLabel);
+		JLabel lbSeleccionar = new JLabel("Seleccionar producto");
+		lbSeleccionar.setForeground(Color.WHITE);
+		lbSeleccionar.setFont(Fonts.custom);
+		lbSeleccionar.setBounds(22, 24, 321, 20);
+		panelDatosProductos.add(lbSeleccionar);
 		
 		textFieldNombre = new JTextField();
 		textFieldNombre.setColumns(10);
@@ -115,6 +120,7 @@ public class EditarProducto extends JDialog implements ActionListener {
 		panelDatosProductos.add(lbUnidad);
 		
 		textFieldUnidad = new JTextField();
+		Filtros.aplicarFiltroSoloLetras(textFieldUnidad);
 		textFieldUnidad.setColumns(10);
 		textFieldUnidad.setBounds(23, 162, 320, 26);
 		panelDatosProductos.add(textFieldUnidad);
@@ -127,6 +133,7 @@ public class EditarProducto extends JDialog implements ActionListener {
 		
 		textFieldPrecio = new JTextField();
 		textFieldPrecio.setColumns(10);
+		Filtros.aplicarFiltroNumericoTextField(textFieldPrecio);
 		textFieldPrecio.setBounds(377, 162, 346, 26);
 		panelDatosProductos.add(textFieldPrecio);
 		
@@ -137,7 +144,7 @@ public class EditarProducto extends JDialog implements ActionListener {
 		
 		selectCategoria = new JComboBox<>(Categoria.values());
 		selectCategoria.setSelectedItem(null);
-		selectCategoria.setBounds(23, 257, 700, 26);
+		selectCategoria.setBounds(23, 258, 700, 26);
 		panelDatosProductos.add(selectCategoria);
 		
 		
@@ -148,6 +155,7 @@ public class EditarProducto extends JDialog implements ActionListener {
 		panelDatosProductos.add(lbCantidad);
 		
 		textFieldCantidad = new JSpinner();
+		Filtros.aplicarFiltroNumericoSpinner(textFieldCantidad);
 		textFieldCantidad.setModel(new SpinnerNumberModel(Integer.valueOf(10), Integer.valueOf(1), null, Integer.valueOf(1)));
 		textFieldCantidad.setBounds(22, 330, 346, 26);
 		panelDatosProductos.add(textFieldCantidad);
@@ -184,6 +192,19 @@ public class EditarProducto extends JDialog implements ActionListener {
 		group.add(btnEstadoSinStock);
 		group.add(btnEstadoBloqueado);
 		
+		SelectProducto = new JComboBox<>();
+		
+		for(Producto po: context.getProductoController().listarProductos()) {
+				if(po.getActivo() == 1) {
+					SelectProducto.addItem(po);
+				}
+		}
+		
+		SelectProducto.setSelectedItem(null);
+		SelectProducto.addActionListener(this);
+		SelectProducto.setBounds(23, 68, 320, 26);
+		panelDatosProductos.add(SelectProducto);
+		
 		panelDetallesProducto = new JPanel();
 		panelDetallesProducto.setBounds(22, 89, 724, 255);
 		panelDetallesProducto.setVisible(false);
@@ -215,6 +236,13 @@ public class EditarProducto extends JDialog implements ActionListener {
 		panelDetallesProducto.add(lbProveedor);
 		
 		selectProveedor = new JComboBox<>();
+		
+		for(Proveedor por: context.getProveedorController().listarProveedores()) {
+			if(por.getActivo() == 1) {
+				selectProveedor.addItem(por);
+			}
+		}
+		
 		selectProveedor.setSelectedItem(null);
 		selectProveedor.setBounds(23, 180, 320, 26);
 		panelDetallesProducto.add(selectProveedor);
@@ -225,16 +253,16 @@ public class EditarProducto extends JDialog implements ActionListener {
 		lbFecha.setBounds(363, 137, 183, 12);
 		panelDetallesProducto.add(lbFecha);
 		
-		datePicker = new DatePicker();
-		datePicker.setBounds(366, 180, 317, 26);
-		panelDetallesProducto.add(datePicker);
-		
 		textFieldOrigen = new JComboBox<>();
 		textFieldOrigen.setSelectedItem(null);
 		textFieldOrigen.addItem("Importado");
 		textFieldOrigen.addItem("Nacional");
 		textFieldOrigen.setBounds(363, 76, 320, 26);
 		panelDetallesProducto.add(textFieldOrigen);
+		
+		fechaAgregado = new DatePicker();
+		fechaAgregado.setBounds(363, 180, 320, 26);
+		panelDetallesProducto.add(fechaAgregado);
 		
 		
 		{
@@ -244,28 +272,31 @@ public class EditarProducto extends JDialog implements ActionListener {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnGuardar = new JButton("Guardar");
+				btnGuardar.setFont(Fonts.custom);
 				btnGuardar.addActionListener(this);
 				BtnStyle.primary(btnGuardar, Color.BLACK);
-				buttonPane.add(btnGuardar);
-				
+					
 				btnLimpiar = new JButton("Limpiar");
+				btnLimpiar.setFont(Fonts.custom);
 				btnLimpiar.addActionListener(this);
 				BtnStyle.primary(btnLimpiar, Color.BLACK);
 				buttonPane.add(btnLimpiar);
-			
+				
 				btnContinuar = new JButton("Continuar");
+				btnContinuar.setFont(Fonts.custom);
 				BtnStyle.primary(btnContinuar, Color.BLACK);
-				btnContinuar.setEnabled(false);
 				btnContinuar.addActionListener(this);
 				buttonPane.add(btnContinuar);
 	
 				btnRegresar = new JButton("Regresar");
+				btnRegresar.setFont(Fonts.custom);
 				BtnStyle.primary(btnRegresar, Color.BLACK);
 				btnRegresar.addActionListener(this);
 				
 			}
 			{
 				btnCancelar = new JButton("Cancelar");
+				btnCancelar.setFont(Fonts.custom);
 				BtnStyle.primary(btnCancelar, Color.BLACK);
 				btnCancelar.addActionListener( e -> this.dispose());
 				buttonPane.add(btnCancelar);
@@ -273,74 +304,48 @@ public class EditarProducto extends JDialog implements ActionListener {
 		}
 	}
 
+	
+
+	 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource() == textFieldId) {
-			int idProducto;
-			if(textFieldId.getText().trim().matches("\\d+")) {	
-				idProducto = Integer.parseInt(textFieldId.getText().trim());
-				producto = context.getProductoController().buscar(idProducto);
+		if(e.getSource() == SelectProducto){
 				
-				if(producto == null) {
-					new Messages(dahsboard, "Usuario no encontrado").messageError();
-					return;
-					
-				}else {
-					
-					textFieldId.setText(producto.getCodigo() + "");
-					textFieldId.setEditable(false);
-					textFieldNombre.setText(producto.getNombre());
-					textFieldUnidad.setText(producto.getUnidad());
-					textFieldPrecio.setText(producto.getPrecio() + "");
-					selectCategoria.setSelectedItem(producto.getCategoria());
-					textFieldCantidad.setValue(producto.getCantida());	
-					btnEstadoBloqueado.setSelected(producto.getActivo() == 0);
-					
-					if(producto.getActivo() == 1) {
-						boolean cantidad = producto.getCantida() > 10;
-						btnEstadoActivo.setSelected(cantidad);
-						btnEstadoSinStock.setSelected(!cantidad);
-					}
-					
-					btnContinuar.setEnabled(true);
-					//completar los campos de detalle productos cuando se cree la clase correspondiente 
-					//y este la table en la BD
-					
-					/*
-					 * textFieldMarca
-					 * datePicker
-					 * selectProveedor
-					 * textFieldOrigen
-					 * 
-					 * rellenar cuando se cree los elementos correspondientes 
-					 * detalles = new Detalles();
-					 * */
-					
-					
-				}
-		
-			}else {
-				new Messages(dahsboard, "Ingrese un id valido").messageError();
-				return;
+			producto = (Producto) SelectProducto.getSelectedItem();
+			if (producto.getDetalles() == null) {
+			    new Messages(dahsboard, "Este producto no tiene detalles registrados").messageError();
+			    return;
 			}
-		}
-		
-		if(e.getSource() == btnGuardar) {
-			if(textFieldId.getText().equals("") || textFieldId.getText() == null) {
-				new Messages(dahsboard, "No se ha buscado el producto a editar").messageError();
-				return;
+			idDetalle = producto.getDetalles().getIdDetalleProducto();
+			idProducto = producto.getCodigo();
+			textFieldNombre.setText(producto.getNombre());
+			textFieldUnidad.setText(producto.getUnidad());
+			textFieldPrecio.setText(producto.getPrecio() + "");
+			selectCategoria.setSelectedItem(producto.getCategoria());
+			textFieldCantidad.setValue(producto.getCantida());	
+			btnEstadoBloqueado.setSelected(producto.getActivo() == 0);
+			if(producto.getActivo() == 1) {
+				boolean cantidad = producto.getCantida() > 0;
+				btnEstadoActivo.setSelected(cantidad);
+				btnEstadoSinStock.setSelected(!cantidad);
 			}
-			else {
-				
-			}
+			
+			LocalDate f1 = Instant.ofEpochMilli(producto.getDetalles().getFechaAgregado().getTime())
+			        .atZone(ZoneId.systemDefault())
+			        .toLocalDate();
+			
+			fechaAgregado.setDate(f1);
+			proveedor = context.getProveedorController().buscarProveedor(producto.getDetalles().getIdProveedor());
+			selectProveedor.setSelectedItem(proveedor);
+			textFieldOrigen.setSelectedItem(producto.getDetalles().getOrigen());
+			textFieldMarca.setText(producto.getDetalles().getMarca());
+			
 			
 		}
 		
 		if(e.getSource() == btnLimpiar) {
 
-			textFieldId.setText("");
-			textFieldId.setEditable(true);
 			textFieldNombre.setText("");
 			textFieldUnidad.setText("");
 			textFieldPrecio.setText("");
@@ -349,12 +354,62 @@ public class EditarProducto extends JDialog implements ActionListener {
 			btnEstadoBloqueado.setSelected(false);
 			btnEstadoActivo.setSelected(false);
 			btnEstadoSinStock.setSelected(false);
+			
+			selectProveedor.setSelectedItem(null);
+			textFieldMarca.setText("");
+			textFieldOrigen.setSelectedItem(null);
 		}
 		
 		if(e.getSource() == btnContinuar) {
+		
+			if(SelectProducto.getSelectedItem() == null) {
+				new Messages(dahsboard, "Seleccione un producto valido").messageError();
+				return;
+			}
+			else {
+			Double precio = 0.0;
+			
+			
+			if(textFieldPrecio.getText().trim() != null) {
+				
+				precio = Double.parseDouble(textFieldPrecio.getText());
+			}
+			int cantidad = (int)  textFieldCantidad.getValue();
+			int activo = 0;
+			
+			if(btnEstadoActivo.isSelected()) {
+				activo = 1;
+			}
+			if(btnEstadoBloqueado.isSelected()) {
+				activo = 0;
+			}
+			if(btnEstadoSinStock.isSelected()) {
+				if(cantidad <= 0) {
+					new Messages(dahsboard, "Este producto tiene una cantidad mayor a 0 por lo que no puede marcarse sin stock").messageError();
+					return;
+				}else {
+					activo = 0;
+				}
+			}
+			
+			producto = new Producto(
+					idProducto,
+					textFieldNombre.getText(),
+					precio,
+					(Categoria) selectCategoria.getSelectedItem(),
+					cantidad,
+					textFieldUnidad.getText(),
+					activo
+		
+				);
+			
 			if(context.getProductoController().validarProductoInformacionBase(producto)) {
+				
+				buttonPane.add(btnGuardar);
 				buttonPane.add(btnRegresar);
 				buttonPane.remove(btnContinuar);
+				buttonPane.remove(btnCancelar);
+				buttonPane.add(btnCancelar);
 				panelDetallesProducto.setVisible(true);
 				panelDatosProductos.setVisible(false);
 				
@@ -364,9 +419,12 @@ public class EditarProducto extends JDialog implements ActionListener {
 			}
 			
 		}
+			
+		}
 		
 		if(e.getSource() == btnRegresar) {
 			buttonPane.remove(btnRegresar);
+			buttonPane.remove(btnGuardar);
 			buttonPane.add(btnContinuar);
 			panelDetallesProducto.setVisible(false);
 			panelDatosProductos.setVisible(true);
@@ -374,19 +432,45 @@ public class EditarProducto extends JDialog implements ActionListener {
 		}
 		
 		if(e.getSource() == btnGuardar) {
+	
+			var po = (Proveedor) selectProveedor.getSelectedItem();
+			String origen = (String) textFieldOrigen.getSelectedItem();
 			
-			/*elementos comentados hasta que se creen los metodos correspondientes
-			 * 
-			 * 
-			 * if(context.getDetalleController().validarDetallesProducto(detalles)){
-			 * 		 context.getProductoController().editar(producto);
-			 * 		 context.getDetallesController().editar(detalles);
-			 * 		
-			 * }else{ 
-			 *	 new Messages(dahsboard, "Rellene los detalles del producto correctamente").messageError();
-			 * 	return;
-			 * }
-			 * */
+			LocalDate ld = fechaAgregado.getDate();
+			Date sqlDate = Date.valueOf(ld);
+	
+			detalles = new Detalles(
+					idDetalle,
+					producto.getCodigo(),
+					textFieldMarca.getText(),
+					po,
+					origen,
+					sqlDate
+				);
+//			
+			
+			if(context.getProductoController().validarProductoDetalles(detalles)) {
+				producto.setDetalles(detalles);
+				if(new Messages(dahsboard, "Esta por modificar la información de este producto, ¿Desea continuar?").messageWarning()) {
+					if(context.getProductoController().editar(producto)) {
+						new Messages(dahsboard, "Producto editado correctamente").messageAlert();
+						return;
+						
+					}else {
+						new Messages(dahsboard, "Error al editar la informacion del producto").messageError();
+						return;
+					}
+					
+				}else {
+					new Messages(dahsboard, "Accion cancelada").messageCancelaciones();
+					return;
+					
+				}
+			
+			}else {
+				new Messages(dahsboard, "Complete todos los campos correctamente").messageError();
+				return;
+			}
 			
 		}
 	}

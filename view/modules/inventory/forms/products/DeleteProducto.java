@@ -1,23 +1,23 @@
 package view.modules.inventory.forms.products;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+
 import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AbstractDocument;
 
+import model.Producto;
 import view.AplicationContext;
 import view.components.BtnStyle;
 import view.components.Fonts;
 import view.components.Messages;
-import view.components.NumericFilter;
 import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class DeleteProducto extends JDialog {
 
@@ -26,8 +26,9 @@ public class DeleteProducto extends JDialog {
 	@SuppressWarnings("unused")
 	private final Dahsboard dahsboard;
 	@SuppressWarnings("unused")
+	private JComboBox<Producto> selectProducto;
+	@SuppressWarnings("unused")
 	private final AplicationContext context;
-	private JTextField textFieldId;
 	
 	public static void main(String[] args) {
 		try {
@@ -51,64 +52,65 @@ public class DeleteProducto extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lbEliminar = new JLabel("Eliminar Producto");
-		lbEliminar.setBounds(10, 20, 242, 24);
-		lbEliminar.setFont(Fonts.bold);
-		lbEliminar.setForeground(Color.WHITE);
-		contentPanel.add(lbEliminar);
+		JLabel lbDesabilitar = new JLabel("Bloquear producto");
+		lbDesabilitar.setBounds(10, 20, 242, 24);
+		lbDesabilitar.setFont(Fonts.bold);
+		lbDesabilitar.setForeground(Color.WHITE);
+		contentPanel.add(lbDesabilitar);
 		
-		JLabel lbEliminarId = new JLabel("Ingrese el id del producto");
-		lbEliminarId.setBounds(10, 72, 220, 24);
-		lbEliminarId.setFont(Fonts.custom);
-		lbEliminarId.setForeground(Color.WHITE);
-		contentPanel.add(lbEliminarId);
+		JLabel lbProducto = new JLabel("Seleccione el producto");
+		lbProducto.setBounds(10, 72, 220, 24);
+		lbProducto.setFont(Fonts.custom);
+		lbProducto.setForeground(Color.WHITE);
+		contentPanel.add(lbProducto);
 		
-		textFieldId = new JTextField();
-		aplicarFiltroNumericoPrecio(textFieldId);
-	
-		textFieldId.setBounds(10, 120, 372, 26);
-		contentPanel.add(textFieldId);
-		textFieldId.setColumns(10);
+		selectProducto = new JComboBox<>();
+		
+		for(Producto p : context.getProductoController().listarProductos()) {	
+			if(p.getActivo() == 1) {
+				selectProducto.addItem(p);
+			}
+		}
+		selectProducto.setSelectedItem(null);
+		selectProducto.setBounds(10, 118, 394, 31);
+		contentPanel.add(selectProducto);
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBackground(new Color(56,56,56));
-			buttonPane.setLayout(new GridLayout(1, 2, 10, 0));
+			buttonPane.setBackground(Color.WHITE);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnGuardar = new JButton("Guardar");
-				btnGuardar.setBorder(null);
-		
-				BtnStyle.primary(btnGuardar, new Color(102, 237, 142));
+				BtnStyle.primary(btnGuardar, new Color(0, 0, 0));
 				btnGuardar.setFont(Fonts.custom);
-				btnGuardar.setForeground(Color.WHITE);
-				btnGuardar.setPreferredSize(new Dimension(200, 40));
-				btnGuardar.setBounds(0, 10, 200, 30);
+				
+				
 				btnGuardar.addActionListener(e -> {
-					int id;	
-				if(textFieldId.getText().trim().matches("\\d+")) {
-						id = Integer.parseInt(textFieldId.getText().trim());
-						if(new Messages(dahsboard, "Esta por eliminar este producto desea continuar?").messageWarning()) {
-							String message = context.getProductoController().inhabilitarProducto(id);
+					if(selectProducto.getSelectedItem() != null) {
+						Producto p = (Producto)  selectProducto.getSelectedItem() ;
+						if(new Messages(dahsboard, "Esta por desactivar este producto ¿Desea continuar?").messageWarning()) {
+							String message = context.getProductoController().inhabilitarProducto(p.getCodigo());
 							new Messages(dahsboard, message).messageAvisos();
+							return;
 						}else {
-							new Messages(dahsboard, "Accion Cancelada").messageCancelaciones();
+							new Messages(dahsboard, "Accion cancelada").messageCancelaciones();
 							return;
 						}
+						
+						
 					}else {
-						new Messages(dahsboard, "Ingrese un id valido").messageError();
+						
+						new Messages(dahsboard, "Seleccione un producto valido").messageError();
 						return;
 					}
-					
+				
 				});
 				buttonPane.add(btnGuardar);
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
-				btnCancelar.setBorder(null);
-				btnCancelar.setPreferredSize(new Dimension(200, 40));
-				BtnStyle.primary(btnCancelar, new Color(204, 204, 204));
+				BtnStyle.primary(btnCancelar, new Color(0, 0, 0));
 				btnCancelar.setFont(Fonts.custom);
-				btnCancelar.setForeground(Color.WHITE);
 				btnCancelar.addActionListener(e -> this.dispose());
 				buttonPane.add(btnCancelar);
 			
@@ -116,7 +118,7 @@ public class DeleteProducto extends JDialog {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void aplicarFiltroNumericoPrecio(JTextField id) {
-		((AbstractDocument) id.getDocument()).setDocumentFilter(new NumericFilter());
 	}
 }

@@ -19,19 +19,22 @@ public class ProductoController {
         return dao.listar();
     }
 
-    public String agregar(Producto producto) {
-        try {
-            if (dao.buscar(producto.getCodigo()) != null)
-                return "Error: Ya existe un producto con ese código.";
+    public boolean agregar(Producto producto) {
 
-            return dao.insertar(producto) ? "Producto agregado" : "Error al agregar";
-
-        } catch (IllegalArgumentException e) {
-            return "Categoría inválida.";
-        }
+    	  return dao.insertar(producto);
+    	
+//    	try {
+//            if (dao.buscar(producto.getCodigo()) != null)
+//                return "Error: Ya existe un producto con ese código.";
+//
+//            return dao.insertar(producto) ? "Producto agregado" : "Error al agregar";
+//
+//        } catch (IllegalArgumentException e) {
+//            return "Categoría inválida.";
+//        }
     }
     
-    @SuppressWarnings("null")
+
 	public List<Producto> listarProductosStockBajo(){
     		List<Producto> productosBajo = new ArrayList<>();
     		 var list = dao.listar();
@@ -52,10 +55,19 @@ public class ProductoController {
     	if(prod.getCantida() <= 0) return false;
     	if(prod.getActivo() > 2 ) return false;
     	if(prod.getCategoria() == null) return false;
-    	if(prod.getPrecio() <= 0) return false;
+    	if(prod.getPrecio() <= 0.0) return false;
     	if(prod.getUnidad().length() < 2 || prod.getUnidad() == null) return false;
     	return true;
     	
+    }
+    
+    //validar detalles del producto -> origen -> proveedor. etc	
+    public boolean validarProductoDetalles(Detalles de) {
+    	if(de.getIdProducto() == 0) return false;
+    	if(de.getProveedor() == null) return false;
+    	if(de.getOrigen().equals("") ||  de.getOrigen() == null) return false;
+    	if(de.getMarca().equals("") || de.getMarca() == null ) return false;
+    	return true;
     }
     
   
@@ -64,13 +76,18 @@ public class ProductoController {
         return dao.eliminar(id) ? "Producto inhabilitado correctamente." : "Producto no encontrado.";
     }
 
-    public String editar(Producto producto) {
-        try {
-            return dao.editar(producto) ? "Actualizado" : "No encontrado";
-
-        } catch (IllegalArgumentException e) {
-            return "Categoría inválida.";
-        }
+    
+    //los puse boolean como lo tienes en los demas controller puesto que asi puedo inferir en que succedio y mostrar
+    //una alert con la clase messages que tenia creada(o sea mostrar un dialog rojo si es error, verde si es exito y asi)
+    public boolean editar(Producto producto) {
+    	
+    	  return dao.editar(producto) ;
+//        try {
+//            return dao.editar(producto) ? "Actualizado" : "No encontrado";
+//
+//        } catch (IllegalArgumentException e) {
+//            return "Categoría inválida.";
+//        }
     }
     
     public Producto buscar(int id) {

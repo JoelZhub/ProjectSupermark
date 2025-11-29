@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Proveedor {
 
     private int idProveedor;
@@ -116,5 +118,22 @@ public class Proveedor {
     //esto es para el jCombox para cuando se cree el producto se pueda seleccionar un proveedor existente
     public String toString() {
     	return nombre;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Proveedor proveedor = (Proveedor) obj;
+        return idProveedor == proveedor.idProveedor; 
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProveedor);
     }
 }
