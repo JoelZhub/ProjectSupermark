@@ -67,7 +67,7 @@ public class CrearReporteCXC extends JDialog implements ActionListener {
 
         contentPanel.setLayout(null);
         {
-            JLabel lbCrear = new JLabel("Crear Reporte Ventas Diarias");
+            JLabel lbCrear = new JLabel("Crear Reporte Cuentas Por Cobrar");
             lbCrear.setBounds(20, 22, 300, 44);
             lbCrear.setForeground(Color.WHITE);
             lbCrear.setFont(Fonts.bold);
