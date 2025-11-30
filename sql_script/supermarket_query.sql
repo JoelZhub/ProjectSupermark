@@ -2,6 +2,7 @@ CREATE DATABASE supermarket_DB;
 
 USE supermarket_DB;
 
+select * from usuarios;
 CREATE TABLE productos ( 
     idProducto INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
