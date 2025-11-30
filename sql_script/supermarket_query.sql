@@ -2,7 +2,6 @@ CREATE DATABASE supermarket_DB;
 
 USE supermarket_DB;
 
-
 CREATE TABLE productos ( 
     idProducto INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -12,7 +11,6 @@ CREATE TABLE productos (
     unidad VARCHAR(30) NOT NULL,
     activo  tinyint(1) NOT NULL default(1)
 );
-
 
 CREATE TABLE ofertas(
 idOferta int primary key auto_increment,
@@ -24,8 +22,6 @@ activo tinyint(1) not null default(1),
 idProducto int not null,
 Foreign key(idProducto) references productos(idProducto)
 );
-
-select * from ofertas;
 
 create table proveedores(
 idProveedor INT PRIMARY KEY AUTO_INCREMENT,
@@ -67,8 +63,6 @@ CREATE TABLE factura_producto (
     FOREIGN KEY (idProducto) REFERENCES productos(idProducto)
 );
 
-
-
 CREATE TABLE usuarios (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -77,10 +71,63 @@ CREATE TABLE usuarios (
     rol VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE clientes (
+    identificacion VARCHAR(20) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    clasificacion VARCHAR(120) NOT NULL,
+    telefono VARCHAR(100) NOT NULL
+);
+
+create table compra_proveedor(
+	idCompra INT PRIMARY KEY AUTO_INCREMENT,
+	idProducto INT not null,
+	idProveedor INT NOT NULL,
+    cantidad INT,
+    fecha VARCHAR(15),
+    precio DOUBLE NOT NULL,
+	Foreign key(idProducto) references productos(idProducto),
+	Foreign key(idProveedor) references proveedores(idProveedor)
+);
+
+CREATE TABLE cuentas_pagar(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    idCompra INT,
+    idProveedor INT,
+    monto_total double,
+    monto_pendiente double,
+    estado VARCHAR(20),
+    FOREIGN KEY (idCompra) REFERENCES compra_proveedor(idCompra),
+    FOREIGN KEY (idProveedor) REFERENCES proveedores(idProveedor)
+);
+
+CREATE TABLE cuentas_pagar_pagos(
+	idPago INT AUTO_INCREMENT PRIMARY KEY,
+    idCuenta INT,
+	fecha VARCHAR(15),
+    monto double,
+    FOREIGN KEY (idCuenta) REFERENCES cuentas_pagar(id)
+);
+
+CREATE TABLE cuentas_cobrar(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    idCliente VARCHAR(20),
+    idFactura int,
+    monto_total double,
+    monto_pendiente double,
+    estado VARCHAR(20),
+    FOREIGN KEY (idFactura) REFERENCES facturas(idFactura),
+    FOREIGN KEY (idCliente) REFERENCES clientes(identificacion)
+);
+
+CREATE TABLE cuentas_cobrar_pagos(
+	idPago INT AUTO_INCREMENT PRIMARY KEY,
+    idCuenta INT,
+	fecha VARCHAR(15),
+    monto double,
+    FOREIGN KEY (idCuenta) REFERENCES cuentas_cobrar(id)
+);
 
 -- registros de prueba -< usuarios
-
-select * from usuarios;
 
 INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 ('Carlos Méndez', 'cmendez@empresa.com', '1234', 'ADMIN'),
@@ -93,7 +140,6 @@ INSERT INTO usuarios (nombre, email, pin, rol) VALUES
 ('Elena Torres', 'etorres@empresa.com', '5522', 'ENCARGADO_INVENTARIO'),
 ('Samuel Castro', 'scastro@empresa.com', '9911', 'VENDEDOR'),
 ('Daniela Ruiz', 'druiz@empresa.com', '1100', 'CAJERO');
-
 
 -- Registros de pruebas -> productos
 
@@ -109,8 +155,6 @@ INSERT INTO productos (nombre, precio, categoria, cantidad, unidad, activo) VALU
 ('Yogurt Natural 500ml', 65.00, 'LACTEOS', 7, 'unidad', 1),
 ('Pan Integral Molde', 90.00, 'PANES', 3, 'unidad', 1);
 
-
-
 -- registros de pruebas -> ofertas
 
 INSERT INTO ofertas (oferta, monto, dateInicio, dateFin, activo, idProducto) VALUES
@@ -125,9 +169,7 @@ INSERT INTO ofertas (oferta, monto, dateInicio, dateFin, activo, idProducto) VAL
 ('Precio Especial Lácteos', 18.00, '2025-02-15', '2025-02-25', 1, 9),
 ('Descuento Panadería', 6.00, '2025-01-18', '2025-01-31', 1, 10);
 
-
 -- REGISTROS DE PRUEBAS -> PROVEEDORES
-
 
 INSERT INTO proveedores 
 (rncProveedor, nombre, telefono, correo, calle, ciudad, pais, activo)
@@ -145,10 +187,6 @@ VALUES
 (506554433, 'Andes Proveedores SAC', '+51-1-4455667', 'ventas@andes-sac.pe', 'Av. Arequipa 1220', 'Lima', 'Perú', 1),
 (607778899, 'Nippon Supply Co', '+81-3-4455-6677', 'service@nipponsupply.jp', 'Shibuya Crossing 22', 'Tokio', 'Japón', 1);
 
-select * from ofertas;
-
-select * from proveedores;
-
 INSERT INTO detalles_producto (idProducto, idProveedor, marca, origen)
 VALUES
 (1, 1, 'Caribeña Selecta', 'Nacional'),
@@ -162,5 +200,65 @@ VALUES
 (9, 7, 'EuroLáctea', 'Importado'),
 (10, 1, 'Caribeña Bakery', 'Nacional');
 
+INSERT INTO compra_proveedor (idProducto, idProveedor, cantidad, fecha, precio) VALUES
+(1,  2, 150, '2025-10-02', 220.00),
+(2,  1,  80, '2025-10-03', 350.00),
+(3,  7, 200, '2025-10-03',  45.00),
+(4,  3, 120, '2025-10-04',  90.00),
+(5,  4, 180, '2025-10-05',  60.00),
+(6,  5,  70, '2025-10-06', 250.00),
+(7,  8, 140, '2025-10-06',  85.00),
+(8,  6,  95, '2025-10-07', 120.00),
+(9, 10,  60, '2025-10-08', 480.00),
+(10, 7, 110, '2025-10-09',  75.00),
+(11, 4, 200, '2025-11-01',  55.00),
+(12, 9, 130, '2025-11-10', 190.00);
 
-select * from proveedores;
+INSERT INTO cuentas_pagar (idCompra, idProveedor, monto_total, monto_pendiente, estado) VALUES
+(1,  2, 33000.00, 16500.00, 'Parcial'),
+(2,  1, 28000.00,     0.00, 'Pagado'),
+(3,  7,  9000.00,  9000.00, 'Pendiente'),
+(4,  3, 10800.00,  6800.00, 'Parcial'), 
+(5,  4, 10800.00,     0.00, 'Pagado'), 
+(6,  5, 17500.00, 17500.00, 'Pendiente'), 
+(7,  8, 11900.00,  5900.00, 'Parcial'),  
+(8,  6, 11400.00, 11400.00, 'Pendiente'), 
+(9, 10, 28800.00,     0.00, 'Pagado'),  
+(10, 7,  8250.00,  8250.00, 'Pendiente'),
+(11, 4, 11000.00,  3000.00, 'Parcial'),
+(12, 9, 24700.00, 24700.00, 'Pendiente');
+
+INSERT INTO cuentas_pagar_pagos (idCuenta, fecha, monto) VALUES
+(1, '2025-10-10', 10000.00),
+(1, '2025-10-20',  6500.00),
+(2, '2025-10-05', 15000.00),
+(2, '2025-10-15', 13000.00),
+(4, '2025-10-12',  4000.00),
+(5, '2025-10-08', 10800.00),
+(7, '2025-10-18',  6000.00),
+(9, '2025-10-25', 18000.00),
+(9, '2025-10-30', 10800.00),
+(11, '2025-11-05',  8000.00);
+
+INSERT INTO clientes (identificacion, nombre, clasificacion, telefono) VALUES
+('1', 'Juan Pérez', 'Minorista', '809-111-2222'),
+('3', 'Empresa XYZ SRL', 'Mayorista', '809-333-4444'),
+('5', 'Ana Gómez', 'Minorista', '809-555-6666');
+
+INSERT INTO cuentas_cobrar (idCliente, idFactura, monto_total, monto_pendiente, estado) VALUES
+('1', 1,    0.00,    0.00, 'Pagado'),
+('3', 2, 2348.00,  348.00, 'Pendiente'),
+('1', 3, 1184.00, 1184.00, 'Pendiente'),
+('1', 4, 1025.00,    0.00, 'Pagado'),
+('1', 5, 1918.00,  918.00, 'Pendiente'),
+('1', 6, 1460.00, 1460.00, 'Pendiente'),
+('1', 7, 1680.00,    0.00, 'Pagado'),
+('1', 8, 1395.00,  395.00, 'Pendiente');
+
+INSERT INTO cuentas_cobrar_pagos (idCuenta, fecha, monto) VALUES
+(2, '2025-11-23', 2000.00),
+(4, '2025-11-29', 1025.00),
+(5, '2025-11-29', 1000.00),
+(7, '2025-11-29', 1000.00),
+(7, '2025-11-30',  680.00),
+(8, '2025-11-30', 1000.00);
