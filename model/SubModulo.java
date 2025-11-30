@@ -8,5 +8,10 @@ package model;
 public enum SubModulo {
 	PRODUCTO,
 	PROVEEDOR,
-	OFERTA
+	OFERTA,
+	CUENTA_COBRAR,
+	CUENTA_PAGAR,
+	PAGO_CXC,
+	PAGO_CXP,
+
 }
