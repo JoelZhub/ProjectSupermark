@@ -6,10 +6,10 @@
 	import java.util.HashMap;
 	import java.util.Map;
 	import model.Modulo;
-	import model.OperationType;
-	import model.Permiso;
-	import model.SubModulo;
-	import session.SessionContext;
+import model.OperationType;
+import model.Permiso;
+import model.SubModulo;
+import session.SessionContext;
 
 	import javax.swing.JButton;
 	import javax.swing.JLabel;
@@ -17,12 +17,12 @@
 	import javax.swing.SwingUtilities;
 
 	import view.AplicationContext;
-	import view.components.AssetManager;
+import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;
 	import view.components.Messages;
 	import view.components.RoundePanel;
-	import view.formFactory.FormFactory;
+import view.formFactory.FormFactory;
 	
 	public class MenuPanel extends JPanel implements ActionListener {
 		
@@ -38,9 +38,9 @@
 		@SuppressWarnings("unused")
 		private String messageCrear = "";
 		
-		private JButton btnAgregar, btnVenta, btnCliente, btnFactura, btnUsuarios,  btnProductos;
+		private JButton btnAgregar, btnVenta, btnFactura, btnUsuarios,  btnProductos, btnFinanzas;
 		
-		private JLabel lbTitulo, lbIconUsuarios, lbCliente,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto;
+		private JLabel lbTitulo, lbIconUsuarios,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto, lbIconFinanzas;
 		
 		
 		private Dahsboard dahsboard;
@@ -99,15 +99,6 @@
 				
 			});
 			
-			btnCliente = new JButton("Cliente");
-			BtnStyle.second(btnCliente);
-			btnCliente.setFont(Fonts.custom);
-			btnCliente.setBounds(87, 320, 158, 34);
-			btnCliente.addActionListener(e ->  {
-				context.getNavigation().goTo(Modulo.CLIENTE);
-				verificarModuloUserMessagePersonalizado();
-			});
-			
 			
 			btnVenta = new JButton("Ventas");
 			btnVenta.setBounds(87, 104, 158, 34);
@@ -138,6 +129,14 @@
 			
 			btnUsuarios.setBounds(87, 242, 158, 34);
 			
+			btnFinanzas = new JButton("Finanzas");
+			btnFinanzas.setBounds(87, 311, 158, 34);
+			BtnStyle.second(btnFinanzas);
+			btnFinanzas.setFont(Fonts.custom);
+			btnFinanzas.addActionListener(e -> {
+				context.getNavigation().goTo(Modulo.FINANZAS);
+				verificarModuloUserMessagePersonalizado();
+			});
 			
 		}
 		
@@ -163,9 +162,9 @@
 		                    case VENTAS:
 		                        lblNuevoProducto.setText("Solo lectura");
 		                        break;
-		                    case CLIENTE:
-		                    	  lblNuevoProducto.setText("Nuevo cliente");
-		                        break;
+							case FINANZAS:
+								lblNuevoProducto.setText("Nuevo movimiento");
+								break;
 		                    default:
 		                        lblNuevoProducto.setText("No identificado");
 		                        break;
@@ -195,14 +194,14 @@
 			panelBotones.add(btnUsuarios);
 			panelBotones.add(btnVenta);
 			panelBotones.add(btnProductos);
-			panelBotones.add(btnCliente);
-
+			panelBotones.add(btnFinanzas);
+			
 			panelBotones.add(lbIconCategorias);
 
 			panelBotones.add(lbIconVentas);
 			panelBotones.add(lbIconFacturas);
 			panelBotones.add(lbIconUsuarios);
-			panelBotones.add(lbCliente);
+			panelBotones.add(lbIconFinanzas);
 			
 			
 		}
@@ -214,8 +213,7 @@
 			mapearModulos.put(btnVenta, Modulo.VENTAS);
 			mapearModulos.put(btnFactura, Modulo.FACTURACION);
 			mapearModulos.put(btnUsuarios, Modulo.ADMIN);
-			mapearModulos.put(btnCliente, Modulo.CLIENTE);
-			
+			mapearModulos.put(btnFinanzas, Modulo.FINANZAS);
 		}
 		
 		private void aplicarPermisos() {
@@ -263,13 +261,10 @@
 			lbIconUsuarios = new JLabel("");
 			lbIconUsuarios.setIcon(AssetManager.icon("user.png",32,32));
 			lbIconUsuarios.setBounds(20, 242, 32, 32);
-			
-			lbCliente = new JLabel("");
-			lbCliente.setIcon(AssetManager.icon("customer.png",32,32));
-			lbCliente.setBounds(20, 320, 32,32);
-			
-			
-			
+
+			lbIconFinanzas = new JLabel("");
+			lbIconFinanzas.setIcon(AssetManager.icon("finanzas.png", 32, 32));
+			lbIconFinanzas.setBounds(20, 311, 32, 32);
 				
 		}
 		
@@ -311,7 +306,14 @@
 				}
 			}
 			
+			
+			
 		}
+
+		
+		
+		
 		
 	}
+	
 	
