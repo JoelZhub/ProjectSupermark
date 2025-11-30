@@ -46,6 +46,9 @@ public class ProductoDAO implements Operaciones<Producto> {
         }
     }
 
+    
+    
+    
     @Override
     public boolean editar(Producto p) {
         if (p == null) return false;
@@ -86,6 +89,23 @@ public class ProductoDAO implements Operaciones<Producto> {
             System.out.println("Error editar producto: " + e.getMessage());
             return false;
         }
+    }
+    
+    public boolean editarProductoStock(Producto p) {
+    	 String sql = "UPDATE productos SET cantidad=? WHERE idProducto=?";
+    	 
+    	 try(Connection con = DBConnection.getConnection();
+ 				PreparedStatement stmt  = con.prepareStatement(sql)){
+ 			stmt.setInt(1, p.getCantida());
+ 			stmt.setInt(2, p.getCodigo());
+ 			return stmt.executeUpdate() > 0;
+ 		
+ 		}catch(SQLException e) {
+ 			
+ 			 System.out.println("Error al editar el stock del producto: " + e.getMessage());
+ 	            return false;
+ 		}
+    	
     }
 
     
@@ -179,7 +199,8 @@ public class ProductoDAO implements Operaciones<Producto> {
 	    return null;
 	}
 
-
+    
+  
     //igual, aunque aqui altere la consulta sql y emple un join para unir los datos, entre la table detalles y productos
   
     @Override

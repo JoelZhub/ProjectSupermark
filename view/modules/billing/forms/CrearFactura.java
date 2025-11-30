@@ -27,8 +27,10 @@ public class CrearFactura extends JDialog {
 	public CrearFactura(AplicationContext context, Dahsboard dahsboard, int modo) {
 	    this.context = context;
 	    this.dahsboard = dahsboard;
-	    setBounds(100, 100, 1098, 818);
+	    setLayout(null);
+	    setBounds(100, 100, 1048, 818);
 	    setBackground(Color.WHITE);
+	    setResizable(false);
 	    getContentPane().setBackground(Color.WHITE);
 	    setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 	    getContentPane().setLayout(new BorderLayout());

@@ -1,14 +1,20 @@
 package view.table.schemas;
 
 import model.Factura;
+import view.AplicationContext;
 import view.table.ColumnDefinition;
 
 public class FacturasSchema {
 
 	///completar con los atributos de la clase facturas cuando este creada 
 	//descomentar cuando se cree la clase que manejara las facturas
+	private static AplicationContext context;
 	
-	
+	@SuppressWarnings("static-access")
+	public static void setContext(AplicationContext context) {
+		FacturasSchema.context = context;
+	}
+
 	 public static TableSchema<Factura> create(){
 		
 		return new TableSchema.Builder<Factura>()
@@ -34,16 +40,21 @@ public class FacturasSchema {
                 .preferredWidth(120)
                 .build()
         )
-        // cambiar esto por el nombre del cliente y
+       
         .addColumn(new ColumnDefinition.Builder<Factura>()
-                .header("IDCliente")
+                .header("Nombre Cliente")
                 .key("idCliente")
-                .value(Factura::getClienteId)
+                .value(p -> {
+                	
+                	if(p.getClienteId() == 0) return "No Aplica";
+                	return  context.getClienteController().buscarCliente(p.getClienteId()).getNombre()  ;
+                	
+                })
                 .preferredWidth(80)
                 .build()
         )
         .addColumn(new ColumnDefinition.Builder<Factura>()
-                .header("IDCajero")
+                .header("N.Caja")
                 .key("idCajero")
                 .value(Factura::getCajeroId)
                 .preferredWidth(80)

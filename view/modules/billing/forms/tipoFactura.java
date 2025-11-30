@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import view.AplicationContext;
 import view.components.BtnStyle;
 import view.components.Fonts;
+import view.components.Messages;
 import view.dashboard.Dahsboard;
 import javax.swing.JLabel;
 
@@ -58,8 +59,14 @@ public class tipoFactura extends JDialog implements ActionListener {
 			JButton btnCompradorFinal = new JButton("Comprador Final");
 			btnCompradorFinal.addActionListener(e->{
 				
-				new CrearFactura(context, dahsboard,1).setVisible(true);
-				this.dispose();
+				if(context.getClienteController().listarClientes().size() > 0) {
+					new CrearFactura(context, dahsboard,1).setVisible(true);
+					this.dispose();
+				}else {
+					
+					new Messages(dahsboard, "No hay cliente registrados a los cuales generar una factura de este tipo").messageError();
+					return;
+				}
 			});
 			btnCompradorFinal.setFont(Fonts.custom);
 			BtnStyle.primary(btnCompradorFinal, new Color(56,56,56));

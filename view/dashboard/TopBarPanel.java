@@ -202,27 +202,27 @@ import view.AplicationContext;
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			
-			if(e.getSource() == btnSalir) {
-					BtnStyle.primary(btnSalir, new Color(245, 73, 39));
-			}
-			if(e.getSource() == btnCerrarSesion) {
-				BtnStyle.primary(btnCerrarSesion, new Color(125, 182, 255));
-			}
-			
+//			
+//			if(e.getSource() == btnSalir) {
+//					BtnStyle.primary(btnSalir, new Color(245, 73, 39));
+//			}
+//			if(e.getSource() == btnCerrarSesion) {
+//				BtnStyle.primary(btnCerrarSesion, new Color(125, 182, 255));
+//			}
+//			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 	
-			if(e.getSource() == btnSalir) {
-				BtnStyle.flat(btnSalir);
-				btnSalir.setForeground(Color.BLACK);		
-		}
-		if(e.getSource() == btnCerrarSesion) {
-			BtnStyle.flat(btnCerrarSesion);
-			btnCerrarSesion.setForeground(Color.BLACK);
-		}
+//			if(e.getSource() == btnSalir) {
+//				BtnStyle.flat(btnSalir);
+//				btnSalir.setForeground(Color.BLACK);		
+//		}
+//		if(e.getSource() == btnCerrarSesion) {
+//			BtnStyle.flat(btnCerrarSesion);
+//			btnCerrarSesion.setForeground(Color.BLACK);
+//		}
 		}
 		
 		

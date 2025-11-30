@@ -22,6 +22,9 @@ public class Producto {
         this.unidad = unidad;
     }
 
+    
+    
+    
     public Producto(int idProducto, String nombre, double precio, Categoria categoria, int cantidad,
     		String unidad, int activo){    	
         this.idProducto = idProducto;

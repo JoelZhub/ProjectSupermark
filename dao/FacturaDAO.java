@@ -12,7 +12,7 @@ public class FacturaDAO implements Operaciones<Factura> {
 
     @Override
     public boolean insertar(Factura f) {
-        String sql = "INSERT INTO facturas (fecha, total, metodoPago, clienteId, empleadoId) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO factura (fecha, total, metodoPago, clienteId, empleadoId) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
         		
@@ -42,7 +42,7 @@ public class FacturaDAO implements Operaciones<Factura> {
 
     @Override
     public boolean editar(Factura f) {
-        String sql = "UPDATE facturas SET fecha=?, total=?, metodoPago=?, clienteId=?, empleadoId=? WHERE idFactura=?";
+        String sql = "UPDATE factura SET fecha=?, total=?, metodoPago=?, clienteId=?, empleadoId=? WHERE idFactura=?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -65,7 +65,7 @@ public class FacturaDAO implements Operaciones<Factura> {
     @Override
     public boolean eliminar(int id) {
         String sql1 = "DELETE FROM productos_factura WHERE idFactura = ?";
-        String sql2 = "DELETE FROM facturas WHERE idFactura = ?";
+        String sql2 = "DELETE FROM factura WHERE idFactura = ?";
 
         try (Connection con = DBConnection.getConnection()) {
 
@@ -134,7 +134,7 @@ public class FacturaDAO implements Operaciones<Factura> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error listando facturas: " + e.getMessage());
+            System.out.println("Error listando factura: " + e.getMessage());
         }
 
         return lista;
@@ -143,13 +143,14 @@ public class FacturaDAO implements Operaciones<Factura> {
     //productos_factura
 
     public boolean agregarProducto(int idFactura, String idProducto, int cantidad) {
+    	
         String sql = "INSERT INTO factura_producto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
-
+        int idP = Integer.parseInt(idProducto);
         try (Connection con = DBConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, idFactura);
-            stmt.setString(2, idProducto);
+            stmt.setInt(2, idP);
             stmt.setInt(3, cantidad);
 
             boolean ok = stmt.executeUpdate() > 0;
@@ -262,7 +263,7 @@ public class FacturaDAO implements Operaciones<Factura> {
     public void actualizarTotal(int idFactura) {
         double total = calcularTotal(idFactura);
 
-        String sql = "UPDATE facturas SET total=? WHERE idFactura=?";
+        String sql = "UPDATE factura SET total=? WHERE idFactura=?";
 
         try (Connection con = DBConnection.getConnection();
             PreparedStatement st = con.prepareStatement(sql)) {

@@ -90,6 +90,12 @@ public class ProductoController {
 //        }
     }
     
+    public boolean editarStock(Producto producto) {
+    	
+    	return dao.editarProductoStock(producto);
+    }
+    
+    
     public Producto buscar(int id) {
         return dao.buscar(id);
     }

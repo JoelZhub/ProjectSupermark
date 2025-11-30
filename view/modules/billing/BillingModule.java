@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -15,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import control.FacturaController;
 import model.Factura;
 import model.Rol;
 import model.User;
@@ -23,6 +25,7 @@ import session.SessionContext;
 import view.AplicationContext;
 import view.components.AssetManager;
 import view.components.Fonts;
+import view.components.Messages;
 import view.dashboard.Dahsboard;
 import view.table.TableFactory;
 import view.table.UniversalTableModel;
@@ -31,20 +34,23 @@ import view.table.schemas.TableSchema;
 import view.table.style.TableStyle;
 import view.table.style.TableStyleConfigure;
 
-public class BillingModule extends JPanel implements ActionListener {
+public class BillingModule extends JPanel implements ActionListener, MouseListener{
 
 	/**
 	 * 
 	 */
-	private JButton btnEditarProducto, btnEliminar, btnRefrescar;
+	private JButton btnEliminar, btnRefrescar;
 	private JPanel panelSearch, panelContenedorAccionesCrud;
 	private JTextField textFieldSearch;
 	private JLabel lbTotalRegister;
 	private JScrollPane scrollPaneFacturas;
 	private static final long serialVersionUID = 1L;
 	private final AplicationContext context;
+	@SuppressWarnings("unused")
 	private final Dahsboard dahsboard;
-
+	private List<Factura> data;
+	private TableSchema<Factura> schema ;
+	private JTable table;
 	
 	public BillingModule(AplicationContext context, Dahsboard dahsboard) {
 		this.context = context;
@@ -57,10 +63,25 @@ public class BillingModule extends JPanel implements ActionListener {
 	
 	public void  crearPanelViewPortFactura() {
 		
-		List<Factura> data =  context.getFacturaController().listarFacturas();
+		data =  new ArrayList<>();
 		
-		TableSchema<Factura> schema = FacturasSchema.create();
-		JTable table = TableFactory.createTable(data, schema);
+		if(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN) {
+			
+			data = context.getFacturaController().listarFacturas();
+		}else {
+		
+			 for(Factura f : context.getFacturaController().listarFacturas()) {
+		
+				 if(f.getCajeroId() == SessionContext.get().getIdUsuarioLogueado()) {
+					 data.add(f);
+				 }
+			 }
+		
+		}
+		
+		FacturasSchema.setContext(context);
+		schema = FacturasSchema.create();
+		table = TableFactory.createTable(data, schema);
 		table.setBackground(TableStyleConfigure.COLOR_ROW_BG);
 		
 		table.setShowVerticalLines(true);
@@ -87,33 +108,15 @@ public class BillingModule extends JPanel implements ActionListener {
 		
 	}
 	
+	@SuppressWarnings({ "unchecked", "unchecked" })
 	public void crearBtns() {
 		
-		btnEditarProducto = new JButton();
-		btnEditarProducto.setEnabled(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN);
-		btnEditarProducto.setText("Editar");
-		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 18, 18));
-		btnEditarProducto.setBounds(0, 0, 120, 35);
-		btnEditarProducto.addActionListener(this);
-		btnEditarProducto.setFocusPainted(false);
-		btnEditarProducto.setIconTextGap(6);
-		btnEditarProducto.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
-		btnEditarProducto.setForeground(new Color(88, 177, 237));
-		btnEditarProducto.setBackground(null);
-		btnEditarProducto.putClientProperty("JButton.arc", 8);
+
+		//deje solo el btn de refrescar
 		
-		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(null);
-		btnEliminar.setEnabled(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN);
-		btnEliminar.setForeground(new Color(255, 90, 90));
-		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
-		btnEliminar.putClientProperty("JButton.arc",20);
-		btnEliminar.setFocusPainted(false);
-		btnEliminar.setIcon(AssetManager.icon("borrar.png", 18, 18));
-		btnEliminar.setBounds(150, 0, 120, 35);
-		btnEliminar.setIconTextGap(6);
-		btnEliminar.setFont(Fonts.custom);
-		btnEliminar.addActionListener(this);
+		//puesto que  un cajero como tal no tiene permsio de editar o eliminar facturas en un supermercado real
+		// el que se encarga de eso es otro usuario y por cuestiones de tiempo no lo agregare, entonces para evitar
+		//que el profe nos vaya a reclamar por esa parte mejor quite esos btn
 		
 		btnRefrescar = new JButton();
 		btnRefrescar.setBackground(null);
@@ -121,18 +124,29 @@ public class BillingModule extends JPanel implements ActionListener {
 		btnRefrescar.putClientProperty("JButton.arc",20);
 		btnRefrescar.setFocusPainted(false);
 		btnRefrescar.setIcon(AssetManager.icon("actualizar.png", 28, 28));
-		btnRefrescar.setBounds(300, 0, 50, 35);
+		btnRefrescar.setBounds(20, 0, 50, 35);
 		btnRefrescar.setIconTextGap(6);
 		btnRefrescar.setFont(Fonts.custom);
-//		btnRefrescar.addActionListener(e -> {
-//			List<User> newData = context.getUserController().listar();
-//			  lbPanelUsuariosConteo.setText(context.getUserController().listar().size() + "");
-//			  lbPanelUsuariosConteo.revalidate();
-//			  lbPanelUsuariosConteo.repaint();
-//			  ((UniversalTableModel<User>) table.getModel()).setData(newData);	
-//			
-//
-//		});
+		btnRefrescar.addActionListener(e -> {
+			List<Factura> newData = new ArrayList<>();
+			
+			if(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN) {
+				
+				newData = context.getFacturaController().listarFacturas();
+			}else {
+			
+				 for(Factura f : context.getFacturaController().listarFacturas()) {
+			
+					 if(f.getCajeroId() == SessionContext.get().getIdUsuarioLogueado()) {
+						 newData.add(f);
+					 }
+				 }
+			
+			}
+			  ((UniversalTableModel<Factura>) table.getModel()).setData(newData);	
+			
+
+		});
 		
 	}
 		
@@ -146,8 +160,10 @@ public class BillingModule extends JPanel implements ActionListener {
 	
 		crearPanelBuscar();
 		crearBtns();
-		panelContenedorAccionesCrud.add(btnEditarProducto);
-		panelContenedorAccionesCrud.add(btnEliminar);
+		//btnRefrescar
+		
+		panelContenedorAccionesCrud.add(btnRefrescar);
+//		panelContenedorAccionesCrud.add(btnEliminar);
 		panelContenedorAccionesCrud.add(panelSearch);
 		add(panelContenedorAccionesCrud);
 			
@@ -170,7 +186,9 @@ public class BillingModule extends JPanel implements ActionListener {
 		
 		textFieldSearch = new JTextField();
 		textFieldSearch.setText("Search");
+		textFieldSearch.addActionListener(this);
 		textFieldSearch.setBackground(null);
+		textFieldSearch.addMouseListener(this);
 		textFieldSearch.setBounds(57, 4, 190, 26);
 		textFieldSearch.setColumns(10);
 		panelSearch.add(textFieldSearch);
@@ -180,7 +198,71 @@ public class BillingModule extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		
+			
+			if(e.getSource() == textFieldSearch) {
+				int id;
+				if(textFieldSearch.getText().trim().matches("\\d+")) {
+					id =  Integer.parseInt(textFieldSearch.getText().trim());
+					var f = context.getFacturaController().buscar(id) ;
+					if(f != null) {
+						List<Factura> newData = new ArrayList<>();
+						newData.add(f);
+						((UniversalTableModel<Factura>) table.getModel()).setData(newData);	
+						lbTotalRegister.setText(newData.size() + "");
+						lbTotalRegister.revalidate();
+						lbTotalRegister.repaint();
+					}else {
+						new Messages(dahsboard, "Factura no encontrada").messageError();
+						return;
+					}
+					
+				}else {
+					new Messages(dahsboard, "Ingrese un ID valido").messageError();
+					return;
+				}
+					
+				
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if(e.getSource() ==textFieldSearch) {
+			textFieldSearch.setText("");
+		}	
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if(e.getSource() ==textFieldSearch) {
+			textFieldSearch.setText("Search");
+			lbTotalRegister.setText("0");
+			lbTotalRegister.revalidate();
+			lbTotalRegister.repaint();
+		}
 		
 	}
 
