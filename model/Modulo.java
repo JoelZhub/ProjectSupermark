@@ -10,6 +10,7 @@ import view.modules.custormerService.customerService;
 import view.modules.finance.FinanceModule;
 import view.modules.inventory.InventoryModule;
 import view.modules.sales.SalesModule;
+import view.modules.report.ReportModule;
 
 public enum Modulo {
 
@@ -19,6 +20,7 @@ public enum Modulo {
 	FACTURACION(Permiso.FACTURACION_VER),
 	FINANZAS(Permiso.FINANZAS_VER),
 	CLIENTE(Permiso.SERVICIO_CLIENTE);
+	REPORTES(Permiso.REPORTES_VER);
 	
 	private AplicationContext context;
 	private Dahsboard dahsboard;
@@ -51,6 +53,7 @@ public enum Modulo {
 		case FACTURACION : return new BillingModule(context, dahsboard);
 		case FINANZAS : return new FinanceModule(dahsboard, context);
 		case CLIENTE: return new customerService(context, dahsboard);
+		case REPORTES : return new ReportModule(dahsboard, context);
 		default : return new JPanel();
 		}
 		
