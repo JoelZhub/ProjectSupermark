@@ -14,7 +14,7 @@ public class PermissionsProvider {
                 //Permiso.INVENTARIO_VER,
                 Permiso.USUARIOS_VER,
                 Permiso.SERVICIO_CLIENTE,
-            	Permiso.FINANZAS_VER
+            	Permiso.FINANZAS_VER,
                 Permiso.REPORTES_VER
             );
 
@@ -34,7 +34,7 @@ public class PermissionsProvider {
             		Permiso.SERVICIO_CLIENTE
             );
             case  GERENTE_FINANZAS -> Set.of(
-            		Permiso.FINANZAS_VER
+            		Permiso.FINANZAS_VER,
 					Permiso.REPORTES_VER
             	); 
         };
