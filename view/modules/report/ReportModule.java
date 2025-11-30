@@ -83,7 +83,7 @@ public class ReportModule extends JPanel implements ActionListener {
         panelContenedorAccionesCrud.setLayout(null);
         panelContenedorAccionesCrud.setOpaque(true);
         panelContenedorAccionesCrud.setBackground(null);
-        panelContenedorAccionesCrud.setBounds(10, 10, 1043, 36);
+        panelContenedorAccionesCrud.setBounds(10, 10, 1043, 300);
 
         crearBtns();
         panelContenedorAccionesCrud.add(btnreporteCXP);
@@ -96,30 +96,28 @@ public class ReportModule extends JPanel implements ActionListener {
 
     public void crearBtns() {
         btnreporteCXP = new JButton("Reporte Cuentas Por Pagar");
-        btnreporteCXP.setIcon(AssetManager.icon("etiqueta.png", 18, 18));
-        btnreporteCXP.setBounds(0, 0, 120, 35);
+        btnreporteCXP.setIcon(AssetManager.icon("descargar.png", 18, 18));
+        btnreporteCXP.setBounds(0, 30, 200, 35);
         btnreporteCXP.setFocusPainted(false);
-        btnreporteCXP.setBorder(BorderFactory.createLineBorder(new Color(73, 230, 115), 2, true));
-        BtnStyle.second(btnreporteCXP);
+        btnreporteCXP.setBorder(BorderFactory.createLineBorder(new Color(217, 217, 217), 2, true));
         btnreporteCXP.addActionListener(this);
 
         btnreporteCxC = new JButton("Reporte Cuentas Por Cobrar");
-        btnreporteCxC.setBounds(130, 0, 160, 35);
-        btnreporteCxC.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
-        BtnStyle.second(btnreporteCxC);
+        btnreporteCxC.setIcon(AssetManager.icon("descargar.png", 18, 18));
+        btnreporteCxC.setBounds(0, 80, 200, 35);
+        btnreporteCxC.setBorder(BorderFactory.createLineBorder(new Color(217, 217, 217), 2, true));
         btnreporteCxC.addActionListener(this);
 
         btnreporteInv = new JButton("Reporte Inventario");
-        btnreporteInv.setBounds(360, 0, 120, 35);
-        btnreporteInv.setIcon(AssetManager.icon("etiqueta.png", 18, 18));
-        btnreporteInv.setBorder(BorderFactory.createLineBorder(new Color(73, 230, 115), 2, true));
-        BtnStyle.second(btnreporteInv);
+        btnreporteInv.setBounds(0, 130, 200, 35);
+        btnreporteInv.setIcon(AssetManager.icon("descargar.png", 18, 18));
+        btnreporteInv.setBorder(BorderFactory.createLineBorder(new Color(217, 217, 217), 2, true));
         btnreporteInv.addActionListener(this);
 
         btnreporteVenDia = new JButton("Reporte Ventas Por Dia");
-        btnreporteVenDia.setBounds(490, 0, 160, 35);
-        btnreporteVenDia.setBorder(BorderFactory.createLineBorder(new Color(88, 177, 237), 2, true));
-        BtnStyle.second(btnreporteVenDia);
+        btnreporteVenDia.setIcon(AssetManager.icon("descargar.png", 18, 18));
+        btnreporteVenDia.setBounds(0, 180, 200, 35);
+        btnreporteVenDia.setBorder(BorderFactory.createLineBorder(new Color(217, 217, 217), 2, true));
         btnreporteVenDia.addActionListener(this);
 
     }
