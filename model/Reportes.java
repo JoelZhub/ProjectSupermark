@@ -42,7 +42,7 @@ public abstract class Reportes<Clase>{
 
     protected void agregarHeaderDocumento(Document document, PdfWriter writer) throws DocumentException, IOException {
 
-        String rutaLogo = "resource\\img\\logo.png";
+        String rutaLogo = "resources\\img\\logo.png";
 
         PdfPTable header = new PdfPTable(3);
         header.setWidthPercentage(100);
@@ -118,3 +118,4 @@ public abstract class Reportes<Clase>{
     }
 
 }
+
