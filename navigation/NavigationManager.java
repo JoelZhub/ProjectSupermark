@@ -1,49 +1,62 @@
 package navigation;
-
-import javax.swing.JFrame;
 import model.Modulo;
+import model.Rol;
 import session.SessionContext;
-import session.UsersContext;
-import utils.Messages;
-import view.forms.dashboard.Dahsboard;
-
-//clase que recibe los permisos y 
-//habilita los modulos por los cuales el usuario puede manejar
+import view.components.Messages;
+import view.dashboard.Dahsboard;
 
 public class NavigationManager {
-	
-	private final JFrame dashboard;
-		
-	public NavigationManager(JFrame dashboard) {
-		this.dashboard = dashboard;
-	}
 
-	
-	//segun el modulo al cual quiera ir se redirige
-	
+	private Dahsboard dahsboard;
+	private Modulo moduloActual;
+
 	public void goTo(Modulo modulo) {
-		
 		if(!SessionContext.get().tienePermisos(modulo.getPermisoNecesarios())) {
-			new Messages(dashboard,"No tienes permisos para acceder a este modulo").messageError();
+			new Messages(dahsboard,"No tienes permisos para acceder a este modulo").messageError();
 			return;
 		}	
-		
-		//remover elementos mostrados, agregar el componente y refrescar el dashboard
-		dashboard.removeAll();
-		dashboard.add(modulo.construirPanel());
-		dashboard.revalidate();
-		dashboard.repaint();
+		moduloActual = modulo;
+		modulo.setAplicationContext(dahsboard.getContext());
+		modulo.setDahsboard(dahsboard);
+		dahsboard.setPanelContent(modulo.construirPanel());	
+	}
+	
 			
+	public Modulo getModuloActual() {
+		return moduloActual;
 	}
 	
-	public void navigationToDashboard(UsersContext user) {
-		SessionContext.set(user);
-		Dahsboard dash  = new Dahsboard(this);
-		dash.setVisible(true);
+	public void setCambioModuloActual(Rol rol) {
+		if(SessionContext.get()  != null) {
+			switch(SessionContext.get().getRolUsuarioLogueado()) {
+			case ADMIN: 	
+				moduloActual = Modulo.ADMIN;
+				break;
+			case VENDEDOR: 	
+				moduloActual = Modulo.VENTAS;
+				break;
+			case CAJERO: 	
+				moduloActual = Modulo.FACTURACION;
+				break;
+			case ENCARGADO_INVENTARIO: 	
+				moduloActual = Modulo.PRODUCTOS;
+				break;
+			case SERVICIO_CLIENTE :
+				moduloActual = Modulo.CLIENTE;
+				break;
+			case GERENTE_FINANZAS:
+				moduloActual = Modulo.FINANZAS;
+				break;
+			default:
+				moduloActual = null;
+		
+			}
+		}	
 	}
 	
-	public JFrame getDashboard() {
-		return dashboard;
+	public void setDahsboard(Dahsboard dahsboard) {
+		this.dahsboard = dahsboard;
+		
 	}
-	
+		
 }

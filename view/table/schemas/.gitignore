@@ -1,0 +1,15 @@
+/ProductosSchema.class
+/TableSchema$Builder.class
+/TableSchema.class
+/UsuariosSchema.class
+/DetallesProductosSchema.class
+/FacturasSchema.class
+/VentasSchema.class
+/OfertaSchema.class
+/ProductosSchemaStockBajo.class
+/ProveedorSchema.class
+/ClienteSchema.class
+/CuentasCobrarSchema.class
+/CuentasPagarSchema.class
+/PagosCuentasCobrarSchema.class
+/PagosCuentasPagarSchema.class

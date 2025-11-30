@@ -2,3 +2,16 @@
 /AuthenticatorController.class
 /productoServicio.class
 /Operaciones.class
+/FacturaController.class
+/UsuarioController.class
+/UserController.class
+/ProveedoresController.class
+/OfertasController.class
+/ReporteCuentasCobrarController.class
+/ReporteCuentasPagarController.class
+/ReporteInventarioController.class
+/ReporteVentasDiariasController.class
+/ClienteController.class
+/CompraProveedorController.class
+/CuentaCobrarController.class
+/CuentaPagarController.class

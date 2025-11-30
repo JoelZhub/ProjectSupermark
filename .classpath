@@ -8,5 +8,7 @@
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="lib" path="C:/Users/joela/OneDrive/Escritorio/Archivos/ARCHIVOS JOEL/ITLA-ASIGNATURAS/C-3/P1/ProjectSupermark/resources/lib/flatlaf.jar"/>
 	<classpathentry kind="lib" path="C:/Users/joela/OneDrive/Escritorio/Archivos/ARCHIVOS JOEL/ITLA-ASIGNATURAS/C-3/P1/ProjectSupermark/resources/lib/LGoodDatePicker.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joela/OneDrive/Escritorio/Archivos/ARCHIVOS JOEL/ITLA-ASIGNATURAS/C-3/P1/ProjectSupermark/lib/mysql-connector-j-9.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joela/OneDrive/Escritorio/Archivos/ARCHIVOS JOEL/ITLA-ASIGNATURAS/C-3/P1/ProjectSupermark/lib/itextpdf-5.5.13.4.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

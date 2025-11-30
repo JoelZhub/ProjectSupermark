@@ -2,32 +2,38 @@ package model;
 
 import javax.swing.JPanel;
 
+import view.AplicationContext;
+import view.dashboard.Dahsboard;
+import view.modules.admin.DashboardAdmin;
 import view.modules.billing.BillingModule;
+import view.modules.custormerService.customerService;
+import view.modules.finance.FinanceModule;
 import view.modules.inventory.InventoryModule;
-import view.modules.products.ProductsModule;
 import view.modules.sales.SalesModule;
-import view.modules.users.UsersModule;
-
-//enum que contiene los modulos existente -> 
-//aplicado en la  clase que se encarga de navegar  entre modulos
-//
 
 public enum Modulo {
-	
-	//modulos disponibles de momento -> si se requieren mas se debe construir el panel correspondiente , agregar el permiso
-	// y luego agregar aqui
-	
-	PRODUCTOS(Permiso.PRODUCTOS_VER),
+
+	PRODUCTOS(Permiso.PRODUCTOS_VER), 
 	VENTAS(Permiso.VENTAS_VER),
-	INVENTARIO(Permiso.INVENTARIO_VER),
-	USUARIOS(Permiso.USUARIOS_VER),
-	FACTURACION(Permiso.FACTURACION_VER);
+	ADMIN(Permiso.USUARIOS_VER),
+	FACTURACION(Permiso.FACTURACION_VER),
+	FINANZAS(Permiso.FINANZAS_VER),
+	CLIENTE(Permiso.SERVICIO_CLIENTE);
 	
+	private AplicationContext context;
+	private Dahsboard dahsboard;
+	
+	public void setAplicationContext(AplicationContext context) {
+		
+		this.context = context;
+	}
+	public void setDahsboard(Dahsboard dahsboard) {
+		
+		this.dahsboard = dahsboard;
+	}
 	private final Permiso permisosNecesarios;
 
-	//se debe recibir el permiso -> permiso validado segun el tipo de usuario 
 	Modulo(Permiso permisosNecesarios) {
-		
 		this.permisosNecesarios = permisosNecesarios;
 	}
 	
@@ -35,14 +41,16 @@ public enum Modulo {
 		return permisosNecesarios;
 	}
 	
-	//elemento que returna  el panel segun el modulo que se requiere
 	public JPanel construirPanel() {
+		
 		switch(this) {
-		case PRODUCTOS : return new ProductsModule();
-		case VENTAS : return new SalesModule();
-		case INVENTARIO : return new InventoryModule();
-		case USUARIOS : return new UsersModule();
-		case FACTURACION : return new BillingModule();
+		
+		case PRODUCTOS : return new InventoryModule(dahsboard, context);
+		case VENTAS : return new SalesModule(context, dahsboard);
+		case ADMIN : return new DashboardAdmin(context, dahsboard);
+		case FACTURACION : return new BillingModule(context, dahsboard);
+		case FINANZAS : return new FinanceModule(dahsboard, context);
+		case CLIENTE: return new customerService(context, dahsboard);
 		default : return new JPanel();
 		}
 		
