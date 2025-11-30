@@ -9,3 +9,7 @@
 /ProductosSchemaStockBajo.class
 /ProveedorSchema.class
 /ClienteSchema.class
+/CuentasCobrarSchema.class
+/CuentasPagarSchema.class
+/PagosCuentasCobrarSchema.class
+/PagosCuentasPagarSchema.class

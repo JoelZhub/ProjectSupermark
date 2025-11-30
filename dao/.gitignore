@@ -8,3 +8,6 @@
 /ReporteInventarioDAO.class
 /ReporteVentasDiariasDAO.class
 /ClienteDAO.class
+/CompraProveedorDAO.class
+/CuentaCobrarDAO.class
+/CuentaPagarDAO.class

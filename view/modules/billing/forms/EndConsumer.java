@@ -287,7 +287,7 @@ public class EndConsumer extends JPanel {
 		itbisProducto.setBounds(317, 4, 180, 21);
 		panelContenido.add(itbisProducto);
 		
-		 lbValor = new JLabel("VALOR");
+		lbValor = new JLabel("VALOR");
 		lbValor.setFont(Fonts.custom);
 		lbValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lbValor.setBounds(539, 0, 180, 21);

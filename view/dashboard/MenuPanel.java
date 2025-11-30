@@ -38,9 +38,9 @@ import view.formFactory.FormFactory;
 		@SuppressWarnings("unused")
 		private String messageCrear = "";
 		
-		private JButton btnAgregar, btnVenta, btnFactura, btnUsuarios,  btnProductos, btnFinanzas;
+		private JButton btnAgregar, btnVenta, btnFactura, btnCliente, btnUsuarios,  btnProductos, btnFinanzas;
 		
-		private JLabel lbTitulo, lbIconUsuarios,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto, lbIconFinanzas;
+		private JLabel lbTitulo, lbIconUsuarios,lbCliente,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto, lbIconFinanzas;
 		
 		
 		private Dahsboard dahsboard;
@@ -100,6 +100,7 @@ import view.formFactory.FormFactory;
 			});
 			
 			
+		
 			btnVenta = new JButton("Ventas");
 			btnVenta.setBounds(87, 104, 158, 34);
 			BtnStyle.second(btnVenta);
@@ -138,6 +139,15 @@ import view.formFactory.FormFactory;
 				verificarModuloUserMessagePersonalizado();
 			});
 			
+			btnCliente = new JButton("Clientes");
+			btnCliente.setBounds(87, 370, 158, 34);
+			BtnStyle.second(btnCliente);
+			btnCliente.setFont(Fonts.custom);
+			btnCliente.addActionListener(e -> {
+				context.getNavigation().goTo(Modulo.CLIENTE);
+				verificarModuloUserMessagePersonalizado();
+			});
+			
 		}
 		
 		public void verificarModuloUserMessagePersonalizado() {
@@ -162,6 +172,10 @@ import view.formFactory.FormFactory;
 		                    case VENTAS:
 		                        lblNuevoProducto.setText("Solo lectura");
 		                        break;
+		                    case  CLIENTE:
+		                    	  lblNuevoProducto.setText("Nuevo Cliente");
+			                        break;
+		                    	
 							case FINANZAS:
 								lblNuevoProducto.setText("Nuevo movimiento");
 								break;
@@ -195,9 +209,10 @@ import view.formFactory.FormFactory;
 			panelBotones.add(btnVenta);
 			panelBotones.add(btnProductos);
 			panelBotones.add(btnFinanzas);
+			panelBotones.add(btnCliente);
 			
 			panelBotones.add(lbIconCategorias);
-
+			panelBotones.add(lbCliente);
 			panelBotones.add(lbIconVentas);
 			panelBotones.add(lbIconFacturas);
 			panelBotones.add(lbIconUsuarios);
@@ -214,6 +229,7 @@ import view.formFactory.FormFactory;
 			mapearModulos.put(btnFactura, Modulo.FACTURACION);
 			mapearModulos.put(btnUsuarios, Modulo.ADMIN);
 			mapearModulos.put(btnFinanzas, Modulo.FINANZAS);
+			mapearModulos.put(btnCliente, Modulo.CLIENTE);
 		}
 		
 		private void aplicarPermisos() {
@@ -265,6 +281,10 @@ import view.formFactory.FormFactory;
 			lbIconFinanzas = new JLabel("");
 			lbIconFinanzas.setIcon(AssetManager.icon("finanzas.png", 32, 32));
 			lbIconFinanzas.setBounds(20, 311, 32, 32);
+			
+			lbCliente = new JLabel("");
+			lbCliente.setIcon(AssetManager.icon("cliente.png", 32, 32));
+			lbCliente.setBounds(20, 370, 32, 32);
 				
 		}
 		

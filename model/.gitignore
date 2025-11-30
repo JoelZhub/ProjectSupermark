@@ -23,3 +23,8 @@
 /Reportes.class
 /Persona.class
 /Cliente.class
+/CompraProveedor.class
+/CuentaCobrar.class
+/CuentaCobrarPago.class
+/CuentaPagar.class
+/CuentaPagarPago.class

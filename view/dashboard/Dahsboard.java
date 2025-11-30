@@ -97,13 +97,13 @@ public class Dahsboard extends JFrame implements ActionListener {
 			if(SessionContext.get().getRolUsuarioLogueado() == Rol.ENCARGADO_INVENTARIO) {
 				setPanelContent(new InventoryModule(this, context));
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.CAJERO) {
-				setPanelContent(new BillingModule());
+				setPanelContent(new BillingModule(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN) {
 				setPanelContent(new DashboardAdmin(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.VENDEDOR) {
-				setPanelContent(new SalesModule());
+				setPanelContent(new SalesModule(context, this));
 			}else {
 				new Messages(this, "Rol no encontrado").messageError();
 				setPanelContent(null);

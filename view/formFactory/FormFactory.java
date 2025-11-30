@@ -11,6 +11,10 @@ import view.modules.admin.forms.CrEdUsuariosForm;
 import view.modules.admin.forms.DeleteUsuarioForm;
 import view.modules.admin.forms.EditUsuarioForm;
 import view.modules.billing.forms.CrearFactura;
+import view.modules.billing.forms.tipoFactura;
+import view.modules.custormerService.forms.CrearCliente;
+import view.modules.custormerService.forms.EditarCliente;
+import view.modules.custormerService.forms.EliminarCliente;
 import view.modules.inventory.forms.offers.CrearOferta;
 import view.modules.inventory.forms.offers.EditarOferta;
 import view.modules.inventory.forms.offers.EliminarOferta;
@@ -70,6 +74,15 @@ public class FormFactory {
 	            default -> new JDialog();
 	        };
 
+	        case CLIENTE -> switch(op) {
+	        	
+	        case CREATE -> new CrearCliente(context, dahsboard);
+	        case EDIT -> new EditarCliente(context, dahsboard);
+	        case DELETE -> new EliminarCliente(context, dahsboard);
+	        default -> new JDialog();
+	        
+	        };
+	        
 			case FINANZAS -> switch(subModulo) {
 	            case CUENTA_COBRAR -> switch(op) {
 	                case CREATE -> new CrearCuentaCobrar(context, dahsboard);
@@ -102,7 +115,12 @@ public class FormFactory {
 	            default -> new JDialog();
 	        };
 
-	        case FACTURACION -> new CrearFactura();
+	        case FACTURACION -> switch(op) {
+	        
+	        case CREATE -> new tipoFactura(context, dahsboard);
+	        
+	        default -> new JDialog();
+	        };
 
 	        default -> new JDialog();
 	    };

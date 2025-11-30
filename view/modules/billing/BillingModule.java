@@ -17,7 +17,9 @@ import javax.swing.UIManager;
 
 import control.FacturaController;
 import model.Factura;
+import model.Rol;
 import model.User;
+import session.SessionContext;
 import view.AplicationContext;
 import view.components.AssetManager;
 import view.components.Fonts;
@@ -49,11 +51,11 @@ public class BillingModule extends JPanel implements ActionListener {
 		this.dahsboard = dahsboard;
 		setLayout(null);
 		setBackground(null);
-		//crearPanelViewPortVentas();
+		crearPanelViewPortFactura();
 		crearPanelOperacionesCurd();
 	}
 	
-	public void  crearPanelViewPortVentas() {
+	public void  crearPanelViewPortFactura() {
 		
 		List<Factura> data =  context.getFacturaController().listarFacturas();
 		
@@ -88,6 +90,7 @@ public class BillingModule extends JPanel implements ActionListener {
 	public void crearBtns() {
 		
 		btnEditarProducto = new JButton();
+		btnEditarProducto.setEnabled(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN);
 		btnEditarProducto.setText("Editar");
 		btnEditarProducto.setIcon(AssetManager.icon("editar.png", 18, 18));
 		btnEditarProducto.setBounds(0, 0, 120, 35);
@@ -101,6 +104,7 @@ public class BillingModule extends JPanel implements ActionListener {
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBackground(null);
+		btnEliminar.setEnabled(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN);
 		btnEliminar.setForeground(new Color(255, 90, 90));
 		btnEliminar.setBorder(BorderFactory.createLineBorder(new Color(255,120, 120), 2, true));
 		btnEliminar.putClientProperty("JButton.arc",20);

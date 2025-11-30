@@ -1,5 +1,6 @@
 package view;
 
+import control.ClienteController;
 import control.CuentaCobrarController;
 import control.CuentaPagarController;
 import control.FacturaController;
@@ -7,6 +8,7 @@ import control.OfertasController;
 import control.ProductoController;
 import control.ProveedoresController;
 import control.UserController;
+import dao.ClienteDAO;
 import dao.CuentaCobrarDAO;
 import dao.CuentaPagarDAO;
 import dao.FacturaDAO;
@@ -33,6 +35,7 @@ public class AplicationContext {
 	private final OfertaDAO ofertaDao  = new OfertaDAO();
 	private final CuentaCobrarDAO cuentaCobrarDAO  = new CuentaCobrarDAO();
 	private final CuentaPagarDAO cuentaPagarDAO  = new CuentaPagarDAO();
+	private final ClienteDAO clienteDao = new ClienteDAO();
 	
 	private final FacturaController facturaController = new FacturaController(facturaDAO, productoDao );
 	private final ProductoController productoController = new ProductoController(productoDao);
@@ -41,9 +44,11 @@ public class AplicationContext {
 	private final NavigationManager navigation = new NavigationManager();
 	private final CuentaCobrarController cobrarController = new CuentaCobrarController();
 	private final CuentaPagarController pagarController = new CuentaPagarController();
+	private final ClienteController clienteController = new ClienteController(clienteDao);
 	
 	
 	public UserController getUserController() {return userController;}
+	public ClienteController getClienteController() {return clienteController;}
 	public FacturaController  getFacturaController() {return facturaController;}
 	public ProductoController getProductoController() {return productoController;}
 	public NavigationManager getNavigation() {return navigation;}

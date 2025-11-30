@@ -12,3 +12,6 @@
 /ReporteInventarioController.class
 /ReporteVentasDiariasController.class
 /ClienteController.class
+/CompraProveedorController.class
+/CuentaCobrarController.class
+/CuentaPagarController.class
