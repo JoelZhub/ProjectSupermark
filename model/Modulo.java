@@ -19,7 +19,7 @@ public enum Modulo {
 	ADMIN(Permiso.USUARIOS_VER),
 	FACTURACION(Permiso.FACTURACION_VER),
 	FINANZAS(Permiso.FINANZAS_VER),
-	CLIENTE(Permiso.SERVICIO_CLIENTE);
+	CLIENTE(Permiso.SERVICIO_CLIENTE),
 	REPORTES(Permiso.REPORTES_VER);
 	
 	private AplicationContext context;
