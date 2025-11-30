@@ -40,7 +40,7 @@ public class OfertaSchema {
 		        .addColumn(new ColumnDefinition.Builder<Oferta>()
 		                .header("Activo")
 		                .key("activo")
-		                .value(Oferta::getActivo) 
+		                .value(p -> p.getActivo() == 1 ? "Activa" : "Desactivada") 
 		                .preferredWidth(20)
 		                .build()
 		        

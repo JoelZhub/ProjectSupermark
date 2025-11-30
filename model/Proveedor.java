@@ -3,9 +3,6 @@ package model;
 import java.util.Objects;
 
 public class Proveedor  extends Persona{
-
-    
-    
     private int idProveedor;
     private String rncProveedor;
     private String calle;

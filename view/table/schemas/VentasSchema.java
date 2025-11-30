@@ -1,55 +1,48 @@
 package view.table.schemas;
 
+import model.Producto;
 import view.table.ColumnDefinition;
 
 public class VentasSchema {
 
-	
-	//cambiar los campos por la clase de ventas
-	
-	/*
-	 * public static TableSchema<Ventas> create(){
+public static TableSchema<Producto> create(){
 		
-		return new TableSchema.Builder<Ventas>()
-		.addColumn(new ColumnDefinition.Builder<Ventas>()
-                .header("ID")
-                .key("id")
-                .value(Ventas::getCodigo)
-                .preferredWidth(80)
-                .build()
-        )
-        .addColumn(new ColumnDefinition.Builder<Ventas>()
-                .header("Nombre")
-                .key("nombre")
+		return new TableSchema.Builder<Producto>()
+        .addColumn(new ColumnDefinition.Builder<Producto>()
+                .header("Producto")
+                .key("nombreP")
                 .value(Producto::getNombre)
-                .preferredWidth(180)
+                .preferredWidth(150)
                 .build()
-        )
-        .addColumn(new ColumnDefinition.Builder<Ventas>()
-                .header("Precio")
-                .key("precio")
-                .value(p -> p.getPrecio())   
-                .preferredWidth(90)
-                .build()
-        )
-        .addColumn(new ColumnDefinition.Builder<Ventas>()
-                .header("Categoría")
-                .key("categoria")
-                .value(p -> p.getCategoria()) 
-                .preferredWidth(120)
-                .build()
-        )
-        .addColumn(new ColumnDefinition.Builder<Ventas>()
+        )     
+        .addColumn(new ColumnDefinition.Builder<Producto>()
                 .header("Cantidad")
                 .key("cantidad")
                 .value(Producto::getCantida)
+                .preferredWidth(50)
+                .build()
+        )
+        .addColumn(new ColumnDefinition.Builder<Producto>()
+                .header("Activo")
+                .key("Activo")
+                .value( p ->
+                		{
+                			if(p.getActivo() == 0) {
+                				return "No Disponible";
+                			}
+                			if(p.getCantida() == 0 && p.getActivo() == 1) {
+                				return "No Disponible";
+                			}
+							return "Disponible";
+                		}
+                		
+                		)
                 .preferredWidth(80)
                 .build()
         )
-        .rowHeight(28)
+        .rowHeight(80)
         .singleSection(true)
         .build();		  
 	}
-	
-	 * */
+
 }

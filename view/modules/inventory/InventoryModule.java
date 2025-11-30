@@ -451,7 +451,7 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 		.setData(context.getOfertasController().listarOfertas());
 		
 	    ((UniversalTableModel<Producto>) tableProductosStock.getModel())
-        .setData(context.getProductoController().listarProductos());
+        .setData(context.getProductoController().listarProductosStockBajo());
 		
 		
 	}

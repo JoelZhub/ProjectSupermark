@@ -6,10 +6,10 @@
 	import java.util.HashMap;
 	import java.util.Map;
 	import model.Modulo;
-import model.OperationType;
-import model.Permiso;
-import model.SubModulo;
-import session.SessionContext;
+	import model.OperationType;
+	import model.Permiso;
+	import model.SubModulo;
+	import session.SessionContext;
 
 	import javax.swing.JButton;
 	import javax.swing.JLabel;
@@ -17,12 +17,12 @@ import session.SessionContext;
 	import javax.swing.SwingUtilities;
 
 	import view.AplicationContext;
-import view.components.AssetManager;
+	import view.components.AssetManager;
 	import view.components.BtnStyle;
 	import view.components.Fonts;
 	import view.components.Messages;
 	import view.components.RoundePanel;
-import view.formFactory.FormFactory;
+	import view.formFactory.FormFactory;
 	
 	public class MenuPanel extends JPanel implements ActionListener {
 		
@@ -162,8 +162,8 @@ import view.formFactory.FormFactory;
 		                        break;
 		                    case VENTAS:
 		                        lblNuevoProducto.setText("Solo lectura");
+		                        break;
 		                    case CLIENTE:
-		               
 		                    	  lblNuevoProducto.setText("Nuevo cliente");
 		                        break;
 		                    default:
@@ -311,14 +311,7 @@ import view.formFactory.FormFactory;
 				}
 			}
 			
-			
-			
 		}
-
-		
-		
-		
 		
 	}
-	
 	

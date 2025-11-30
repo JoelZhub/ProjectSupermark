@@ -34,8 +34,6 @@ public class Dahsboard extends JFrame implements ActionListener {
 			}
 		});
 	}
-
-
 	
 	public  Dahsboard(AplicationContext context) {
 
@@ -104,7 +102,7 @@ public class Dahsboard extends JFrame implements ActionListener {
 				setPanelContent(new DashboardAdmin(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.VENDEDOR) {
-				setPanelContent(new SalesModule());
+				setPanelContent(new SalesModule(context, this));
 			}
 			else if(SessionContext.get().getRolUsuarioLogueado() == Rol.SERVICIO_CLIENTE) {
 				setPanelContent(new customerService(context,this));
