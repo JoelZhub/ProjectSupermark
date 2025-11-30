@@ -45,6 +45,11 @@ public class AplicationContext {
 	private final CuentaCobrarController cobrarController = new CuentaCobrarController();
 	private final CuentaPagarController pagarController = new CuentaPagarController();
 	private final ClienteController clienteController = new ClienteController(clienteDao);
+
+	private final ReporteCuentasCobrarController reporteCuentaCobrarController = new ReporteCuentasCobrarController();
+	private final ReporteCuentasPagarController reporteCuentaPagarController = new ReporteCuentasPagarController();
+	private final ReporteInventarioController reporteInventarioController = new ReporteInventarioController();
+	private final ReporteVentasDiariasController reporteVentasDiariasController = new ReporteVentasDiariasController();
 	
 	
 	public UserController getUserController() {return userController;}
@@ -56,4 +61,10 @@ public class AplicationContext {
 	public OfertasController getOfertasController() {return ofertasController;}
 	public CuentaCobrarController getCuentaCobrarController() {return cobrarController;}
 	public CuentaPagarController getCuentaPagarController () {return pagarController;}
+
+	public ReporteCuentasCobrarController getReportCXCController() {return reporteCuentaCobrarController;}
+	public ReporteCuentasPagarController getReportCXPController() {return reporteCuentaPagarController;}
+	public ReporteInventarioController getReportInvController() {return reporteInventarioController;}
+	public ReporteVentasDiariasController getCReportVenDiaController () {return reporteVentasDiariasController;}
+	
 }
