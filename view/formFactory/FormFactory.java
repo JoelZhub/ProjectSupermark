@@ -117,8 +117,23 @@ public class FormFactory {
 	        case FACTURACION -> switch(op) {
 	        
 	        case CREATE -> new tipoFactura(context, dahsboard);
+
+			
 	        
 	        default -> new JDialog();
+	        };
+
+			case REPORTES -> switch(subModulo) {
+
+	            case REPORTE_CXP -> new CrearReporteCXP(context, dahsboard);
+
+	            case REPORTE_CXC -> new CrearReporteCXC(context, dahsboard);
+
+				case REPORTE_INV -> new CrearReporteInv(context, dahsboard);
+
+				case REPORTE_VEN -> new CrearReporteVentas(context, dahsboard);
+
+	            default -> new JDialog();
 	        };
 
 	        default -> new JDialog();
