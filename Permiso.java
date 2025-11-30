@@ -1,0 +1,11 @@
+	package model;
+	
+	public enum Permiso {
+		PRODUCTOS_VER,
+		VENTAS_VER,
+		FACTURACION_VER,
+	//	INVENTARIO_VER,
+		USUARIOS_VER,
+		SERVICIO_CLIENTE,
+		FINANZAS_VER
+	}
