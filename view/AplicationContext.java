@@ -19,6 +19,11 @@ import dao.UserDAO;
 import model.CuentaCobrar;
 import model.CuentaPagar;
 import navigation.NavigationManager;
+import control.ProveedoresController;
+import control.ReporteCuentasCobrarController;
+import control.ReporteCuentasPagarController;
+import control.ReporteInventarioController;
+import control.ReporteVentasDiariasController;
 
 public class AplicationContext {
 	
