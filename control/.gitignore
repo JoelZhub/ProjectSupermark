@@ -7,3 +7,8 @@
 /UserController.class
 /ProveedoresController.class
 /OfertasController.class
+/ReporteCuentasCobrarController.class
+/ReporteCuentasPagarController.class
+/ReporteInventarioController.class
+/ReporteVentasDiariasController.class
+/ClienteController.class

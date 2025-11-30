@@ -1,10 +1,12 @@
 package view;
 
+import control.ClienteController;
 import control.FacturaController;
 import control.OfertasController;
 import control.ProductoController;
 import control.ProveedoresController;
 import control.UserController;
+import dao.ClienteDAO;
 import dao.FacturaDAO;
 import dao.OfertaDAO;
 import dao.ProductoDAO;
@@ -25,6 +27,7 @@ public class AplicationContext {
 	private final FacturaDAO facturaDAO = new FacturaDAO();
 	private final ProductoDAO productoDao = new ProductoDAO();
 	private final OfertaDAO ofertaDao  = new OfertaDAO();
+	private final ClienteDAO clienteDao = new ClienteDAO();
 	
 	
 	private final FacturaController facturaController = new FacturaController(facturaDAO, productoDao );
@@ -32,6 +35,8 @@ public class AplicationContext {
 	private final ProveedoresController proveedoresController = new ProveedoresController(proveedorDAO);
 	private final OfertasController ofertasController = new OfertasController(ofertaDao);
 	private final  NavigationManager navigation = new NavigationManager();
+	private final ClienteController clienteController = new ClienteController(clienteDao);
+	
 	
 	
 	public UserController getUserController() {return userController;}
@@ -40,5 +45,6 @@ public class AplicationContext {
 	public NavigationManager getNavigation() {return navigation;}
 	public ProveedoresController getProveedorController() {return proveedoresController;}
 	public OfertasController getOfertasController() {return ofertasController;}
+	public ClienteController getClienteController(){return clienteController;}
 
 }

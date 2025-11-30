@@ -12,3 +12,14 @@
 /User.class
 /OperationType.class
 /SubModulo.class
+/RegistroCuentaCobrar.class
+/RegistroCuentaPagar.class
+/RegistroInventario.class
+/RegistroVentaDiaria.class
+/ReporteCuentasCobrar.class
+/ReporteCuentasPagar.class
+/ReporteInventario.class
+/ReporteVentasDiarias.class
+/Reportes.class
+/Persona.class
+/Cliente.class

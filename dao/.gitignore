@@ -3,3 +3,8 @@
 /UserDAO.class
 /ProveedorDAO.class
 /OfertaDAO.class
+/ReporteCuentasCobrarDAO.class
+/ReporteCuentasPagarDAO.class
+/ReporteInventarioDAO.class
+/ReporteVentasDiariasDAO.class
+/ClienteDAO.class

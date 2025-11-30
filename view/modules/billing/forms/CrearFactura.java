@@ -1,56 +1,55 @@
 package view.modules.billing.forms;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
+import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import view.AplicationContext;
+import view.dashboard.Dahsboard;
+import java.awt.Color;
 
 public class CrearFactura extends JDialog {
-
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private final JPanel contentPanel = new JPanel();
+	private final AplicationContext context;
+	private final Dahsboard dahsboard;
+	
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
-			CrearFactura dialog = new CrearFactura();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public CrearFactura(AplicationContext context, Dahsboard dahsboard, int modo) {
+	    this.context = context;
+	    this.dahsboard = dahsboard;
+	    setBounds(100, 100, 1098, 818);
+	    setBackground(Color.WHITE);
+	    getContentPane().setBackground(Color.WHITE);
+	    setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
+	    getContentPane().setLayout(new BorderLayout());
 
-	/**
-	 * Create the dialog.
-	 */
-	public CrearFactura() {
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
+	    if (modo == 1) {
+	        cargarModoEndConsumer();
+	    } else {
+	        cargarModoAlternativo(); 
+	    }
+	}
+	
+	private void cargarModoEndConsumer() {
+	    EndConsumer panelEndConsumer = new EndConsumer(context, dahsboard);
+	    getContentPane().add(panelEndConsumer, BorderLayout.CENTER);
 	}
 
+	private void cargarModoAlternativo() {
+	   CorporateClient panelCorporate = new CorporateClient(context, dahsboard);
+	    getContentPane().add(panelCorporate, BorderLayout.CENTER);
+	}
+
+
+	
 }

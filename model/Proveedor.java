@@ -2,45 +2,36 @@ package model;
 
 import java.util.Objects;
 
-public class Proveedor {
+public class Proveedor  extends Persona{
 
+    
+    
     private int idProveedor;
     private String rncProveedor;
-    private String nombre;
-    private String telefono;
     private String calle;
     private String ciudad;
     private String pais;
     private String correo;
-    private int activo;
-    
-    
-    public Proveedor(String rncProveedor, String nombre, String telefono, String correo, String calle, String 
-    		ciudad, String pais) {
-    	
-    	this.rncProveedor = rncProveedor;
-    	this.nombre = nombre;
-    	this.telefono = telefono;
-    	this.calle = calle;
-    	this.ciudad = ciudad;
-    	this.pais = pais;
-    	this.correo = correo;
-    	
+
+    public Proveedor(String rncProveedor, String nombre, String telefono, String correo, String calle,
+                     String ciudad, String pais) {
+        super(nombre, telefono);
+        this.rncProveedor = rncProveedor;
+        this.calle = calle;
+        this.ciudad = ciudad;
+        this.pais = pais;
+        this.correo = correo;
     }
-    
-    public Proveedor(int idProveedor, String rncProveedor, String nombre, String telefono,  String correo, String calle, String 
-    		ciudad, String pais, int activo) {
-    	
-    	this.idProveedor = idProveedor;
-    	this.rncProveedor = rncProveedor;
-    	this.nombre = nombre;
-    	this.telefono = telefono;
-    	this.calle = calle;
-    	this.ciudad = ciudad;
-    	this.pais = pais;
-    	this.correo = correo;
-    	this.activo = activo;
-    	
+
+    public Proveedor(int idProveedor, String rncProveedor, String nombre, String telefono, String correo,
+                     String calle, String ciudad, String pais, int activo) {
+        super(nombre, telefono, activo);
+        this.idProveedor = idProveedor;
+        this.rncProveedor = rncProveedor;
+        this.calle = calle;
+        this.ciudad = ciudad;
+        this.pais = pais;
+        this.correo = correo;
     }
     
     
@@ -91,21 +82,6 @@ public class Proveedor {
         this.idProveedor = idProveedor;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 
     public String getCorreo() {
         return correo;
@@ -115,10 +91,7 @@ public class Proveedor {
         this.correo = correo;
     }
     
-    //esto es para el jCombox para cuando se cree el producto se pueda seleccionar un proveedor existente
-    public String toString() {
-    	return nombre;
-    }
+   
     
     @Override
     public boolean equals(Object obj) {

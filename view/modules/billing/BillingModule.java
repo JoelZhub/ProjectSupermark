@@ -18,8 +18,10 @@ import javax.swing.UIManager;
 import control.FacturaController;
 import model.Factura;
 import model.User;
+import view.AplicationContext;
 import view.components.AssetManager;
 import view.components.Fonts;
+import view.dashboard.Dahsboard;
 import view.table.TableFactory;
 import view.table.UniversalTableModel;
 import view.table.schemas.FacturasSchema;
@@ -38,21 +40,22 @@ public class BillingModule extends JPanel implements ActionListener {
 	private JLabel lbTotalRegister;
 	private JScrollPane scrollPaneFacturas;
 	private static final long serialVersionUID = 1L;
+	private final AplicationContext context;
+	private final Dahsboard dahsboard;
 
-	private FacturaController facturas;
 	
-	public BillingModule() {
-		
+	public BillingModule(AplicationContext context, Dahsboard dahsboard) {
+		this.context = context;
+		this.dahsboard = dahsboard;
 		setLayout(null);
 		setBackground(null);
-//		facturas = new FacturaController();
 		//crearPanelViewPortVentas();
 		crearPanelOperacionesCurd();
 	}
 	
 	public void  crearPanelViewPortVentas() {
 		
-		List<Factura> data =  facturas.listarFacturas();
+		List<Factura> data =  context.getFacturaController().listarFacturas();
 		
 		TableSchema<Factura> schema = FacturasSchema.create();
 		JTable table = TableFactory.createTable(data, schema);

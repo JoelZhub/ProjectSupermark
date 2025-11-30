@@ -10,12 +10,6 @@ public class NavigationManager {
 	private Dahsboard dahsboard;
 	private Modulo moduloActual;
 	
-//	private Rol rolActual;
-//	
-//	public void setRolActual(Rol rol) {
-//		rolActual = rol;
-//	}
-//	
 	public void goTo(Modulo modulo) {
 		if(!SessionContext.get().tienePermisos(modulo.getPermisoNecesarios())) {
 			new Messages(dahsboard,"No tienes permisos para acceder a este modulo").messageError();
@@ -47,6 +41,10 @@ public class NavigationManager {
 			case ENCARGADO_INVENTARIO: 	
 				moduloActual = Modulo.PRODUCTOS;
 				break;
+			case SERVICIO_CLIENTE:
+				moduloActual = Modulo.CLIENTE;
+				break;
+				
 			default:
 				moduloActual = null;
 		

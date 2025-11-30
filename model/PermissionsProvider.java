@@ -12,7 +12,8 @@ public class PermissionsProvider {
                 Permiso.VENTAS_VER,
                 Permiso.FACTURACION_VER,
                 //Permiso.INVENTARIO_VER,
-                Permiso.USUARIOS_VER
+                Permiso.USUARIOS_VER,
+                Permiso.SERVICIO_CLIENTE
             );
 
             case VENDEDOR -> Set.of(
@@ -25,6 +26,10 @@ public class PermissionsProvider {
 
             case ENCARGADO_INVENTARIO -> Set.of(
                Permiso.PRODUCTOS_VER
+            );
+            case SERVICIO_CLIENTE -> Set.of(
+            
+            		Permiso.SERVICIO_CLIENTE
             );
         };
 

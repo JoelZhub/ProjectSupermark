@@ -8,6 +8,7 @@ import view.components.FrameDragger;
 import view.components.Messages;
 import view.modules.admin.DashboardAdmin;
 import view.modules.billing.BillingModule;
+import view.modules.custormerService.customerService;
 import view.modules.inventory.InventoryModule;
 import view.modules.sales.SalesModule;
 import java.awt.Toolkit;
@@ -97,14 +98,18 @@ public class Dahsboard extends JFrame implements ActionListener {
 			if(SessionContext.get().getRolUsuarioLogueado() == Rol.ENCARGADO_INVENTARIO) {
 				setPanelContent(new InventoryModule(this, context));
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.CAJERO) {
-				setPanelContent(new BillingModule());
+				setPanelContent(new BillingModule(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.ADMIN) {
 				setPanelContent(new DashboardAdmin(context, this));
 				
 			}else if(SessionContext.get().getRolUsuarioLogueado() == Rol.VENDEDOR) {
 				setPanelContent(new SalesModule());
-			}else {
+			}
+			else if(SessionContext.get().getRolUsuarioLogueado() == Rol.SERVICIO_CLIENTE) {
+				setPanelContent(new customerService(context,this));
+			}
+			else {
 				new Messages(this, "Rol no encontrado").messageError();
 				setPanelContent(null);
 			}

@@ -6,6 +6,7 @@ import view.AplicationContext;
 import view.dashboard.Dahsboard;
 import view.modules.admin.DashboardAdmin;
 import view.modules.billing.BillingModule;
+import view.modules.custormerService.customerService;
 import view.modules.inventory.InventoryModule;
 import view.modules.sales.SalesModule;
 
@@ -14,7 +15,8 @@ public enum Modulo {
 	PRODUCTOS(Permiso.PRODUCTOS_VER), 
 	VENTAS(Permiso.VENTAS_VER),
 	ADMIN(Permiso.USUARIOS_VER),
-	FACTURACION(Permiso.FACTURACION_VER);
+	FACTURACION(Permiso.FACTURACION_VER),
+	CLIENTE(Permiso.SERVICIO_CLIENTE);
 	
 	private AplicationContext context;
 	private Dahsboard dahsboard;
@@ -44,7 +46,8 @@ public enum Modulo {
 		case PRODUCTOS : return new InventoryModule(dahsboard, context);
 		case VENTAS : return new SalesModule();
 		case ADMIN : return new DashboardAdmin(context, dahsboard);
-		case FACTURACION : return new BillingModule();
+		case FACTURACION : return new BillingModule(context, dahsboard);
+		case CLIENTE : return new customerService(context, dahsboard);
 		default : return new JPanel();
 		}
 		

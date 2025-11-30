@@ -45,6 +45,8 @@ Foreign key(idProducto) references productos(idProducto),
 Foreign key(idProveedor) references proveedores(idProveedor)
 );
 
+select * from detalles_producto;
+
 CREATE TABLE factura(
     idFactura INT PRIMARY KEY AUTO_INCREMENT,
     fecha VARCHAR(20),

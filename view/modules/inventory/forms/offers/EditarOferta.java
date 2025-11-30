@@ -63,6 +63,7 @@ public class EditarOferta extends JDialog implements ActionListener {
 		
 		this.context = context;
 		this.dahsboard = dahsboard;
+		setResizable(false);
 		setBounds(100, 100, 620, 506);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setBackground(new Color(56,56,56));

@@ -1,4 +1,3 @@
-
 package model;
 
 public class Factura {
@@ -9,7 +8,7 @@ public class Factura {
     private String metodoPago;
     private int clienteId;
     private int cajeroId;
-
+    
     public Factura(String fecha, String metodoPago, int clienteId, int cajeroId) {
         this.fecha = fecha;
         this.metodoPago = metodoPago;

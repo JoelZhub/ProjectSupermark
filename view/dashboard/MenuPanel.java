@@ -38,9 +38,9 @@ import view.formFactory.FormFactory;
 		@SuppressWarnings("unused")
 		private String messageCrear = "";
 		
-		private JButton btnAgregar, btnVenta, btnFactura, btnUsuarios,  btnProductos;
+		private JButton btnAgregar, btnVenta, btnCliente, btnFactura, btnUsuarios,  btnProductos;
 		
-		private JLabel lbTitulo, lbIconUsuarios,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto;
+		private JLabel lbTitulo, lbIconUsuarios, lbCliente,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto;
 		
 		
 		private Dahsboard dahsboard;
@@ -99,6 +99,15 @@ import view.formFactory.FormFactory;
 				
 			});
 			
+			btnCliente = new JButton("Cliente");
+			BtnStyle.second(btnCliente);
+			btnCliente.setFont(Fonts.custom);
+			btnCliente.setBounds(87, 320, 158, 34);
+			btnCliente.addActionListener(e ->  {
+				context.getNavigation().goTo(Modulo.CLIENTE);
+				verificarModuloUserMessagePersonalizado();
+			});
+			
 			
 			btnVenta = new JButton("Ventas");
 			btnVenta.setBounds(87, 104, 158, 34);
@@ -153,7 +162,9 @@ import view.formFactory.FormFactory;
 		                        break;
 		                    case VENTAS:
 		                        lblNuevoProducto.setText("Solo lectura");
-		                    
+		                    case CLIENTE:
+		               
+		                    	  lblNuevoProducto.setText("Nuevo cliente");
 		                        break;
 		                    default:
 		                        lblNuevoProducto.setText("No identificado");
@@ -184,12 +195,14 @@ import view.formFactory.FormFactory;
 			panelBotones.add(btnUsuarios);
 			panelBotones.add(btnVenta);
 			panelBotones.add(btnProductos);
-			
+			panelBotones.add(btnCliente);
+
 			panelBotones.add(lbIconCategorias);
 
 			panelBotones.add(lbIconVentas);
 			panelBotones.add(lbIconFacturas);
 			panelBotones.add(lbIconUsuarios);
+			panelBotones.add(lbCliente);
 			
 			
 		}
@@ -201,6 +214,7 @@ import view.formFactory.FormFactory;
 			mapearModulos.put(btnVenta, Modulo.VENTAS);
 			mapearModulos.put(btnFactura, Modulo.FACTURACION);
 			mapearModulos.put(btnUsuarios, Modulo.ADMIN);
+			mapearModulos.put(btnCliente, Modulo.CLIENTE);
 			
 		}
 		
@@ -249,6 +263,12 @@ import view.formFactory.FormFactory;
 			lbIconUsuarios = new JLabel("");
 			lbIconUsuarios.setIcon(AssetManager.icon("user.png",32,32));
 			lbIconUsuarios.setBounds(20, 242, 32, 32);
+			
+			lbCliente = new JLabel("");
+			lbCliente.setIcon(AssetManager.icon("customer.png",32,32));
+			lbCliente.setBounds(20, 320, 32,32);
+			
+			
 			
 				
 		}

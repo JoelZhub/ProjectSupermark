@@ -45,6 +45,7 @@ public class DeleteProducto extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\img\\iconApp.png"));
 		setBackground(new Color(56,56,56));
 		setBounds(100, 100, 450, 262);
+		setResizable(false);
 		getContentPane().setBackground(new Color(56,56,56));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(56,56,56));

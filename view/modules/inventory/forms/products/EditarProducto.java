@@ -76,6 +76,7 @@ public class EditarProducto extends JDialog implements ActionListener {
 		this.context = context;
 		this.dahsboard = dahsboard;
 		setBounds(100, 100, 770, 519);
+		setResizable(false);
 		setBackground(new Color(56,56,56));
 		getContentPane().setBackground(new Color(56,56,56));
 		getContentPane().setLayout(new BorderLayout());

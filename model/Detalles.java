@@ -8,6 +8,7 @@ public class Detalles {
     private int idDetalleProducto;
     private String marca;
     
+    
     @SuppressWarnings("unused")
 	private int idProveedor;  // este campo lo agregue para poder crear el objecto en
     //el dao de productos, es decir los detalles del producto que se busco

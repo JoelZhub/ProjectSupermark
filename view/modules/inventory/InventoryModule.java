@@ -43,14 +43,22 @@ public class InventoryModule extends JPanel implements ActionListener, MouseList
 
 	private JButton btnEditarProducto, btnEliminar, btnRefrescar, btnEditarOfPr, 
 	btnCrearOfPr, btnEliminarOfPr, btnProveedores, btnOfertas;
+	
 	private JPanel panelSearch, panelOperacionesOfPr,  panelContenedorAccionesCrud;
+	
+	
 	private JTextField textFieldSearch, textFieldSearchOfPr;
 	private JLabel lbTotalRegister, lbCantidadProductosStockBajo;
+	
 	private JScrollPane scrollPaneProductos, scrollPaneAlertCantidad, scrollPaneOfertasProveedores ;
 	private int vistOfPr = 1;
+	
 	private final Dahsboard dahsboard;
 	private final AplicationContext context;
+	
 	private static final long serialVersionUID = 1L;
+	
+	
 	@SuppressWarnings("unused")
 	private List<Producto> data, productosStockBajo;
 	private List<Proveedor> proveedores;
