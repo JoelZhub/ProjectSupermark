@@ -38,9 +38,9 @@ import view.formFactory.FormFactory;
 		@SuppressWarnings("unused")
 		private String messageCrear = "";
 		
-		private JButton btnAgregar, btnVenta, btnFactura, btnCliente, btnUsuarios,  btnProductos, btnFinanzas;
+		private JButton btnAgregar, btnVenta, btnFactura, btnCliente, btnUsuarios,  btnProductos, btnFinanzas, btnReportes;
 		
-		private JLabel lbTitulo, lbIconUsuarios,lbCliente,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto, lbIconFinanzas;
+		private JLabel lbTitulo, lbIconUsuarios,lbCliente,  lbIconCategorias, lbIconVentas, lbIconFacturas, lbLogo, lbCrearTitle,  lblNuevoProducto, lbIconFinanzas, lbIconReportes;
 		
 		
 		private Dahsboard dahsboard;
@@ -147,6 +147,15 @@ import view.formFactory.FormFactory;
 				context.getNavigation().goTo(Modulo.CLIENTE);
 				verificarModuloUserMessagePersonalizado();
 			});
+
+			btnReportes = new JButton("Reportes");
+			btnReportes.setBounds(87, 420, 158, 34);
+			BtnStyle.second(btnReportes);
+			btnReportes.setFont(Fonts.custom);
+			btnReportes.addActionListener(e -> {
+				context.getNavigation().goTo(Modulo.REPORTES);
+				verificarModuloUserMessagePersonalizado();
+			});
 			
 		}
 		
@@ -201,7 +210,7 @@ import view.formFactory.FormFactory;
 			
 			panelBotones = new JPanel();
 			panelBotones.setBackground(Color.white);
-			panelBotones.setBounds(0, 205, 267, 408);
+			panelBotones.setBounds(0, 205, 267, 460);
 			panelBotones.setLayout(null);
 		
 			panelBotones.add(btnFactura);
@@ -210,6 +219,7 @@ import view.formFactory.FormFactory;
 			panelBotones.add(btnProductos);
 			panelBotones.add(btnFinanzas);
 			panelBotones.add(btnCliente);
+			panelBotones.add(btnReportes);
 			
 			panelBotones.add(lbIconCategorias);
 			panelBotones.add(lbCliente);
@@ -217,7 +227,7 @@ import view.formFactory.FormFactory;
 			panelBotones.add(lbIconFacturas);
 			panelBotones.add(lbIconUsuarios);
 			panelBotones.add(lbIconFinanzas);
-			
+			panelBotones.add(lbIconReportes);
 			
 		}
 		
@@ -230,6 +240,7 @@ import view.formFactory.FormFactory;
 			mapearModulos.put(btnUsuarios, Modulo.ADMIN);
 			mapearModulos.put(btnFinanzas, Modulo.FINANZAS);
 			mapearModulos.put(btnCliente, Modulo.CLIENTE);
+			mapearModulos.put(btnReportes, Modulo.REPORTES);
 		}
 		
 		private void aplicarPermisos() {
@@ -285,6 +296,10 @@ import view.formFactory.FormFactory;
 			lbCliente = new JLabel("");
 			lbCliente.setIcon(AssetManager.icon("cliente.png", 32, 32));
 			lbCliente.setBounds(20, 370, 32, 32);
+
+			lbIconReportes = new JLabel("");
+			lbIconReportes.setIcon(AssetManager.icon("reportes.png", 32, 32));
+			lbIconReportes.setBounds(20, 420, 32, 32);
 				
 		}
 		
