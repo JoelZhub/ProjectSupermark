@@ -10,10 +10,7 @@ import view.dashboard.Dahsboard;
 import view.modules.admin.forms.CrEdUsuariosForm;
 import view.modules.admin.forms.DeleteUsuarioForm;
 import view.modules.admin.forms.EditUsuarioForm;
-import view.modules.billing.forms.tipoFactura;
-import view.modules.custormerService.forms.CrearCliente;
-import view.modules.custormerService.forms.EditarCliente;
-import view.modules.custormerService.forms.EliminarCliente;
+import view.modules.billing.forms.CrearFactura;
 import view.modules.inventory.forms.offers.CrearOferta;
 import view.modules.inventory.forms.offers.EditarOferta;
 import view.modules.inventory.forms.offers.EliminarOferta;
@@ -21,6 +18,10 @@ import view.modules.inventory.forms.products.*;
 import view.modules.inventory.forms.supplier.CrearProveedor;
 import view.modules.inventory.forms.supplier.EditarProveedor;
 import view.modules.inventory.forms.supplier.EliminarProveedor;
+import view.modules.finance.forms.CrearCuentaCobrar;
+import view.modules.finance.forms.CrearCuentaPagar;
+import view.modules.finance.forms.CrearCuentaPagarPago;
+import view.modules.finance.forms.CrearCuentaCobrarPago;
 
 public class FormFactory {
 
@@ -69,20 +70,40 @@ public class FormFactory {
 	            default -> new JDialog();
 	        };
 
-	        case FACTURACION -> switch(op) {
-	        	case CREATE -> new  tipoFactura(context, dahsboard);
+			case FINANZAS -> switch(subModulo) {
+	            case CUENTA_COBRAR -> switch(op) {
+	                case CREATE -> new CrearCuentaCobrar(context, dahsboard);
+	                /*case EDIT -> new EditarProducto(context, dahsboard);
+	                case DELETE -> new DeleteProducto(dahsboard, context);*/
+	                default -> new JDialog();
+	            };
 
-	        	default -> new JDialog();
+				case CUENTA_PAGAR -> switch(op) {
+	                case CREATE -> new CrearCuentaPagar(context, dahsboard);
+	                /*case EDIT -> new EditarProducto(context, dahsboard);
+	                case DELETE -> new DeleteProducto(dahsboard, context);*/
+	                default -> new JDialog();
+	            };
+
+				case PAGO_CXP -> switch(op) {
+	                case CREATE -> new CrearCuentaPagarPago(context, dahsboard);
+	                /*case EDIT -> new EditarProducto(context, dahsboard);
+	                case DELETE -> new DeleteProducto(dahsboard, context);*/
+	                default -> new JDialog();
+	            };
+
+				case PAGO_CXC -> switch(op) {
+	                case CREATE -> new CrearCuentaCobrarPago(context, dahsboard);
+	                /*case EDIT -> new EditarProducto(context, dahsboard);
+	                case DELETE -> new DeleteProducto(dahsboard, context);*/
+	                default -> new JDialog();
+	            };
+
+	            default -> new JDialog();
 	        };
-	        
-	        case CLIENTE -> switch(op) {
-	        
-		        case CREATE -> new CrearCliente(context, dahsboard);
-		        case DELETE -> new EliminarCliente(context, dahsboard);
-		        case EDIT -> new EditarCliente(context, dahsboard);
-		        default -> new JDialog();
-	        }; 
-	        
+
+	        case FACTURACION -> new CrearFactura();
+
 	        default -> new JDialog();
 	    };
 	}

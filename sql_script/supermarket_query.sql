@@ -45,13 +45,6 @@ Foreign key(idProducto) references productos(idProducto),
 Foreign key(idProveedor) references proveedores(idProveedor)
 );
 
-
---  si no llega la table con este campo agregado entonces ejecuta esa sentencia por favor.
-Alter table detalles_productos
-add column fechaAgregado DATE NOT NULL DEFAULT (CURRENT_DATE);
-
-select * from detalles_producto;
-
 CREATE TABLE factura(
     idFactura INT PRIMARY KEY AUTO_INCREMENT,
     fecha VARCHAR(20),
@@ -60,8 +53,6 @@ CREATE TABLE factura(
     clienteId INT null,
     empleadoId INT 
 );
-
-
 
 CREATE TABLE factura_producto (
     idFactura int,
@@ -86,11 +77,6 @@ CREATE TABLE clientes (
     clasificacion VARCHAR(120) NOT NULL,
     telefono VARCHAR(100) NOT NULL
 );
-alter table clientes
-add column activo   tinyint(1) default(1) not null;
-
-delete  from clientes;
-select * from clientes;
 
 create table compra_proveedor(
 	idCompra INT PRIMARY KEY AUTO_INCREMENT,
@@ -122,9 +108,6 @@ CREATE TABLE cuentas_pagar_pagos(
     FOREIGN KEY (idCuenta) REFERENCES cuentas_pagar(id)
 );
 
-
-select * from cuentas_cobrar;
-
 CREATE TABLE cuentas_cobrar(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     idCliente VARCHAR(20),
@@ -132,10 +115,9 @@ CREATE TABLE cuentas_cobrar(
     monto_total double,
     monto_pendiente double,
     estado VARCHAR(20),
-    FOREIGN KEY (idFactura) REFERENCES factura(idFactura),
+    FOREIGN KEY (idFactura) REFERENCES facturas(idFactura),
     FOREIGN KEY (idCliente) REFERENCES clientes(identificacion)
 );
-
 
 CREATE TABLE cuentas_cobrar_pagos(
 	idPago INT AUTO_INCREMENT PRIMARY KEY,
@@ -280,4 +262,3 @@ INSERT INTO cuentas_cobrar_pagos (idCuenta, fecha, monto) VALUES
 (7, '2025-11-29', 1000.00),
 (7, '2025-11-30',  680.00),
 (8, '2025-11-30', 1000.00);
-
