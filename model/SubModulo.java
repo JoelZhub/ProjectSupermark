@@ -13,5 +13,8 @@ public enum SubModulo {
 	CUENTA_PAGAR,
 	PAGO_CXC,
 	PAGO_CXP,
-
+	REPORTE_CXP,
+	REPORTE_CXC,
+	REPORTE_INV,
+	REPORTE_VEN,
 }
