@@ -25,6 +25,7 @@ import view.modules.finance.forms.CrearCuentaCobrar;
 import view.modules.finance.forms.CrearCuentaPagar;
 import view.modules.finance.forms.CrearCuentaPagarPago;
 import view.modules.finance.forms.CrearCuentaCobrarPago;
+import view.modules.report.forms.*;
 
 public class FormFactory {
 
